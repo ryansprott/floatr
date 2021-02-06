@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_211642) do
+ActiveRecord::Schema.define(version: 2021_02_06_201841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,11 @@ ActiveRecord::Schema.define(version: 2021_02_05_211642) do
     t.index ["message_id"], name: "index_type27_specifics_on_message_id"
   end
 
+  create_table "type4_specifics", force: :cascade do |t|
+    t.bigint "message_id"
+    t.index ["message_id"], name: "index_type4_specifics_on_message_id"
+  end
+
   create_table "type5_specifics", force: :cascade do |t|
     t.bigint "message_id"
     t.integer "ais_version"
@@ -177,6 +182,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_211642) do
   add_foreign_key "type21_specifics", "messages"
   add_foreign_key "type24_specifics", "messages"
   add_foreign_key "type27_specifics", "messages"
+  add_foreign_key "type4_specifics", "messages"
   add_foreign_key "type5_specifics", "messages"
   add_foreign_key "type7_specifics", "messages"
   add_foreign_key "type8_specifics", "messages"

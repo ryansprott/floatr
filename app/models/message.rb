@@ -4,6 +4,7 @@ class Message < ActiveRecord::Base
   has_one :mystery, dependent: :destroy
   has_one :position, dependent: :destroy
   has_one :type_cnb_specific, dependent: :destroy
+  has_one :type_4_specific, dependent: :destroy
   has_one :type_5_specific, dependent: :destroy
   has_one :type_7_specific, dependent: :destroy
   has_one :type_8_specific, dependent: :destroy
