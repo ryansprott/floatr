@@ -1,4 +1,4 @@
-class Message < ApplicationRecord
+class Message < ActiveRecord::Base
   has_one :course, dependent: :destroy
   has_one :dimension, dependent: :destroy
   has_one :mystery, dependent: :destroy
