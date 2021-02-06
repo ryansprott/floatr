@@ -1,3 +1,3 @@
-class Type27Specific < ActiveRecord::Base
+class Type27Specific < Specific
   belongs_to :message, optional: true
 end

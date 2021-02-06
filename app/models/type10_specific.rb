@@ -1,3 +1,3 @@
-class Type10Specific < ActiveRecord::Base
+class Type10Specific < Specific
   belongs_to :message, optional: true
 end

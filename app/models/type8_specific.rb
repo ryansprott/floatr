@@ -1,4 +1,4 @@
-class Type8Specific < ActiveRecord::Base
+class Type8Specific < Specific
   belongs_to :message, optional: true
 
   alias_attribute :beam, :dimension_beam
