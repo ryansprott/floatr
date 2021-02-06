@@ -15,6 +15,12 @@ class Message < ActiveRecord::Base
   has_one :type_24_specific, dependent: :destroy
   has_one :type_27_specific, dependent: :destroy
 
+  alias_attribute :type, :message_type
+  alias_attribute :mmsi, :source_mmsi
+  alias_attribute :description, :category_description
+
+  delegate_missing_to :specific
+
   validates_uniqueness_of :source_mmsi, if: -> do
     [4, 21].include? message_type
   end
