@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_06_201841) do
+ActiveRecord::Schema.define(version: 2021_02_08_053504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,12 @@ ActiveRecord::Schema.define(version: 2021_02_06_201841) do
     t.string "latitude"
     t.string "longitude"
     t.index ["message_id"], name: "index_positions_on_message_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.integer "mmsi"
+    t.string "ship_name"
+    t.string "callsign"
   end
 
   create_table "type10_specifics", force: :cascade do |t|
