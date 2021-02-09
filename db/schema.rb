@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_053504) do
+ActiveRecord::Schema.define(version: 2021_02_08_063135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 2021_02_08_053504) do
     t.integer "mmsi"
     t.string "ship_name"
     t.string "callsign"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "type10_specifics", force: :cascade do |t|
