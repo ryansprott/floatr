@@ -1,11 +1,42 @@
-<%= @source.mmsi %>
-<%= @source.ship_name %>
-<%= @source.callsign %>
+<div>
+  <h1>
+    <%= link_to(
+      @source.mmsi,
+      "https://www.marinetraffic.com/en/ais/details/ships/mmsi:#{@source.mmsi}",
+      target: "_blank",
+      title: "Show on MarineTraffic",
+    ) %>
+  </h1>
+</div>
 
-<table>
+<div>
+  <h2>
+    <%= @source.ship_name %>
+  </h2>
+</div>
+
+<div>
+  <h3>
+    <%= @source.callsign %>
+  </h3>
+</div>
+
+<div>
+  <h4>
+    <%= @source.messages.pluck(:category_description).uniq.join(",") %>
+  </h4>
+</div>
+
+<hr />
+
+<h2>
+  Messages
+</h2>
+
+<table border>
   <tr>
-    <th>Message type</th>
-    <th>Messages received</th>
+    <th>Type</th>
+    <th>Received</th>
   </tr>
   <% @source.messages.group(:type).count.each do |key, value| %>
   <tr>
@@ -19,4 +50,5 @@
   <% end %>
 </table>
 
-<a target="_blank" href="https://www.marinetraffic.com/en/ais/details/ships/mmsi:<%= @source.mmsi %>">Show on MarineTraffic</a>
+<%= link_to("Positions", source_positions_path(@source)) %>
+<%= link_to("Heatmaps", source_heatmaps_path(@source)) %>

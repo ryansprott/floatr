@@ -27,7 +27,7 @@ class Message < ActiveRecord::Base
   end
 
   def lat_lon
-    position&.to_s || "Not provided"
+    position&.to_s || ""
   end
 
   def specific
