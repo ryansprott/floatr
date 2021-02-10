@@ -1,0 +1,21 @@
+<table>
+  <% @sources.sort_by(&:updated_at).reverse!.each do |source| %>
+  <tr>
+    <td>
+      <%= link_to(
+        source.mmsi.to_s,
+        source_path(source)
+      ) %>
+    </td>
+    <td>
+      <%= source.callsign %>
+    </td>
+    <td>
+      <%= source.ship_name %>
+    </td>
+    <td>
+      <%= source.updated_at %>
+    </td>
+  </tr>
+  <% end %>
+</table>

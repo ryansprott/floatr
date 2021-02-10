@@ -1,0 +1,22 @@
+<%= @source.mmsi %>
+<%= @source.ship_name %>
+<%= @source.callsign %>
+
+<table>
+  <tr>
+    <th>Message type</th>
+    <th>Messages received</th>
+  </tr>
+  <% @source.messages.group(:type).count.each do |key, value| %>
+  <tr>
+    <td>
+      <%= key %>
+    </td>
+    <td>
+      <%= value %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<a target="_blank" href="https://www.marinetraffic.com/en/ais/details/ships/mmsi:<%= @source.mmsi %>">Show on MarineTraffic</a>
