@@ -1,6 +1,8 @@
 class PositionsController < ApplicationController
   def index
-    @positions = Source.find(params[:source_id])
+    @source = Source.find(params[:source_id])
+
+    @positions = @source
       .messages
       .includes(:position)
       .sort_by(&:created_at)

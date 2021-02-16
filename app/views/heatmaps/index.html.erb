@@ -1,6 +1,9 @@
-<% @heatmaps.each do |heatmap| %>
+<div data-controller="heatmaps" class="map">
+  <div class="map"
+    data-action="google-maps-callback@window->heatmaps#initMap"
+    data-heatmaps-target="map"
+    data-lat="32.69669"
+    data-lon="-117.15301"
+    data-src="<%= @source.id %>">
+  </div>
 <div>
-  <b><%= "#{heatmap[1]}" %></b>
-  <%= "#{heatmap[0]}" %>
-</div>
-<% end %>

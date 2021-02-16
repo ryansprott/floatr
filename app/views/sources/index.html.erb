@@ -19,6 +19,9 @@
     <th>
       Last seen
     </th>
+    <th>
+      Flag
+    </th>
   </tr>
   <% @sources.sort_by(&:created_at).reverse!.each do |source| %>
   <tr>
@@ -39,6 +42,9 @@
     </td>
     <td>
       <%= time_ago_in_words(source.seen_at) %>
+    </td>
+    <td>
+      <%= format_mid(source.mmsi.to_s) %>
     </td>
   </tr>
   <% end %>
