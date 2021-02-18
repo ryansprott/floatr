@@ -46,4 +46,12 @@ class Message < ActiveRecord::Base
       "type_#{message_type.to_s}_specific"
     end
   end
+
+  def specific_attributes
+    specific.attributes.except!("id", "message_id")
+  end
+
+  def dimension_attributes
+    dimension.attributes.except!("id", "message_id")
+  end
 end

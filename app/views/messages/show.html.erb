@@ -1,22 +1,22 @@
 <table border>
   <tr>
-    <% @messages.first.specific.attributes.except!("id", "message_id").keys.each do |key| %>
+    <% @messages.first.specific_attributes.keys.each do |header| %>
       <th>
-        <%= key %>
+        <%= header %>
       </th>
     <% end %>
   </tr>
 
-  <% out1 = [] %>
-  <% @messages.each do |msg| %>
-      <% out1 << msg.specific.attributes.except!("id", "message_id").values %>
+  <% rows = [] %>
+  <% @messages.each do |message| %>
+      <% rows << message.specific_attributes.values %>
   <% end %>
 
-  <% out1.uniq.each do |val| %>
+  <% rows.uniq.each do |row| %>
     <tr>
-      <% val.each do |x| %>
+      <% row.each do |column| %>
         <td>
-          <%= x %>
+          <%= column %>
         </td>
       <% end %>
     </tr>
@@ -28,23 +28,23 @@
 <% if @messages.first.dimension %>
   <table border>
     <tr>
-      <% @messages.first.dimension.attributes.except!("id", "message_id").keys.each do |key| %>
+      <% @messages.first.dimension_attributes.keys.each do |header| %>
         <th>
-          <%= key %>
+          <%= header %>
         </th>
       <% end %>
     </tr>
 
-    <% out1 = [] %>
-    <% @messages.each do |msg| %>
-        <% out1 << msg.dimension.attributes.except!("id", "message_id").values %>
+    <% rows = [] %>
+    <% @messages.each do |message| %>
+        <% rows << message.dimension_attributes.values %>
     <% end %>
 
-    <% out1.uniq.each do |val| %>
+    <% rows.uniq.each do |row| %>
       <tr>
-        <% val.each do |x| %>
+        <% row.each do |column| %>
           <td>
-            <%= x %>
+            <%= column %>
           </td>
         <% end %>
       </tr>
