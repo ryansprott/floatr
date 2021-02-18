@@ -1,18 +1,13 @@
 <table border>
   <tr>
-    <% @messages.first.specific_attributes.keys.each do |header| %>
+    <% @message_headers.each do |header| %>
       <th>
         <%= header %>
       </th>
     <% end %>
   </tr>
 
-  <% rows = [] %>
-  <% @messages.each do |message| %>
-      <% rows << message.specific_attributes.values %>
-  <% end %>
-
-  <% rows.uniq.each do |row| %>
+  <% @message_rows.each do |row| %>
     <tr>
       <% row.each do |column| %>
         <td>
@@ -22,32 +17,3 @@
     </tr>
   <% end %>
 </table>
-
-<br />
-
-<% if @messages.first.dimension %>
-  <table border>
-    <tr>
-      <% @messages.first.dimension_attributes.keys.each do |header| %>
-        <th>
-          <%= header %>
-        </th>
-      <% end %>
-    </tr>
-
-    <% rows = [] %>
-    <% @messages.each do |message| %>
-        <% rows << message.dimension_attributes.values %>
-    <% end %>
-
-    <% rows.uniq.each do |row| %>
-      <tr>
-        <% row.each do |column| %>
-          <td>
-            <%= column %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-<% end %>

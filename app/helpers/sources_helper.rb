@@ -79,7 +79,7 @@ module SourcesHelper
     when 4
       "Base station report"
     when 5
-      link_to "Class A static data report", source_message_path(@source, message_type)
+      link_to "Class A static data report", source_static_path(@source, message_type)
     when 8
       link_to "Binary broadcast message", source_message_path(@source, message_type)
     when 9
@@ -91,9 +91,9 @@ module SourcesHelper
     when 18
       "Class B position report"
     when 21
-      link_to "Aid-to-navigation report", source_message_path(@source, message_type)
+      link_to "Aid-to-navigation report", source_static_path(@source, message_type)
     when 24
-      link_to "Static data report", source_message_path(@source, message_type)
+      link_to "Static data report", source_static_path(@source, message_type)
     when 27
       link_to "Long range AIS broadcast message", source_message_path(@source, message_type)
     else

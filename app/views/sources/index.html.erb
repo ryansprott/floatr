@@ -23,7 +23,7 @@
       Flag
     </th>
   </tr>
-  <% @sources.sort_by(&:created_at).reverse!.each do |source| %>
+  <% @sources.sort_by(&:updated_at).reverse!.each do |source| %>
   <tr>
     <td>
       <%= link_to(source.mmsi.to_s, source_path(source)) %>

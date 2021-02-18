@@ -5,5 +5,6 @@ Rails.application.routes.draw do
     resources :positions, only: [:index]
     resources :heatmaps, only: [:index]
     resources :messages, only: [:show]
+    resources :statics, only: [:show]
   end
 end

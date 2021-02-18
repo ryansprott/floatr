@@ -1,0 +1,41 @@
+<table border>
+  <tr>
+    <% @message_headers.each do |header| %>
+      <th>
+        <%= header %>
+      </th>
+    <% end %>
+  </tr>
+
+  <% @message_rows.each do |row| %>
+    <tr>
+      <% row.each do |column| %>
+        <td>
+          <%= column %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<table border>
+  <tr>
+    <% @dimension_headers.each do |header| %>
+      <th>
+        <%= header %>
+      </th>
+    <% end %>
+  </tr>
+
+  <% @dimension_rows.each do |row| %>
+    <tr>
+      <% row.each do |column| %>
+        <td>
+          <%= column %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

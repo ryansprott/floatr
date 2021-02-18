@@ -1,4 +1,4 @@
-class MessagesController < ApplicationController
+class StaticsController < ApplicationController
   def show
     source = Source.find(params[:source_id])
 
@@ -15,6 +15,18 @@ class MessagesController < ApplicationController
 
     @message_rows = messages
       .map(&:specific_attributes)
+      .map(&:values)
+      .uniq
+
+    @dimension_headers = messages
+      .first
+      .dimension_attributes
+      .keys
+      .map(&:titleize)
+      .map(&:humanize)
+
+    @dimension_rows = messages
+      .map(&:dimension_attributes)
       .map(&:values)
       .uniq
     end
