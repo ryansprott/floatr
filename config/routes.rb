@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   resources :sources do
     resources :positions, only: [:index]
     resources :heatmaps, only: [:index]
+    resources :messages, only: [:show]
   end
 end

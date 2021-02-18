@@ -1,0 +1,53 @@
+<table border>
+  <tr>
+    <% @messages.first.specific.attributes.except!("id", "message_id").keys.each do |key| %>
+      <th>
+        <%= key %>
+      </th>
+    <% end %>
+  </tr>
+
+  <% out1 = [] %>
+  <% @messages.each do |msg| %>
+      <% out1 << msg.specific.attributes.except!("id", "message_id").values %>
+  <% end %>
+
+  <% out1.uniq.each do |val| %>
+    <tr>
+      <% val.each do |x| %>
+        <td>
+          <%= x %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<% if @messages.first.dimension %>
+  <table border>
+    <tr>
+      <% @messages.first.dimension.attributes.except!("id", "message_id").keys.each do |key| %>
+        <th>
+          <%= key %>
+        </th>
+      <% end %>
+    </tr>
+
+    <% out1 = [] %>
+    <% @messages.each do |msg| %>
+        <% out1 << msg.dimension.attributes.except!("id", "message_id").values %>
+    <% end %>
+
+    <% out1.uniq.each do |val| %>
+      <tr>
+        <% val.each do |x| %>
+          <td>
+            <%= x %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

@@ -67,4 +67,37 @@ module SourcesHelper
       return ""
     end
   end
+
+  def format_message_type(message_type)
+    case message_type
+    when 1
+      "Class A position report (type 1)"
+    when 2
+      "Class A position report (type 2)"
+    when 3
+      "Class A position report (type 3)"
+    when 4
+      "Base station report"
+    when 5
+      link_to "Class A static data report", source_message_path(@source, message_type)
+    when 8
+      link_to "Binary broadcast message", source_message_path(@source, message_type)
+    when 9
+      link_to "SAR aircraft position report", source_message_path(@source, message_type)
+    when 10
+      link_to "UTC/date inquiry", source_message_path(@source, message_type)
+    when 15
+      link_to "Interrogation", source_message_path(@source, message_type)
+    when 18
+      "Class B position report"
+    when 21
+      link_to "Aid-to-navigation report", source_message_path(@source, message_type)
+    when 24
+      link_to "Static data report", source_message_path(@source, message_type)
+    when 27
+      link_to "Long range AIS broadcast message", source_message_path(@source, message_type)
+    else
+      message_type
+    end
+  end
 end

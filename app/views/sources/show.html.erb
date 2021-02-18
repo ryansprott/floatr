@@ -27,11 +27,31 @@
   </h4>
 </div>
 
+<div>
+  <h1>
+    <%= link_to("Show map", source_heatmaps_path(@source)) %>
+  </h1>
+</div>
+
 <hr />
 
 <h2>
   Messages
 </h2>
+
+<div>
+  <h4>
+    First seen
+    <%= time_ago_in_words(@source.messages.first.updated_at) %>
+    ago
+  </h4>
+
+  <h4>
+    Last seen
+    <%= time_ago_in_words(@source.messages.last.updated_at) %>
+    ago
+  </h4>
+</div>
 
 <table border>
   <tr>
@@ -41,7 +61,7 @@
   <% @source.messages.group(:type).count.each do |key, value| %>
   <tr>
     <td>
-      <%= key %>
+      <%= format_message_type(key) %>
     </td>
     <td>
       <%= value %>
@@ -49,5 +69,3 @@
   </tr>
   <% end %>
 </table>
-
-<%= link_to("Show map", source_heatmaps_path(@source)) %>
