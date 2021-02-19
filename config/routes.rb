@@ -7,4 +7,5 @@ Rails.application.routes.draw do
     resources :messages, only: [:show]
     resources :statics, only: [:show]
   end
+  resources :live_maps, only: [:index]
 end

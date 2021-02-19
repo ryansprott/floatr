@@ -40,16 +40,21 @@
 </h2>
 
 <div>
+  <% home = Rails.application.credentials.ground_station_lat_lon %>
   <h4>
     First seen
     <%= time_ago_in_words(@source.messages.first.updated_at) %>
-    ago
+    ago from
+    <%= miles_away_in_words(@source.messages.first.lat_lon, home) %>
+    miles away
   </h4>
 
   <h4>
     Last seen
     <%= time_ago_in_words(@source.messages.last.updated_at) %>
-    ago
+    ago from
+    <%= miles_away_in_words(@source.messages.last.lat_lon, home) %>
+    miles away
   </h4>
 </div>
 
