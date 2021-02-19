@@ -109,32 +109,49 @@ export default class extends Controller {
       });
       let path = poly.getPath();
 
-      source.positions.forEach((position, index) => {
+      let filtered = []
+      source.positions.forEach((position) => {
         let pos = new google.maps.LatLng(position.split(",")[0], position.split(",")[1])
         let dx = this.haversineDistance(homeMarker.position, pos)
         if (dx < 3000.0) {
-          path.push(pos)
-          bounds.extend(pos)
+          filtered.push(pos)
         }
-        if (index == source.positions.length - 1) {
-          const svgMarker = {
-            path:
-              "M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
-            fillColor: "chartreuse",
-            fillOpacity: 0.5,
-            strokeWeight: 0,
-            rotation: 0,
-            scale: 0.05,
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(0, 0),
-          };
-          new google.maps.Marker({
-            position: pos,
-            map: this.map,
-            icon: svgMarker,
-            title: source.source.ship_name || source.source.callsign || source.source.mmsi.toString(),
-          })
-        }
+      })
+
+      filtered.forEach((foo) => {
+        path.push(foo)
+        bounds.extend(foo)
+      })
+
+      const svgMarker = {
+        path: "M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
+        fillColor: "chartreuse",
+        fillOpacity: 0.5,
+        strokeWeight: 0,
+        rotation: 0,
+        scale: 0.05,
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 0),
+      };
+
+      const shipName = source.source.ship_name || source.source.callsign || source.source.mmsi.toString()
+
+      let mrk = new google.maps.Marker({
+        position: filtered[filtered.length - 1],
+        map: this.map,
+        icon: svgMarker,
+        title: shipName,
+        label: {
+          text: " ",
+          color: "orange",
+          fontSize: "12px",
+        },
+      })
+
+      google.maps.event.addListener(mrk, "click", (event) => {
+        const lbl = mrk.getLabel()
+        lbl.text = mrk.title;
+        mrk.setLabel(lbl);
       })
 
       poly.setMap(this.map);
