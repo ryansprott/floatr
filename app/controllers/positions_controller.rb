@@ -5,7 +5,7 @@ class PositionsController < ApplicationController
     @positions = @source
       .messages
       .includes(:position)
-      .sort_by(&:created_at)
+      .order(:created_at)
       .map(&:lat_lon)
       .uniq
       .reject(&:blank?)

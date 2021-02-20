@@ -1,9 +1,11 @@
 class SourcesController < ApplicationController
   def index
-    @sources = Source.all
+    @sources = Source.order(:created_at).reverse
   end
 
   def show
-    @source = Source.joins(:messages).find(params[:id])
+    @source = Source.includes(:messages).find(params[:id])
+    @messages = @source.messages
+    @positions = @messages.joins(:position).order(:created_at)
   end
 end

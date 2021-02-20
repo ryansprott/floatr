@@ -1,5 +1,6 @@
 <div>
   <h1>
+    MMSI
     <%= link_to(
       @source.mmsi,
       "https://www.marinetraffic.com/en/ais/details/ships/mmsi:#{@source.mmsi}",
@@ -10,60 +11,54 @@
 </div>
 
 <div>
-  <h2>
+  <h1>
     <%= @source.ship_name %>
+  </h1>
+</div>
+
+<div>
+  <h2>
+    <%= @messages.pluck(:category_description).uniq.join(",") %>
   </h2>
 </div>
 
 <div>
-  <h3>
-    <%= @source.callsign %>
-  </h3>
-</div>
+  <% if @positions.length > 0 %>
+  <% home = Rails.application.credentials.ground_station_lat_lon %>
+    <h4>
+      First seen <%= time_ago_in_words(@positions.first.updated_at) %> ago
+      <%= miles_away_in_words(@positions.first.lat_lon, home) %>
+    </h4>
 
-<div>
-  <h4>
-    <%= @source.messages.pluck(:category_description).uniq.join(",") %>
-  </h4>
-</div>
+    <h4>
+      Last seen <%= time_ago_in_words(@positions.last.updated_at) %> ago
+      <%= miles_away_in_words(@positions.last.lat_lon, home) %>
+    </h4>
 
-<div>
-  <h1>
-    <%= link_to("Show map", source_heatmaps_path(@source)) %>
-  </h1>
+    <div>
+      <h1>
+        <%= link_to("Show on map", source_heatmaps_path(@source), target: "_blank") %>
+      </h1>
+    </div>
+  <% end %>
 </div>
 
 <hr />
 
 <h2>
-  Messages
+  Messages received
 </h2>
-
-<div>
-  <% home = Rails.application.credentials.ground_station_lat_lon %>
-  <h4>
-    First seen
-    <%= time_ago_in_words(@source.messages.first.updated_at) %>
-    ago from
-    <%= miles_away_in_words(@source.messages.first.lat_lon, home) %>
-    miles away
-  </h4>
-
-  <h4>
-    Last seen
-    <%= time_ago_in_words(@source.messages.last.updated_at) %>
-    ago from
-    <%= miles_away_in_words(@source.messages.last.lat_lon, home) %>
-    miles away
-  </h4>
-</div>
 
 <table border>
   <tr>
-    <th>Type</th>
-    <th>Received</th>
+    <th>
+      Type
+    </th>
+    <th>
+      Received
+    </th>
   </tr>
-  <% @source.messages.group(:type).count.each do |key, value| %>
+  <% @messages.group(:type).count.each do |key, value| %>
   <tr>
     <td>
       <%= format_message_type(key) %>
