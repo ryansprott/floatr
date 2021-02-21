@@ -1,7 +1,7 @@
 class LiveMapsController < ApplicationController
   def index
     @messages = Message.where(created_at: 1.hour.ago..)
-      .includes(:position)
+      .includes(:position, :source)
       .order(:updated_at)
       .group_by(&:mmsi)
 
