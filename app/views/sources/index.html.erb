@@ -1,6 +1,12 @@
 <h1>Floatr</h1>
 
-<h4><%= @sources.length %> MMSIs seen</h4>
+<h4>
+  <%= @sources.length %> MMSIs seen
+</h4>
+
+<h4>
+  <%= link_to "Live map", live_maps_path, target: "_blank" %>
+</h4>
 
 <table border>
   <tr>
