@@ -5,28 +5,19 @@
     </h2>
   </div>
   <div class="card-body">
-    <table class="table table-borderless">
-      <thead>
-        <tr>
-          <% @message_headers.each do |header| %>
-          <th>
-            <%= header %>
-          </th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @message_rows.each do |row| %>
-        <tr>
-          <% row.each do |column| %>
-          <td>
-            <%= column %>
-          </td>
-          <% end %>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <% @message_rows.each do |row| %>
+    <hr />
+    <% row.each_with_index do |column, ndx| %>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= @message_headers[ndx] %>
+      </div>
+      <div class="col-sm-6">
+        <%= column %>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
   </div>
 </div>
 
@@ -37,27 +28,29 @@
     </h2>
   </div>
   <div class="card-body">
-    <table class="table table-borderless">
-      <thead>
-        <tr>
-          <% @dimension_headers.each do |header| %>
-          <th>
-            <%= header %>
-          </th>
+    <div class="table-responsive">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <% @dimension_headers.each do |header| %>
+            <th>
+              <%= header %>
+            </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @dimension_rows.each do |row| %>
+          <tr>
+            <% row.each do |column| %>
+            <td>
+              <%= column %>
+            </td>
+            <% end %>
+          </tr>
           <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @dimension_rows.each do |row| %>
-        <tr>
-          <% row.each do |column| %>
-          <td>
-            <%= column %>
-          </td>
-          <% end %>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
