@@ -20,9 +20,6 @@
         MMSI
       </th>
       <th>
-        Callsign
-      </th>
-      <th>
         Ship name
       </th>
       <th>
@@ -47,19 +44,16 @@
         ) %>
       </td>
       <td>
-        <%= source.callsign %>
-      </td>
-      <td>
         <%= source.ship_name %>
       </td>
-      <td>
-        <%= format_mid(source.mmsi.to_s) %>
+      <td data-flag="<%= country_code(source.mmsi.to_s) %>">
+        <%= country_flag(source.mmsi.to_s) %>
       </td>
-      <td>
-        <%= format_datetime(source.created_at) %>
+      <td data-created="<%= format_timestamp(source.created_at) %>">
+        <%= time_ago_in_words(source.created_at) %>
       </td>
-      <td>
-        <%= format_datetime(source.seen_at) %>
+      <td data-updated="<%= format_timestamp(source.seen_at) %>">
+        <%= time_ago_in_words(source.seen_at) %>
       </td>
     </tr>
     <% end %>

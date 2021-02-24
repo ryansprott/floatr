@@ -1,7 +1,7 @@
 <div class="card mt-2">
   <div class="card-header">
     <h2>
-      MMSI <%= @source.mmsi %>
+      MMSI <%= @source.mmsi.to_s %>
     </h2>
   </div>
 
@@ -12,6 +12,10 @@
     <h3>
       <%= @source.callsign %>
     </h3>
+    <h4>
+      <%= country_flag(@source.mmsi.to_s) %>
+      <%= country_name(@source.mmsi.to_s) %>
+    </h4>
     <h4>
       <%= @messages.pluck(:category_description).uniq.join(",") %>
     </h4>

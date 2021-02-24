@@ -1,14 +1,34 @@
+class String
+  def to_flag
+    self.tr("A-Z", "\u{1F1E6}-\u{1F1FF}")
+  end
+end
+
 module SourcesHelper
   require "yaml"
 
-  def format_mid(mid)
+  def parse_mid(mid)
     mids = YAML.load_file("db/yaml/mids.yml")
     arr = mids[mid[0...3].to_i]
-    return arr ? arr[0].tr("A-Z", "\u{1F1E6}-\u{1F1FF}") + " " + arr[3] : ""
   end
 
-  def format_datetime(datetime)
-    "#{datetime.strftime("%y.%m.%d %H%M")} (#{time_ago_in_words(datetime)} ago)"
+  def country_flag(mid)
+    arr = parse_mid(mid)
+    return arr ? arr[0].to_flag : ""
+  end
+
+  def country_name(mid)
+    arr = parse_mid(mid)
+    return arr ? arr[3] : ""
+  end
+
+  def country_code(mid)
+    arr = parse_mid(mid)
+    return arr ? arr[0] : ""
+  end
+
+  def format_timestamp(datetime)
+    datetime.strftime("%y%m%d%H%M")
   end
 
   def format_message_type(message_type)
