@@ -5,19 +5,10 @@
     </h2>
   </div>
   <div class="card-body">
-    <% @message_rows.each do |row| %>
-    <hr />
-    <% row.each_with_index do |column, ndx| %>
-    <div class="row">
-      <div class="col-sm-6">
-        <%= @message_headers[ndx] %>
-      </div>
-      <div class="col-sm-6">
-        <%= column %>
-      </div>
-    </div>
-    <% end %>
-    <% end %>
+    <%= render 'shared/static_data',
+      rows: @message_rows,
+      headers: @message_headers
+    %>
   </div>
 </div>
 
@@ -28,29 +19,9 @@
     </h2>
   </div>
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-borderless">
-        <thead>
-          <tr>
-            <% @dimension_headers.each do |header| %>
-            <th>
-              <%= header %>
-            </th>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <% @dimension_rows.each do |row| %>
-          <tr>
-            <% row.each do |column| %>
-            <td>
-              <%= column %>
-            </td>
-            <% end %>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+      <%= render 'shared/static_data',
+      rows: @dimension_rows,
+      headers: @dimension_headers
+    %>
   </div>
 </div>

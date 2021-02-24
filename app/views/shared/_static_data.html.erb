@@ -1,0 +1,15 @@
+<% rows.each do |row| %>
+  <hr />
+  <% row.each_with_index do |column, ndx| %>
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>
+          <%= headers[ndx] %>
+        </strong>
+      </div>
+      <div class="col-sm-6">
+        <%= column %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
