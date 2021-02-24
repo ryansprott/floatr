@@ -25,9 +25,11 @@ export default class extends Controller {
     let bounds = new google.maps.LatLngBounds();
 
     positionData.forEach((el) => {
-      let pos = new google.maps.LatLng(el.lat, el.lon)
-      path.push(pos)
-      bounds.extend(pos)
+      if (el.lat && el.lon) {
+        let pos = new google.maps.LatLng(el.lat, el.lon)
+        path.push(pos)
+        bounds.extend(pos)
+      }
     })
 
     let heatmap = new google.maps.visualization.HeatmapLayer({

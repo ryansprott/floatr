@@ -4,10 +4,13 @@ class PositionsController < ApplicationController
 
     @positions = @source
       .messages
-      .includes(:position)
+      .includes(:position, :course)
       .order(:created_at)
-      .map(&:lat_lon)
-      .uniq
-      .reject(&:blank?)
+      .pluck(
+        :latitude,
+        :longitude,
+        :course_over_ground,
+        :speed_over_ground,
+      )
   end
 end

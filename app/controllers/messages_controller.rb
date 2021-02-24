@@ -4,7 +4,11 @@ class MessagesController < ApplicationController
 
     messages = source.messages
       .where(type: params[:id].to_i)
-      .includes("type_#{params[:id]}_specific".to_sym, :dimension)
+      .includes(
+        "type_#{params[:id]}_specific".to_sym,
+        :course,
+        :dimension,
+      )
 
     @message_headers = messages
       .first
@@ -17,5 +21,5 @@ class MessagesController < ApplicationController
       .map(&:specific_attributes)
       .map(&:values)
       .uniq
-    end
+  end
 end

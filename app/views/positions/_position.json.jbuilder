@@ -1,2 +1,4 @@
-json.lat position.split(",")[0].strip
-json.lon position.split(",")[1].strip
+json.lat position.first
+json.lon position.second
+json.course position.third
+json.speed position.fourth
