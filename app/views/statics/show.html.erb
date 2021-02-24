@@ -1,41 +1,63 @@
-<table border>
-  <tr>
-    <% @message_headers.each do |header| %>
-      <th>
-        <%= header %>
-      </th>
-    <% end %>
-  </tr>
+<div class="card mt-2">
+  <div class="card-header">
+    <h2>
+      Static data
+    </h2>
+  </div>
+  <div class="card-body">
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <% @message_headers.each do |header| %>
+          <th>
+            <%= header %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @message_rows.each do |row| %>
+        <tr>
+          <% row.each do |column| %>
+          <td>
+            <%= column %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-  <% @message_rows.each do |row| %>
-    <tr>
-      <% row.each do |column| %>
-        <td>
-          <%= column %>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
-
-<br />
-
-<table border>
-  <tr>
-    <% @dimension_headers.each do |header| %>
-      <th>
-        <%= header %>
-      </th>
-    <% end %>
-  </tr>
-
-  <% @dimension_rows.each do |row| %>
-    <tr>
-      <% row.each do |column| %>
-        <td>
-          <%= column %>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<div class="card mt-4">
+  <div class="card-header">
+    <h2>
+      Dimensions
+    </h2>
+  </div>
+  <div class="card-body">
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <% @dimension_headers.each do |header| %>
+          <th>
+            <%= header %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @dimension_rows.each do |row| %>
+        <tr>
+          <% row.each do |column| %>
+          <td>
+            <%= column %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

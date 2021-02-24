@@ -7,6 +7,10 @@ module SourcesHelper
     return arr ? arr[0].tr("A-Z", "\u{1F1E6}-\u{1F1FF}") + " " + arr[3] : ""
   end
 
+  def format_datetime(datetime)
+    "#{datetime.strftime("%y.%m.%d %H%M")} (#{time_ago_in_words(datetime)} ago)"
+  end
+
   def format_message_type(message_type)
     case message_type
     when 1
@@ -18,23 +22,39 @@ module SourcesHelper
     when 4
       "Base station report"
     when 5
-      link_to "Class A static data report", source_static_path(@source, message_type)
+      link_to "Class A static data report",
+        source_static_path(@source, message_type),
+        class: "btn btn-primary"
     when 8
-      link_to "Binary broadcast message", source_message_path(@source, message_type)
+      link_to "Binary broadcast message",
+        source_message_path(@source, message_type),
+        class: "btn btn-primary"
     when 9
-      link_to "SAR aircraft position report", source_message_path(@source, message_type)
+      link_to "SAR aircraft position report",
+        source_message_path(@source, message_type),
+        class: "btn btn-primary"
     when 10
-      link_to "UTC/date inquiry", source_message_path(@source, message_type)
+      link_to "UTC/date inquiry",
+        source_message_path(@source, message_type),
+        class: "btn btn-primary"
     when 15
-      link_to "Interrogation", source_message_path(@source, message_type)
+      link_to "Interrogation",
+        source_message_path(@source, message_type),
+        class: "btn btn-primary"
     when 18
       "Class B position report"
     when 21
-      link_to "Aid-to-navigation report", source_static_path(@source, message_type)
+      link_to "Aid-to-navigation report",
+        source_static_path(@source, message_type),
+        class: "btn btn-primary"
     when 24
-      link_to "Static data report", source_static_path(@source, message_type)
+      link_to "Static data report",
+        source_static_path(@source, message_type),
+        class: "btn btn-primary"
     when 27
-      link_to "Long range AIS broadcast message", source_message_path(@source, message_type)
+      link_to "Long range AIS broadcast message",
+        source_message_path(@source, message_type),
+        class: "btn btn-primary"
     else
       message_type
     end

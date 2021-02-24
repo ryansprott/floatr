@@ -1,71 +1,96 @@
-<div>
-  <h1>
-    MMSI
+<div class="card mt-2">
+  <div class="card-header">
+    <h2>
+      MMSI <%= @source.mmsi %>
+    </h2>
+  </div>
+
+  <div class="card-body">
+    <h3>
+      <%= @source.ship_name %>
+    </h3>
+    <h3>
+      <%= @source.callsign %>
+    </h3>
+    <h4>
+      <%= @messages.pluck(:category_description).uniq.join(",") %>
+    </h4>
     <%= link_to(
-      @source.mmsi,
+      "Show on MarineTraffic",
       "https://www.marinetraffic.com/en/ais/details/ships/mmsi:#{@source.mmsi}",
       target: "_blank",
       title: "Show on MarineTraffic",
+      class: "btn btn-success",
     ) %>
-  </h1>
-</div>
 
-<div>
-  <h1>
-    <%= @source.ship_name %>
-  </h1>
-</div>
-
-<div>
-  <h2>
-    <%= @messages.pluck(:category_description).uniq.join(",") %>
-  </h2>
-</div>
-
-<div>
-  <% if @positions.length > 0 %>
-  <% home = Rails.application.credentials.ground_station_lat_lon %>
-    <h4>
-      First seen <%= time_ago_in_words(@positions.first.updated_at) %> ago
-      <%= miles_away_in_words(@positions.first.lat_lon, home) %>
-    </h4>
-
-    <h4>
-      Last seen <%= time_ago_in_words(@positions.last.updated_at) %> ago
-      <%= miles_away_in_words(@positions.last.lat_lon, home) %>
-    </h4>
-
-    <div>
-      <h1>
-        <%= link_to("Show on map", source_heatmaps_path(@source), target: "_blank") %>
-      </h1>
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4 class="card-title">
+          Messages
+        </h4>
+      </div>
+      <div class="card-body">
+        <table class="table table-borderless table-hover">
+          <thead>
+            <tr>
+              <th>
+                Type
+              </th>
+              <th>
+                Received
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @messages.group(:type).count.each do |key, value| %>
+            <tr>
+              <td>
+                <%= format_message_type(key) %>
+              </td>
+              <td>
+                <%= value %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-  <% end %>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4 class="card-title">
+          Positions
+        </h4>
+      </div>
+      <div class="card-body">
+        <% if @positions.length > 0 %>
+        <% home = Rails.application.credentials.ground_station_lat_lon %>
+
+        <div>
+          First seen <%= time_ago_in_words(@positions.first.updated_at) %> ago
+          <%= miles_away_in_words(@positions.first.lat_lon, home) %>
+        </div>
+
+        <% if @positions.length > 1 %>
+        <div>
+          Last seen <%= time_ago_in_words(@positions.last.updated_at) %> ago
+          <%= miles_away_in_words(@positions.last.lat_lon, home) %>
+        </div>
+        <% end %>
+
+        <div>
+          <h1>
+            <%= link_to(
+            "Show on map",
+            source_heatmaps_path(@source),
+            target: "_blank",
+            class: "btn btn-danger",
+          ) %>
+          </h1>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<hr />
-
-<h2>
-  Messages received
-</h2>
-
-<table border>
-  <tr>
-    <th>
-      Type
-    </th>
-    <th>
-      Received
-    </th>
-  </tr>
-  <% @messages.group(:type).count.each do |key, value| %>
-  <tr>
-    <td>
-      <%= format_message_type(key) %>
-    </td>
-    <td>
-      <%= value %>
-    </td>
-  </tr>
-  <% end %>
-</table>

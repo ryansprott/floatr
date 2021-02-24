@@ -5,50 +5,63 @@
 </h4>
 
 <h4>
-  <%= link_to "Live map", live_maps_path, target: "_blank" %>
+  <%= link_to(
+    "Live map",
+    live_maps_path,
+    target: "_blank",
+    class: "btn btn-danger",
+  ) %>
 </h4>
 
-<table border>
-  <tr>
-    <th>
-      MMSI
-    </th>
-    <th>
-      Callsign
-    </th>
-    <th>
-      Ship name
-    </th>
-    <th>
-      First seen
-    </th>
-    <th>
-      Last seen
-    </th>
-    <th>
-      Flag
-    </th>
-  </tr>
-  <% @sources.each do |source| %>
-  <tr>
-    <td>
-      <%= link_to(source.mmsi.to_s, source_path(source)) %>
-    </td>
-    <td>
-      <%= source.callsign %>
-    </td>
-    <td>
-      <%= source.ship_name %>
-    </td>
-    <td>
-      <%= time_ago_in_words(source.created_at) %>
-    </td>
-    <td>
-      <%= time_ago_in_words(source.seen_at) %>
-    </td>
-    <td>
-      <%= format_mid(source.mmsi.to_s) %>
-    </td>
-  </tr>
-  <% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        MMSI
+      </th>
+      <th>
+        Callsign
+      </th>
+      <th>
+        Ship name
+      </th>
+      <th>
+        Flag
+      </th>
+      <th>
+        First seen
+      </th>
+      <th>
+        Last seen
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sources.each do |source| %>
+    <tr>
+      <td>
+        <%= link_to(
+          source.mmsi.to_s,
+          source_path(source),
+          class: "btn btn-primary",
+        ) %>
+      </td>
+      <td>
+        <%= source.callsign %>
+      </td>
+      <td>
+        <%= source.ship_name %>
+      </td>
+      <td>
+        <%= format_mid(source.mmsi.to_s) %>
+      </td>
+      <td>
+        <%= format_datetime(source.created_at) %>
+      </td>
+      <td>
+        <%= format_datetime(source.seen_at) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
