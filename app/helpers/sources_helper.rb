@@ -7,31 +7,21 @@ end
 module SourcesHelper
   require "yaml"
 
-  def parse_mid(mid)
-    mids = YAML.load_file("db/yaml/mids.yml")
-    arr = mids[mid[0...3].to_i]
+  def country_name(mmsi)
+    country = parse_country_from_mmsi(mmsi)
+    country[:full_name]
   end
 
-  def country_flag(mid)
-    arr = parse_mid(mid)
-    return arr ? arr[0].to_flag : ""
+  def country_code(mmsi)
+    country = parse_country_from_mmsi(mmsi)
+    country[:code_2]
   end
 
-  def country_name(mid)
-    arr = parse_mid(mid)
-    return arr ? arr[3] : ""
+  def country_flag(mmsi)
+    country_code(mmsi).to_flag
   end
 
-  def country_code(mid)
-    arr = parse_mid(mid)
-    return arr ? arr[0] : ""
-  end
-
-  def format_timestamp(datetime)
-    datetime.strftime("%y%m%d%H%M")
-  end
-
-  def format_message_type(message_type)
+  def parse_message_type(message_type)
     case message_type
     when 1
       "Class A position report (type 1)"
@@ -94,5 +84,14 @@ module SourcesHelper
     d = 6371 * c * (1 / 1.6)
 
     "from #{d.round(2)} miles away"
+  end
+
+  private
+
+  def parse_country_from_mmsi(mmsi)
+    mids = YAML.load_file("db/yaml/mids.yml")
+    keys = [:code_2, :code_3, :code_misc, :full_name]
+    vals = mids[mmsi[0...3].to_i] || Array.new(4, "")
+    [keys, vals].transpose.to_h
   end
 end

@@ -49,10 +49,10 @@
       <td data-flag="<%= country_code(source.mmsi.to_s) %>">
         <%= country_flag(source.mmsi.to_s) %>
       </td>
-      <td data-created="<%= format_timestamp(source.created_at) %>">
+      <td data-created="<%= source.created_at.strftime("%y%m%d%H%M") %>">
         <%= time_ago_in_words(source.created_at) %>
       </td>
-      <td data-updated="<%= format_timestamp(source.seen_at) %>">
+      <td data-updated="<%= source.seen_at.strftime("%y%m%d%H%M") %>">
         <%= time_ago_in_words(source.seen_at) %>
       </td>
     </tr>
