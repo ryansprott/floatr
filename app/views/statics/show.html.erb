@@ -1,27 +1,37 @@
 <div class="card mt-2">
   <div class="card-header">
     <h2>
-      Static data
+      MMSI <%= @source.mmsi.to_s %>
     </h2>
   </div>
-  <div class="card-body">
-    <%= render 'shared/static_data',
-      rows: @message_rows,
-      headers: @message_headers
-    %>
-  </div>
-</div>
 
-<div class="card mt-4">
-  <div class="card-header">
-    <h2>
-      Dimensions
-    </h2>
-  </div>
   <div class="card-body">
-      <%= render 'shared/static_data',
-      rows: @dimension_rows,
-      headers: @dimension_headers
-    %>
+    <div class="card mt-2 mb-2">
+      <div class="card-header">
+        <h2>
+          Static data
+        </h2>
+      </div>
+      <div class="card-body">
+        <%= render 'shared/static_data',
+          rows: @message_rows,
+          headers: @message_headers
+        %>
+      </div>
+    </div>
+
+    <div class="card mt-2 mb-2">
+      <div class="card-header">
+        <h2>
+          Dimensions
+        </h2>
+      </div>
+      <div class="card-body">
+        <%= render 'shared/static_data',
+          rows: @dimension_rows,
+          headers: @dimension_headers
+        %>
+      </div>
+    </div>
   </div>
 </div>

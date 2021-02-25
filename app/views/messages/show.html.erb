@@ -1,13 +1,22 @@
-<div class="card mt-2">
+<div class="card mt-2 mb-2">
   <div class="card-header">
     <h2>
-      Message data
+      MMSI <%= @source.mmsi.to_s %>
     </h2>
   </div>
   <div class="card-body">
-    <%= render 'shared/static_data',
-      rows: @message_rows,
-      headers: @message_headers
-    %>
+    <div class="card mt-2 mb-2">
+      <div class="card-header">
+        <h2>
+          Message data
+        </h2>
+      </div>
+      <div class="card-body">
+        <%= render 'shared/static_data',
+          rows: @message_rows,
+          headers: @message_headers
+        %>
+      </div>
+    </div>
   </div>
 </div>
