@@ -21,7 +21,6 @@ class Message < ActiveRecord::Base
 
   alias_attribute :type, :message_type
   alias_attribute :mmsi, :source_mmsi
-  alias_attribute :description, :category_description
 
   delegate_missing_to :specific
 
