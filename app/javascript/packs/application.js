@@ -7,6 +7,7 @@ require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
 require("bootstrap")
+require('datatables.net-bs4')
 import "../stylesheets/application";
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -18,9 +19,26 @@ import "../stylesheets/application";
 
 import "controllers"
 
-window.initMap = function(...args) {
+window.initMap = function (...args) {
   const event = document.createEvent("Events")
   event.initEvent("google-maps-callback", true, true)
   event.args = args
   window.dispatchEvent(event)
+}
+
+window.onload = () => {
+  let table = $("#searchable-table").DataTable({
+    "pageLength": 10,
+    "lengthChange": false,
+    "info": false,
+    "ordering": true,
+    "order": [3, "desc"],
+    "dom": '<"row"<"col"i><"col-auto"p>>t'
+  });
+
+  $("#search-input").val("");
+
+  $("#search-input").on("keyup", function () {
+    table.search(this.value).draw();
+  });
 }

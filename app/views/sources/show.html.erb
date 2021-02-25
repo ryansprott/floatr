@@ -1,4 +1,4 @@
-<div class="card mt-2">
+<div class="card mt-2 text-center">
   <div class="card-header">
     <h2>
       MMSI <%= @source.mmsi.to_s %>
@@ -24,34 +24,24 @@
       "https://www.marinetraffic.com/en/ais/details/ships/mmsi:#{@source.mmsi}",
       target: "_blank",
       title: "Show on MarineTraffic",
-      class: "btn btn-success",
+      class: "btn btn-success wide-button",
     ) %>
 
     <div class="card mt-4">
       <div class="card-header">
-        <h4 class="card-title">
-          Messages
+        <h4>
+          Messages received
         </h4>
       </div>
       <div class="card-body">
         <table class="table table-borderless">
-          <thead>
-            <tr>
-              <th>
-                Type
-              </th>
-              <th>
-                Received
-              </th>
-            </tr>
-          </thead>
           <tbody>
             <% @messages.group(:type).count.each do |type, total| %>
             <tr>
-              <td>
+              <td class="text-center">
                 <%= parse_message_type(type) %>
               </td>
-              <td>
+              <td class="text-center">
                 <%= total %>
               </td>
             </tr>
@@ -63,7 +53,7 @@
 
     <div class="card mt-4">
       <div class="card-header">
-        <h4 class="card-title">
+        <h4>
           Positions
         </h4>
       </div>
@@ -89,7 +79,7 @@
             "Show on map",
             source_heatmaps_path(@source),
             target: "_blank",
-            class: "btn btn-danger",
+            class: "btn btn-danger wide-button",
           ) %>
           </h1>
         </div>

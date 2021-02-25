@@ -1,61 +1,72 @@
-<h1>Floatr</h1>
-
-<h4>
-  <%= @sources.length %> MMSIs seen
-</h4>
-
 <h4>
   <%= link_to(
     "Live map",
     live_maps_path,
     target: "_blank",
-    class: "btn btn-danger",
+    class: "btn btn-danger wide-button",
   ) %>
 </h4>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>
-        MMSI
-      </th>
-      <th>
-        Ship name
-      </th>
-      <th>
-        Flag
-      </th>
-      <th>
-        First seen
-      </th>
-      <th>
-        Last seen
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @sources.each do |source| %>
-    <tr>
-      <td>
-        <%= link_to(
-          source.mmsi.to_s,
-          source_path(source),
-          class: "btn btn-primary",
-        ) %>
-      </td>
-      <td>
-        <%= source.ship_name %>
-      </td>
-      <td data-flag="<%= country_code(source.mmsi.to_s) %>">
-        <%= country_flag(source.mmsi.to_s) %>
-      </td>
-      <td data-created="<%= source.created_at.strftime("%y%m%d%H%M") %>">
-        <%= time_ago_in_words(source.created_at) %>
-      </td>
-      <td data-updated="<%= source.seen_at.strftime("%y%m%d%H%M") %>">
-        <%= time_ago_in_words(source.seen_at) %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">
+      <%= @sources.length %> MMSIs seen
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <input type="text"
+        id="search-input"
+        class="form-control"
+        placeholder="Search..." />
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="searchable-table">
+        <thead>
+          <tr>
+            <th>
+              MMSI
+            </th>
+            <th>
+              Ship name
+            </th>
+            <th>
+              Flag
+            </th>
+            <th>
+              First seen
+            </th>
+            <th>
+              Last seen
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sources.each do |source| %>
+            <tr>
+              <td>
+                <%= link_to(
+                  source.mmsi.to_s,
+                  source_path(source),
+                  class: "btn btn-primary",
+                ) %>
+              </td>
+              <td>
+                <%= source.ship_name %>
+              </td>
+              <td data-sort="<%= country_code(source.mmsi.to_s) %>">
+                <%= country_flag(source.mmsi.to_s) %>
+              </td>
+              <td data-sort="<%= source.created_at.strftime("%y%m%d%H%M") %>">
+                <%= time_ago_in_words(source.created_at) %>
+              </td>
+              <td data-sort="<%= source.seen_at.strftime("%y%m%d%H%M") %>">
+                <%= time_ago_in_words(source.seen_at) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

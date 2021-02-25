@@ -1,1 +1,17 @@
-@import '~bootstrap/scss/bootstrap'
+@import '~bootstrap/scss/bootstrap';
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
+div.map,
+div.container-fluid {
+  width: 100%;
+  height: 100%;
+}
+
+a.wide-button {
+  width: 100%;
+}

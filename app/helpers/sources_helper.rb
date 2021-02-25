@@ -34,37 +34,37 @@ module SourcesHelper
     when 5
       link_to "Class A static data report",
         source_static_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 8
       link_to "Binary broadcast message",
         source_message_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 9
       link_to "SAR aircraft position report",
         source_message_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 10
       link_to "UTC/date inquiry",
         source_message_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 15
       link_to "Interrogation",
         source_message_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 18
       "Class B position report"
     when 21
       link_to "Aid-to-navigation report",
         source_static_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 24
       link_to "Static data report",
         source_static_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     when 27
       link_to "Long range AIS broadcast message",
         source_message_path(@source, message_type),
-        class: "btn btn-primary"
+        class: "btn btn-primary wide-button"
     else
       message_type
     end
