@@ -5,18 +5,10 @@
     </h4>
   </div>
   <div class="card-body">
-    <div class="card mt-2 mb-2">
-      <div class="card-header">
-        <h4>
-          Message data
-        </h4>
-      </div>
-      <div class="card-body">
-        <%= render 'shared/static_data',
-          rows: @message_rows,
-          headers: @message_headers
-        %>
-      </div>
-    </div>
+    <%= render 'shared/card',
+      title: "Message data",
+      rows: @message_rows,
+      headers: @message_headers
+    %>
   </div>
 </div>

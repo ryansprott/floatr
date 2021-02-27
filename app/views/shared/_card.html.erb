@@ -1,0 +1,29 @@
+<div class="card mt-2 mb-2">
+  <div class="card-header">
+    <h4>
+      <%= title %>
+    </h4>
+  </div>
+  <div class="card-body">
+    <% rows.each do |row| %>
+      <div class="card mt-2 mb-2">
+        <div class="card-body">
+          <% row.each_with_index do |column, ndx| %>
+            <% if column %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <strong>
+                    <%= headers[ndx] %>
+                  </strong>
+                </div>
+                <div class="col-sm-6">
+                  <%= column %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

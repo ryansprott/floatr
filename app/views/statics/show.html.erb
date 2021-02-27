@@ -5,31 +5,15 @@
     </h4>
   </div>
   <div class="card-body">
-    <div class="card mt-2 mb-2">
-      <div class="card-header">
-        <h4>
-          Static data
-        </h4>
-      </div>
-      <div class="card-body">
-        <%= render 'shared/static_data',
-          rows: @message_rows,
-          headers: @message_headers
-        %>
-      </div>
-    </div>
-    <div class="card mt-2 mb-2">
-      <div class="card-header">
-        <h4>
-          Dimensions
-        </h4>
-      </div>
-      <div class="card-body">
-        <%= render 'shared/static_data',
-          rows: @dimension_rows,
-          headers: @dimension_headers
-        %>
-      </div>
-    </div>
+    <%= render 'shared/card',
+      title: "Static data",
+      rows: @message_rows,
+      headers: @message_headers
+    %>
+    <%= render 'shared/card',
+      title: "Dimensions",
+      rows: @dimension_rows,
+      headers: @dimension_headers
+    %>
   </div>
 </div>
