@@ -28,11 +28,11 @@ window.initMap = function (...args) {
 
 window.onload = () => {
   let table = $("#searchable-table").DataTable({
-    "pageLength": 10,
+    "pageLength": 5,
     "lengthChange": false,
-    "info": false,
+    "info": true,
     "ordering": true,
-    "order": [3, "desc"],
+    "order": [4, "desc"],
     "dom": '<"row"<"col"i><"col-auto"p>>t'
   });
 
