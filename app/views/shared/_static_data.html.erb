@@ -2,16 +2,18 @@
   <div class="card mt-2 mb-2">
     <div class="card-body">
       <% row.each_with_index do |column, ndx| %>
-        <div class="row">
-          <div class="col-sm-6">
-            <strong>
-              <%= headers[ndx] %>
-            </strong>
+        <% if column %>
+          <div class="row">
+            <div class="col-sm-6">
+              <strong>
+                <%= headers[ndx] %>
+              </strong>
+            </div>
+            <div class="col-sm-6">
+              <%= column %>
+            </div>
           </div>
-          <div class="col-sm-6">
-            <%= column %>
-          </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   </div>

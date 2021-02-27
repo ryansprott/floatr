@@ -1,16 +1,15 @@
 <div class="card mt-2">
   <div class="card-header">
-    <h2>
+    <h4>
       MMSI <%= @source.mmsi.to_s %>
-    </h2>
+    </h4>
   </div>
-
   <div class="card-body">
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h2>
+        <h4>
           Static data
-        </h2>
+        </h4>
       </div>
       <div class="card-body">
         <%= render 'shared/static_data',
@@ -19,12 +18,11 @@
         %>
       </div>
     </div>
-
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h2>
+        <h4>
           Dimensions
-        </h2>
+        </h4>
       </div>
       <div class="card-body">
         <%= render 'shared/static_data',
