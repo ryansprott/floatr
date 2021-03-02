@@ -49,6 +49,12 @@ module SourcesHelper
         total_messages: total_messages,
         link_path: source_static_path(@source, message_type),
       }
+    when 7
+      render "shared/message_link", {
+        message_description: "Binary acknowledgement",
+        total_messages: total_messages,
+        link_path: source_message_path(@source, message_type),
+      }
     when 8
       render "shared/message_link", {
         message_description: "Binary broadcast message",
