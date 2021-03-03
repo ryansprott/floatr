@@ -32,7 +32,7 @@ window.onload = () => {
     "lengthChange": false,
     "info": true,
     "ordering": true,
-    "order": [4, "desc"],
+    "order": [3, "desc"],
     "dom": '<"row"<"col"i><"col-auto"p>>t'
   });
 
