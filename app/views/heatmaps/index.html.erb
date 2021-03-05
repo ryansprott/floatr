@@ -1,19 +1,21 @@
-<div class="card map-wrapper">
-  <div class="card-body map-adjusted">
-    <div data-controller="heatmaps" class="map-adjusted">
+<div class="card map-wrapper" data-controller="heatmaps">
+  <div class="card-header">
+    <h4 class="card-title">
       <a class="btn btn-primary"
         data-action="click->heatmaps#toggleHeatmap"
         href="#">
           Toggle heatmap
       </a>
+    </h4>
+  </div>
 
-      <div class="map-adjusted"
-        data-action="google-maps-callback@window->heatmaps#initMap"
-        data-heatmaps-target="map"
-        data-lat="32.69669"
-        data-lon="-117.15301"
-        data-src="<%= @source.id %>">
-      </div>
+  <div class="card-body map-adjusted">
+    <div class="map-adjusted"
+      data-action="google-maps-callback@window->heatmaps#initMap"
+      data-heatmaps-target="map"
+      data-lat="32.69669"
+      data-lon="-117.15301"
+      data-src="<%= @source.id %>">
     </div>
   </div>
 </div>
