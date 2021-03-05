@@ -3,6 +3,7 @@ export const svgMarker = {
   strokeColor: "red",
   strokeOpacity: 1,
   strokeWeight: 1,
+  fillColor: "red",
   fillOpacity: 0.5,
   fillWeight: 1,
   rotation: 0,

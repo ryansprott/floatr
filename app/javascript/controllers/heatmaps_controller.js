@@ -56,7 +56,7 @@ export default class extends Controller {
     let lastSeen = positionData.pop()
     let marker = new google.maps.Marker({
       position: new google.maps.LatLng(lastSeen.lat, lastSeen.lon),
-      icon: Object.assign({ fillColor: "red", scale: 0.25 }, svgMarker),
+      icon: Object.assign({ scale: 0.25 }, svgMarker),
     })
     marker.setMap(this.map)
   }

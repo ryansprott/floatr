@@ -31,35 +31,53 @@ export default class extends Controller {
       let poly = new google.maps.Polyline({
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
-        strokeWeight: 1.0,
+        strokeWeight: 3.0,
       })
 
       let path = poly.getPath()
 
       let filteredPositions = source.positions.filter((el) => {
-        return el !== ""
+        return el !== null
       }).map((el) => {
-        let pos = new google.maps.LatLng(el.split(",")[0], el.split(",")[1])
+        let pos = new google.maps.LatLng(el.latitude, el.longitude)
         return (haversineDistance(homePosition, pos) < 3000) ? pos : null
+      }).filter((el) => {
+        return el !== null
       })
 
-      for (let position of filteredPositions) {
-        if (position) {
-          path.push(position)
-          bounds.extend(position)
+      let filteredCourses = source.course.filter((el) => {
+        return el !== null
+      })
+
+      if (filteredPositions.length > 1) {
+        for (let i = 0; i < filteredPositions.length - 1; i++) {
+          let pos1 = filteredPositions[i]
+          let pos2 = filteredPositions[i + 1]
+          let speed1 = filteredCourses[i].speed_over_ground
+          let speed2 = filteredCourses[i + 1].speed_over_ground
+          let poly = new google.maps.Polyline({
+            strokeColor: colorFromSpeed(speed1, speed2),
+            strokeOpacity: 1.0,
+            strokeWeight: 3.0,
+            map: this.map,
+            path: [pos1, pos2]
+          })
+          bounds.extend(pos1)
+          poly.setMap(this.map)
         }
       }
 
-      let shipName = source.source.ship_name || source.source.callsign || source.source.mmsi.toString()
+      let shipName = source.static.ship_name || source.static.callsign || source.static.mmsi.toString()
       let mrk = new google.maps.Marker({
         position: filteredPositions[filteredPositions.length - 1],
         map: this.map,
-        icon: Object.assign({ fillColor: "chartreuse", scale: 0.05 }, svgMarker),
+        icon: Object.assign({ scale: 0.05 }, svgMarker),
         title: shipName,
         label: {
           text: " ",
           color: "orange",
-          fontSize: "24px",
+          fontSize: "14px",
+          fontWeight: "bold",
         },
       })
       google.maps.event.addListener(mrk, "click", (event) => {
@@ -67,8 +85,6 @@ export default class extends Controller {
         lbl.text = mrk.title
         mrk.setLabel(lbl)
       })
-
-      poly.setMap(this.map)
     }
     this.map.fitBounds(bounds)
   }
