@@ -66,7 +66,7 @@ export const mapOptions = {
     {
       featureType: "water",
       elementType: "geometry",
-      stylers: [{ color: "#17263c" }],
+      stylers: [{ color: "#20b2aa" }],
     },
     {
       featureType: "water",

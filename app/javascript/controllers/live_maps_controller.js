@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker } from "../maps/marker.js"
+import { haversineDistance, svgMarker } from "../maps/index.js"
 
 export default class extends Controller {
   static targets = ["map"]
@@ -33,7 +33,7 @@ export default class extends Controller {
       let filtered = []
       source.positions.forEach((position) => {
         let pos = new google.maps.LatLng(position.split(",")[0], position.split(",")[1])
-        let dx = this.haversineDistance(homeMarker.position, pos)
+        let dx = haversineDistance(homeMarker.position, pos)
         if (dx < 3000.0) {
           filtered.push(pos)
         }
@@ -69,15 +69,5 @@ export default class extends Controller {
     })
 
     this.map.fitBounds(bounds)
-  }
-
-  haversineDistance(mk1, mk2) {
-    const R = 3958.8; // Radius of the Earth in miles
-    const rlat1 = mk1.lat() * (Math.PI / 180); // Convert degrees to radians
-    const rlat2 = mk2.lat() * (Math.PI / 180); // Convert degrees to radians
-    const difflat = rlat2 - rlat1; // Radian difference (latitudes)
-    const difflon = (mk2.lng() - mk1.lng()) * (Math.PI / 180); // Radian difference (longitudes)
-    const d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
-    return d;
   }
 }
