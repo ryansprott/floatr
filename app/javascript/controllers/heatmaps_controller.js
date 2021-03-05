@@ -23,10 +23,10 @@ export default class extends Controller {
     let resp = await fetch(`/sources/${this.mapTarget.dataset.src}/positions.json`)
     let positionData = await resp.json()
     let bounds = new google.maps.LatLngBounds()
+    let home = new google.maps.LatLng("32.7", "-117.1")
 
     positionData = positionData.filter((el) => {
       if (el.lat && el.lon) {
-        let home = new google.maps.LatLng("32.7", "-117.1")
         let pos = new google.maps.LatLng(el.lat, el.lon)
         return haversineDistance(home, pos) < 3000
       } else {
@@ -43,20 +43,24 @@ export default class extends Controller {
         let poly = new google.maps.Polyline({
           strokeColor: colorFromSpeed(el1.speed, el2.speed),
           strokeOpacity: 1.0,
-          strokeWeight: 5.0,
+          strokeWeight: 3.0,
           map: this.map,
           path: [pos1, pos2]
         })
         bounds.extend(pos1)
         poly.setMap(this.map)
       }
-      this.map.fitBounds(bounds)
+    } else {
+      let pos = new google.maps.LatLng(positionData[0].lat, positionData[0].lon)
+      bounds.extend(pos)
     }
+    bounds.extend(home)
+    this.map.fitBounds(bounds)
 
     let lastSeen = positionData.pop()
     let marker = new google.maps.Marker({
       position: new google.maps.LatLng(lastSeen.lat, lastSeen.lon),
-      icon: Object.assign({ scale: 0.25 }, svgMarker),
+      icon: Object.assign({ scale: 0.15 }, svgMarker),
     })
     marker.setMap(this.map)
   }
@@ -71,8 +75,7 @@ export default class extends Controller {
           location: new google.maps.LatLng(el.lat, el.lon),
         }
       }),
-      opacity: 1,
-      radius: 24,
+      opacity: 0.75,
     })
   }
 
