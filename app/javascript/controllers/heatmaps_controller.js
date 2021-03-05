@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { haversineDistance, svgMarker } from "../maps/index.js"
+import { haversineDistance, svgMarker, colorFromSpeed } from "../maps/index.js"
 
 let heatmap = null;
 
@@ -41,23 +41,23 @@ export default class extends Controller {
         let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
         let pos2 = new google.maps.LatLng(el2.lat, el2.lon)
         let poly = new google.maps.Polyline({
-          strokeColor: this.colorFromSpeed(el1.speed, el2.speed),
+          strokeColor: colorFromSpeed(el1.speed, el2.speed),
           strokeOpacity: 1.0,
-          strokeWeight: 3.0,
+          strokeWeight: 5.0,
           map: this.map,
-          path: [ pos1, pos2 ]
+          path: [pos1, pos2]
         })
         bounds.extend(pos1)
         poly.setMap(this.map)
       }
+      this.map.fitBounds(bounds)
     }
 
     let lastSeen = positionData.pop()
     let marker = new google.maps.Marker({
       position: new google.maps.LatLng(lastSeen.lat, lastSeen.lon),
-      icon: svgMarker,
+      icon: Object.assign({ fillColor: "red", scale: 0.25 }, svgMarker),
     })
-    this.map.fitBounds(bounds)
     marker.setMap(this.map)
   }
 
@@ -71,8 +71,8 @@ export default class extends Controller {
           location: new google.maps.LatLng(el.lat, el.lon),
         }
       }),
-      opacity: 0.5,
-      radius: 8,
+      opacity: 1,
+      radius: 24,
     })
   }
 
@@ -85,22 +85,4 @@ export default class extends Controller {
     let target = heatmap.map ? null : this.map
     heatmap.setMap(target)
   }
-
-  colorFromSpeed(speed1, speed2) {
-    let speed = (parseFloat(speed1) + parseFloat(speed2)) / 2.0
-
-    if (speed > 20.0) {
-      return "#FF0000"
-    } else if (speed <= 20.0 && speed > 10.0) {
-      return "#FFA500"
-    } else if (speed <= 10.0 && speed > 5.0) {
-      return "#FFFF00"
-    } else if (speed <= 5.0 && speed > 3.0) {
-      return "#008000"
-    } else {
-      return "#0000FF"
-    }
-  }
-
-
 }

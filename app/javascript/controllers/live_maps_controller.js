@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { haversineDistance, svgMarker } from "../maps/index.js"
+import { haversineDistance, svgMarker, colorFromSpeed } from "../maps/index.js"
 
 export default class extends Controller {
   static targets = ["map"]
@@ -11,63 +11,65 @@ export default class extends Controller {
     }
   }
 
-  async initMap() {
-    let homeMarker = new google.maps.Marker({
-      position: new google.maps.LatLng("32.7", "-117.1"),
-    });
+  initMap() {
+    this.map = new google.maps.Map(this.mapTarget, mapOptions)
+    this.map.setTilt(0)
+    this.populateMap()
+  }
 
-    this.map = new google.maps.Map(this.mapTarget, mapOptions);
-
+  async populateMap() {
     let resp1 = await fetch(`/live_maps.json`)
     let mapData = await resp1.json()
-    let bounds = new google.maps.LatLngBounds();
+    let bounds = new google.maps.LatLngBounds()
+    let homePosition = new google.maps.LatLng("32.7", "-117.1")
+    let homeMarker = new google.maps.Marker({
+      position: homePosition,
+      map: this.map,
+    })
 
-    mapData.forEach((source) => {
+    for (let source of mapData) {
       let poly = new google.maps.Polyline({
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
-        strokeWeight: 1.5,
-      });
-      let path = poly.getPath();
+        strokeWeight: 1.0,
+      })
 
-      let filtered = []
-      source.positions.forEach((position) => {
-        let pos = new google.maps.LatLng(position.split(",")[0], position.split(",")[1])
-        let dx = haversineDistance(homeMarker.position, pos)
-        if (dx < 3000.0) {
-          filtered.push(pos)
+      let path = poly.getPath()
+
+      let filteredPositions = source.positions.filter((el) => {
+        return el !== ""
+      }).map((el) => {
+        let pos = new google.maps.LatLng(el.split(",")[0], el.split(",")[1])
+        return (haversineDistance(homePosition, pos) < 3000) ? pos : null
+      })
+
+      for (let position of filteredPositions) {
+        if (position) {
+          path.push(position)
+          bounds.extend(position)
         }
-      })
+      }
 
-      filtered.forEach((foo) => {
-        path.push(foo)
-        bounds.extend(foo)
-      })
-
-      const shipName = source.source.ship_name || source.source.callsign || source.source.mmsi.toString()
-
+      let shipName = source.source.ship_name || source.source.callsign || source.source.mmsi.toString()
       let mrk = new google.maps.Marker({
-        position: filtered[filtered.length - 1],
+        position: filteredPositions[filteredPositions.length - 1],
         map: this.map,
-        icon: svgMarker,
+        icon: Object.assign({ fillColor: "chartreuse", scale: 0.05 }, svgMarker),
         title: shipName,
         label: {
           text: " ",
           color: "orange",
-          fontSize: "12px",
+          fontSize: "24px",
         },
       })
-
       google.maps.event.addListener(mrk, "click", (event) => {
-        const lbl = mrk.getLabel()
-        lbl.text = mrk.title;
-        mrk.setLabel(lbl);
+        let lbl = mrk.getLabel()
+        lbl.text = mrk.title
+        mrk.setLabel(lbl)
       })
 
-      poly.setMap(this.map);
-      homeMarker.setMap(this.map);
-    })
-
+      poly.setMap(this.map)
+    }
     this.map.fitBounds(bounds)
   }
 }
