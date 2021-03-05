@@ -71,11 +71,11 @@ export default class extends Controller {
       let mrk = new google.maps.Marker({
         position: filteredPositions[filteredPositions.length - 1],
         map: this.map,
-        icon: Object.assign({ scale: 0.05 }, svgMarker),
+        icon: Object.assign({ scale: 0.075 }, svgMarker),
         title: shipName,
         label: {
           text: " ",
-          color: "orange",
+          color: "lavender",
           fontSize: "14px",
           fontWeight: "bold",
         },
