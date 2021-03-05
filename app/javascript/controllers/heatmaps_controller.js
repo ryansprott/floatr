@@ -2,6 +2,8 @@ import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
 import { svgMarker } from "../maps/marker.js"
 
+let heatmap = null;
+
 export default class extends Controller {
   static targets = ["map"]
 
@@ -51,7 +53,7 @@ export default class extends Controller {
   async drawHeatmap() {
     let resp = await fetch(`/sources/${this.mapTarget.dataset.src}/heatmaps.json`)
     let heatmapData = await resp.json()
-    let heatmap = new google.maps.visualization.HeatmapLayer({
+    heatmap = new google.maps.visualization.HeatmapLayer({
       data: heatmapData.map((el) => {
         return {
           weight: el.weight,
@@ -67,5 +69,10 @@ export default class extends Controller {
   async populateMap() {
     await this.drawPolyline()
     await this.drawHeatmap()
+  }
+
+  toggleHeatmap() {
+    let target = heatmap.map ? null : this.map
+    heatmap.setMap(target)
   }
 }

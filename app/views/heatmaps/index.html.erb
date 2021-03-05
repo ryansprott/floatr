@@ -1,6 +1,12 @@
 <div class="card map-wrapper">
   <div class="card-body map-adjusted">
     <div data-controller="heatmaps" class="map-adjusted">
+      <a class="btn btn-primary"
+        data-action="click->heatmaps#toggleHeatmap"
+        href="#">
+          Toggle heatmap
+      </a>
+
       <div class="map-adjusted"
         data-action="google-maps-callback@window->heatmaps#initMap"
         data-heatmaps-target="map"
