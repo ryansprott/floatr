@@ -3,4 +3,8 @@ class Source < ActiveRecord::Base
   has_many :courses, through: :messages
   has_many :positions, through: :messages
   has_many :mysteries, through: :messages
+
+  scope :recent, -> (offset = 0) {
+    order(:seen_at).offset(offset)
+  }
 end
