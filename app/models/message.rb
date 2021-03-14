@@ -28,6 +28,42 @@ class Message < ActiveRecord::Base
     [4, 21].include? message_type
   end
 
+  scope :recent, -> {
+    where(created_at: 5.minutes.ago..)
+      .includes(:source, :position, :course)
+      .order(:updated_at)
+      .group_by(&:mmsi)
+  }
+
+  scope :weighted_by_position, -> {
+    includes(:position)
+      .select(&:position)
+      .group_by(&:lat_lon)
+      .map { |mmsi, positions|
+        [mmsi, positions.length]
+      }
+  }
+
+  scope :with_courses, -> {
+    includes(:position, :course)
+      .order(:created_at)
+      .pluck(
+        :latitude,
+        :longitude,
+        :course_over_ground,
+        :speed_over_ground,
+      )
+  }
+
+  scope :details_by_type, -> (type) {
+    where(type: type.to_i)
+      .includes(
+        "type_#{type}_specific".to_sym,
+        :course,
+        :dimension,
+      )
+  }
+
   def lat_lon
     position&.to_s || ""
   end

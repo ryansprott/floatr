@@ -5,13 +5,7 @@ class HeatmapsController < ApplicationController
     respond_to do |format|
       format.html { }
       format.json {
-        @heatmaps = @source
-          .messages
-          .includes(:position)
-          .select(&:position)
-          .group_by(&:lat_lon)
-          .map { |k, v| [k, v.length] }
-
+        @heatmaps = @source.messages.weighted_by_position
         render :index
       }
     end
