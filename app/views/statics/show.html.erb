@@ -7,13 +7,13 @@
   <div class="card-body">
     <%= render 'shared/card',
       title: "Static data",
-      headers: @message_table.header_rows,
-      rows: @message_table.message_rows
+      headers: @message_table.specific_headers,
+      rows: @message_table.specific_rows
     %>
     <%= render 'shared/card',
       title: "Dimensions",
-      rows: @dimension_rows,
-      headers: @dimension_headers
+      rows: @message_table.dimension_rows,
+      headers: @message_table.dimension_headers
     %>
   </div>
 </div>

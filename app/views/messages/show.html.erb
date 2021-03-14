@@ -7,8 +7,8 @@
   <div class="card-body">
     <%= render 'shared/card',
       title: "Message data",
-      headers: @message_table.header_rows,
-      rows: @message_table.message_rows
+      headers: @message_table.specific_headers,
+      rows: @message_table.specific_rows
     %>
   </div>
 </div>
