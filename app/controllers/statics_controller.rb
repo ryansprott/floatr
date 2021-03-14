@@ -4,17 +4,7 @@ class StaticsController < ApplicationController
 
     @messages = @source.messages.details_by_type(params[:id])
 
-    @message_headers = @messages
-      .first
-      .specific_attributes
-      .keys
-      .map(&:titleize)
-      .map(&:humanize)
-
-    @message_rows = @messages
-      .map(&:specific_attributes)
-      .map(&:values)
-      .uniq
+    @message_table = MessageTable.new(@messages)
 
     @dimension_headers = @messages
       .first
