@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_021344) do
+ActiveRecord::Schema.define(version: 2021_03_15_024536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_021344) do
     t.integer "model_code"
     t.integer "serial_number"
     t.integer "mothership_mmsi"
+    t.string "ship_cargo_type_description"
     t.index ["message_id"], name: "index_type24_specifics_on_message_id"
   end
 
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_021344) do
     t.bigint "message_id"
     t.integer "navigational_status"
     t.boolean "gnss"
+    t.string "navigational_status_description"
     t.index ["message_id"], name: "index_type27_specifics_on_message_id"
   end
 
@@ -134,6 +136,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_021344) do
     t.string "ship_name"
     t.integer "ship_cargo_type"
     t.decimal "static_draught"
+    t.string "ship_cargo_type_description"
     t.index ["message_id"], name: "index_type5_specifics_on_message_id"
   end
 
@@ -177,6 +180,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_021344) do
     t.integer "navigational_status"
     t.integer "true_heading"
     t.decimal "rate_of_turn"
+    t.string "navigational_status_description"
     t.index ["message_id"], name: "index_type_cnb_specifics_on_message_id"
   end
 
