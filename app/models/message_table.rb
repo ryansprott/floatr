@@ -18,11 +18,11 @@ class MessageTable
   private
 
   def header_object(type)
-    @messages.first.send(type)
+    @messages.first.send(type.to_s)
   end
 
   def all_objects(type)
-    @messages.map(&type.to_sym)
+    @messages.map(&type)
   end
 
   def remove_duplicates(messages)
