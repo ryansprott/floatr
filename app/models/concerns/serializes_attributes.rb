@@ -6,11 +6,22 @@ module SerializesAttributes
       attributes.except!("id", "message_id")
     end
 
-    def titleized_attributes
+    def formatted_attributes
       serialized_attributes
         .keys
         .map(&:titleize)
         .map(&:humanize)
+        .map { |str| selectively_capitalize(str) }
+    end
+
+    private
+
+    def selectively_capitalize(str)
+      abbreviations = ["mmsi", "ais", "eta", "imo", "epfd", "gnss"]
+
+      str.split(" ").map { |word|
+        abbreviations.include?(word.downcase) ? word.upcase : word
+      }.join(" ")
     end
   end
 end

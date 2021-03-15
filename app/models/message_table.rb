@@ -7,8 +7,8 @@ class MessageTable
     header_object("dimension").present?
   end
 
-  def headers(type)
-    header_object(type).titleized_attributes
+  def header(type)
+    header_object(type).formatted_attributes
   end
 
   def rows(type)
