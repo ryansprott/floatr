@@ -60,8 +60,8 @@
               <td data-sort="<%= source.created_at.strftime("%y%m%d%H%M") %>">
                 <%= time_ago_in_words(source.created_at) %>
               </td>
-              <td data-sort="<%= source.seen_at.strftime("%y%m%d%H%M") %>">
-                <%= time_ago_in_words(source.seen_at) %>
+              <td data-sort="<%= source.updated_at.strftime("%y%m%d%H%M") %>">
+                <%= time_ago_in_words(source.updated_at) %>
               </td>
             </tr>
           <% end %>

@@ -5,6 +5,6 @@ class Source < ActiveRecord::Base
   has_many :mysteries, through: :messages
 
   scope :recent, -> (offset = 0) {
-    order(:seen_at).offset(offset)
+    order(:updated_at).offset(offset)
   }
 end
