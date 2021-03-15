@@ -27,7 +27,7 @@
             <th style="width: 10%">
               MMSI
             </th>
-            <th style="width: 60%">
+            <th style="width: 50%">
               Name or callsign
             </th>
             <th style="width: 5%">
@@ -38,6 +38,9 @@
             </th>
             <th style="width: 10%">
               Last seen
+            </th>
+            <th style="width: 10%">
+              Messages
             </th>
           </tr>
         </thead>
@@ -62,6 +65,9 @@
               </td>
               <td data-sort="<%= source.updated_at.strftime("%y%m%d%H%M") %>">
                 <%= time_ago_in_words(source.updated_at) %>
+              </td>
+              <td data-sort="<%= source.messages_count %>">
+                <%= source.messages_count %>
               </td>
             </tr>
           <% end %>

@@ -1,5 +1,5 @@
 class Message < ActiveRecord::Base
-  belongs_to :source, foreign_key: :source_mmsi, primary_key: :mmsi
+  belongs_to :source, foreign_key: :source_mmsi, primary_key: :mmsi, counter_cache: true
 
   has_one :course, dependent: :destroy
   has_one :dimension, dependent: :destroy
