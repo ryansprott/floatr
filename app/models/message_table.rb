@@ -4,15 +4,11 @@ class MessageTable
   end
 
   def has_dimensions?
-    message_dimension.present?
+    header_object("dimension").present?
   end
 
-  def specific_headers
-    message_specific.titleized_attributes
-  end
-
-  def dimension_headers
-    message_dimension.titleized_attributes
+  def headers(type)
+    header_object(type).titleized_attributes
   end
 
   def specific_rows
@@ -25,16 +21,12 @@ class MessageTable
 
   private
 
-  def message_specific
-    @messages.first.specific
+  def header_object(type)
+    @messages.first.send(type)
   end
 
   def all_specifics
     @messages.map(&:specific)
-  end
-
-  def message_dimension
-    @messages.first.dimension
   end
 
   def all_dimensions

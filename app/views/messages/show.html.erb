@@ -7,14 +7,14 @@
   <div class="card-body">
     <%= render 'shared/card',
       title: "Message data",
-      headers: @message_table.specific_headers,
+      headers: @message_table.headers("specific"),
       rows: @message_table.specific_rows
     %>
     <% if @message_table.has_dimensions? %>
       <%= render 'shared/card',
         title: "Dimensions",
         rows: @message_table.dimension_rows,
-        headers: @message_table.dimension_headers
+        headers: @message_table.headers("dimension")
       %>
     <% end %>
   </div>
