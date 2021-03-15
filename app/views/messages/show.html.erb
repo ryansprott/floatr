@@ -8,13 +8,14 @@
     <%= render 'shared/card',
       title: "Message data",
       headers: @message_table.headers("specific"),
-      rows: @message_table.specific_rows
+      rows: @message_table.rows("specific")
     %>
+
     <% if @message_table.has_dimensions? %>
-      <%= render 'shared/card',
+    <%= render 'shared/card',
         title: "Dimensions",
-        rows: @message_table.dimension_rows,
-        headers: @message_table.headers("dimension")
+        headers: @message_table.headers("dimension"),
+        rows: @message_table.rows("dimension")
       %>
     <% end %>
   </div>

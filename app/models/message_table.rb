@@ -11,12 +11,8 @@ class MessageTable
     header_object(type).titleized_attributes
   end
 
-  def specific_rows
-    remove_duplicates(all_specifics)
-  end
-
-  def dimension_rows
-    remove_duplicates(all_dimensions)
+  def rows(type)
+    remove_duplicates(all_objects(type))
   end
 
   private
@@ -25,12 +21,8 @@ class MessageTable
     @messages.first.send(type)
   end
 
-  def all_specifics
-    @messages.map(&:specific)
-  end
-
-  def all_dimensions
-    @messages.map(&:dimension)
+  def all_objects(type)
+    @messages.map(&type.to_sym)
   end
 
   def remove_duplicates(messages)
