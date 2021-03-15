@@ -3,7 +3,7 @@ module SerializesAttributes
 
   included do
     def serialized_attributes
-      attributes.except!("id", "message_id")
+      attributes.except!("id", "message_id").sort.to_h
     end
 
     def formatted_attributes
