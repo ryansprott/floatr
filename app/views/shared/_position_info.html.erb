@@ -1,0 +1,32 @@
+<% home = Rails.application.credentials.ground_station_lat_lon %>
+<div class="card mt-4">
+  <div class="card-header">
+    <h4>
+      Positions
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+        First seen <%= time_ago_in_words(positions.first.updated_at) %> ago
+        <%= miles_away_in_words(positions.first.lat_lon, home) %>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-12">
+        <% if positions.length > 1 %>
+          Last seen <%= time_ago_in_words(positions.last.updated_at) %> ago
+          <%= miles_away_in_words(positions.last.lat_lon, home) %>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <%= link_to(
+        "Show on map",
+        source_heatmaps_path(source),
+        target: "_blank",
+        class: "btn btn-danger",
+      ) %>
+    </div>
+  </div>
+</div>

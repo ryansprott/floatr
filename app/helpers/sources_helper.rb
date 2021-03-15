@@ -24,22 +24,22 @@ module SourcesHelper
   def parse_message_type(message_type, total_messages)
     case message_type
     when 1
-      render "shared/message_info", {
+      render "shared/message_button", {
         message_description: "Class A position report type 1",
         total_messages: total_messages,
       }
     when 2
-      render "shared/message_info", {
+      render "shared/message_button", {
         message_description: "Class A position report type 2",
         total_messages: total_messages,
       }
     when 3
-      render "shared/message_info", {
+      render "shared/message_button", {
         message_description: "Class A position report type 3",
         total_messages: total_messages,
       }
     when 4
-      render "shared/message_info", {
+      render "shared/message_button", {
         message_description: "Base station report",
         total_messages: total_messages,
       }
@@ -80,7 +80,7 @@ module SourcesHelper
         link_path: source_message_path(@source, message_type),
       }
     when 18
-      render "shared/message_info", {
+      render "shared/message_button", {
         message_description: "Class B position report",
         total_messages: total_messages,
       }

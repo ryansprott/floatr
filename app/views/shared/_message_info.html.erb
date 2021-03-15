@@ -1,10 +1,14 @@
-<div class="col-8">
-  <%= message_description %>
-</div>
-<div class="col-4">
-  <%= link_to(
-    total_messages,
-    "#",
-    class: "btn btn-secondary btn-block")
-  %>
+<div class="card mt-4">
+  <div class="card-header">
+    <h4>
+      Messages received
+    </h4>
+  </div>
+  <div class="card-body">
+    <% messages.group(:type).count.each do |type, total| %>
+      <div class="row mt-2">
+        <%= parse_message_type(type, total) %>
+      </div>
+    <% end %>
+  </div>
 </div>

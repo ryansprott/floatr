@@ -5,16 +5,16 @@
     </h4>
   </div>
   <div class="card-body">
-    <%= render 'shared/card',
+    <%= render "shared/message_table",
       title: "Message data",
-      headers: @message_table.headers("specific"),
+      header: @message_table.header("specific"),
       rows: @message_table.rows("specific")
     %>
 
     <% if @message_table.has_dimensions? %>
-    <%= render 'shared/card',
+      <%= render "shared/message_table",
         title: "Dimensions",
-        headers: @message_table.headers("dimension"),
+        header: @message_table.header("dimension"),
         rows: @message_table.rows("dimension")
       %>
     <% end %>
