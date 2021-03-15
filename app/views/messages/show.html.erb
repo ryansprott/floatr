@@ -10,5 +10,12 @@
       headers: @message_table.specific_headers,
       rows: @message_table.specific_rows
     %>
+    <% if @message_table.has_dimensions? %>
+      <%= render 'shared/card',
+        title: "Dimensions",
+        rows: @message_table.dimension_rows,
+        headers: @message_table.dimension_headers
+      %>
+    <% end %>
   </div>
 </div>

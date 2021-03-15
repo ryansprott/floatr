@@ -3,6 +3,10 @@ class MessageTable
     @messages = messages
   end
 
+  def has_dimensions?
+    message_dimension.present?
+  end
+
   def specific_headers
     message_specific.titleized_attributes
   end

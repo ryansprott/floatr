@@ -47,7 +47,7 @@ module SourcesHelper
       render "shared/message_link", {
         message_description: "Class A static data report",
         total_messages: total_messages,
-        link_path: source_static_path(@source, message_type),
+        link_path: source_message_path(@source, message_type),
       }
     when 7
       render "shared/message_link", {
@@ -88,13 +88,13 @@ module SourcesHelper
       render "shared/message_link", {
         message_description: "Aid-to-navigation report",
         total_messages: total_messages,
-        link_path: source_static_path(@source, message_type),
+        link_path: source_message_path(@source, message_type),
       }
     when 24
       render "shared/message_link", {
         message_description: "Static data report",
         total_messages: total_messages,
-        link_path: source_static_path(@source, message_type),
+        link_path: source_message_path(@source, message_type),
       }
     when 27
       render "shared/message_link", {
