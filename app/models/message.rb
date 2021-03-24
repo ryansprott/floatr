@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.recent
-    where(created_at: 5.minutes.ago..)
+    where(created_at: 1.minute.ago..)
     .includes(:source, :position, :course)
     .order(:updated_at)
     .group_by(&:mmsi)
@@ -55,14 +55,14 @@ class Message < ActiveRecord::Base
     )
   end
 
-  scope :details_by_type, -> (type) {
+  def self.details_by_type(type)
     where(type: type.to_i)
     .includes(
       "type_#{type}_specific".to_sym,
       :course,
       :dimension,
     )
-  }
+  end
 
   def lat_lon
     position&.to_s || ""

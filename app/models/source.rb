@@ -4,7 +4,9 @@ class Source < ActiveRecord::Base
   has_many :positions, through: :messages
   has_many :mysteries, through: :messages
 
-  scope :recent, -> (offset = 0) {
-    where('messages_count > 1').order(:updated_at).offset(offset)
-  }
+  def self.recent(offset = 0)
+    where('messages_count > 1')
+    .order(created_at: :desc)
+    .offset(offset)
+  end
 end
