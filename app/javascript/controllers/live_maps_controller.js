@@ -22,10 +22,6 @@ export default class extends Controller {
     let mapData = await resp1.json()
     let bounds = new google.maps.LatLngBounds()
     let homePosition = new google.maps.LatLng("32.7", "-117.1")
-    let homeMarker = new google.maps.Marker({
-      position: homePosition,
-      map: this.map,
-    })
 
     for (let source of mapData) {
       let filteredPositions = source.positions.filter((el) => {
