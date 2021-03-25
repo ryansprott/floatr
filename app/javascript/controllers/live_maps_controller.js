@@ -6,6 +6,9 @@ export default class extends Controller {
   static targets = ["map"]
 
   connect() {
+    this.sources = []
+    this.markers = []
+    this.polylines = []
     if (typeof (google) != "undefined") {
       this.initMap()
     }
@@ -14,16 +17,35 @@ export default class extends Controller {
   initMap() {
     this.map = new google.maps.Map(this.mapTarget, mapOptions)
     this.map.setTilt(0)
-    this.populateMap()
+    setInterval(async () => {
+      let resp1 = await fetch(`/live_maps.json`)
+      let mapData = await resp1.json()
+      this.sources = []
+      for (let item of mapData) {
+        this.sources.push(item)
+      }
+      this.populateMap()
+    }, 5000);
   }
 
-  async populateMap() {
-    let resp1 = await fetch(`/live_maps.json`)
-    let mapData = await resp1.json()
+  showOnMap(element) {
+    element.setMap(this.map)
+  }
+
+  removeFromMap(element) {
+    element.setMap(null)
+  }
+
+  populateMap() {
+    this.markers.map(el => this.removeFromMap(el))
+    this.polylines.map(el => this.removeFromMap(el))
+    this.polylines = []
+    this.markers = []
+
     let bounds = new google.maps.LatLngBounds()
     let homePosition = new google.maps.LatLng("32.7", "-117.1")
 
-    for (let source of mapData) {
+    for (let source of this.sources) {
       let filteredPositions = source.positions.filter((el) => {
         if (el) {
           let pos = new google.maps.LatLng(el.latitude, el.longitude)
@@ -45,21 +67,18 @@ export default class extends Controller {
           let pos2 = new google.maps.LatLng(el2.latitude, el2.longitude)
           let speed1 = filteredCourses[i].speed_over_ground
           let speed2 = filteredCourses[i + 1].speed_over_ground
-          let poly = new google.maps.Polyline({
+          this.polylines.push(new google.maps.Polyline({
             strokeColor: colorFromSpeed(speed1, speed2),
             strokeOpacity: 1.0,
             strokeWeight: 3.0,
-            map: this.map,
             path: [pos1, pos2]
-          })
+          }))
           bounds.extend(pos1)
-          poly.setMap(this.map)
         }
         let shipName = source.static.ship_name || source.static.callsign || source.static.mmsi.toString()
         let el = filteredPositions[filteredPositions.length - 1]
         let mrk = new google.maps.Marker({
           position: new google.maps.LatLng(el.latitude, el.longitude),
-          map: this.map,
           icon: Object.assign({ scale: 0.075 }, svgMarker),
           title: shipName,
           label: {
@@ -74,8 +93,10 @@ export default class extends Controller {
           lbl.text = mrk.title
           mrk.setLabel(lbl)
         })
-
+        this.markers.push(mrk)
       }
+      this.markers.map(el => this.showOnMap(el))
+      this.polylines.map(el => this.showOnMap(el))
     }
     this.map.fitBounds(bounds)
   }
