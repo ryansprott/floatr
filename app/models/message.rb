@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.recent
-    where(created_at: 1.minute.ago..)
+    where(created_at: 5.minutes.ago..)
     .includes(:source, :position, :course)
     .order(:updated_at)
     .group_by(&:mmsi)

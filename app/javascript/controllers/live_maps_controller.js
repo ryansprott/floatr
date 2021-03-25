@@ -14,18 +14,26 @@ export default class extends Controller {
     }
   }
 
-  initMap() {
+  async populateSources() {
+    let resp = await fetch(`/live_maps.json`)
+    let data = await resp.json()
+    this.sources = []
+    for (let item of data) {
+      this.sources.push(item)
+    }
+    this.populateMap()
+  }
+
+  async initMap() {
     this.map = new google.maps.Map(this.mapTarget, mapOptions)
     this.map.setTilt(0)
+    this.map.setCenter(new google.maps.LatLng("32.7", "-117.1"))
+    this.map.setZoom(11)
+
+    await this.populateSources()
     setInterval(async () => {
-      let resp1 = await fetch(`/live_maps.json`)
-      let mapData = await resp1.json()
-      this.sources = []
-      for (let item of mapData) {
-        this.sources.push(item)
-      }
-      this.populateMap()
-    }, 5000);
+      await this.populateSources()
+    }, 15000);
   }
 
   showOnMap(element) {
@@ -38,11 +46,12 @@ export default class extends Controller {
 
   populateMap() {
     this.markers.map(el => this.removeFromMap(el))
-    this.polylines.map(el => this.removeFromMap(el))
-    this.polylines = []
     this.markers = []
 
-    let bounds = new google.maps.LatLngBounds()
+    this.polylines.map(el => this.removeFromMap(el))
+    this.polylines = []
+
+    // let bounds = new google.maps.LatLngBounds()
     let homePosition = new google.maps.LatLng("32.7", "-117.1")
 
     for (let source of this.sources) {
@@ -73,7 +82,7 @@ export default class extends Controller {
             strokeWeight: 3.0,
             path: [pos1, pos2]
           }))
-          bounds.extend(pos1)
+          // bounds.extend(pos1)
         }
         let shipName = source.static.ship_name || source.static.callsign || source.static.mmsi.toString()
         let el = filteredPositions[filteredPositions.length - 1]
@@ -98,6 +107,6 @@ export default class extends Controller {
       this.markers.map(el => this.showOnMap(el))
       this.polylines.map(el => this.showOnMap(el))
     }
-    this.map.fitBounds(bounds)
+    // this.map.fitBounds(bounds)
   }
 }
