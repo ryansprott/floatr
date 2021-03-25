@@ -21,15 +21,25 @@ export function haversineDistance(mk1, mk2) {
 
 export function colorFromSpeed(speed1, speed2) {
   let speed = (parseFloat(speed1) + parseFloat(speed2)) / 2.0
-  if (speed > 15.0) {
-    return "#FF0000"
-  } else if (speed <= 15.0 && speed > 10.0) {
-    return "#FFA500"
-  } else if (speed <= 10.0 && speed > 5.0) {
-    return "#FFFF00"
+  if (speed > 17.0) {
+    return "#f94144"
+  } else if (speed <= 17.0 && speed > 15.0) {
+    return "#f3722c"
+  } else if (speed <= 15.0 && speed > 13.0) {
+    return "#f8961e"
+  } else if (speed <= 13.0 && speed > 11.0) {
+    return "#f9844a"
+  } else if (speed <= 11.0 && speed > 9.0) {
+    return "#f9c74f"
+  } else if (speed <= 9.0 && speed > 7.0) {
+    return "#90be6d"
+  } else if (speed <= 7.0 && speed > 5.0) {
+    return "#43aa8b"
   } else if (speed <= 5.0 && speed > 3.0) {
-    return "#008000"
+    return "#4d908e"
+  } else if (speed <= 3.0 && speed > 2.0) {
+    return "#577590"
   } else {
-    return "#0000FF"
+    return "#277da1"
   }
 }
