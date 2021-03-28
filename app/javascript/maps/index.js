@@ -9,6 +9,10 @@ export const svgMarker = {
   rotation: 0,
 }
 
+export function homePosition() {
+  return new google.maps.LatLng("32.7", "-117.1")
+}
+
 export function haversineDistance(mk1, mk2) {
   const R = 3958.8; // Radius of the Earth in miles
   const rlat1 = mk1.lat() * (Math.PI / 180); // Convert degrees to radians

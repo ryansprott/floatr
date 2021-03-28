@@ -1,6 +1,7 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { haversineDistance, svgMarker, colorFromSpeed } from "../maps/index.js"
+import { haversineDistance, svgMarker, colorFromSpeed, homePosition } from "../maps/index.js"
+import Source from "../maps/source.js"
 
 export default class extends Controller {
   static targets = ["map"]
@@ -16,7 +17,7 @@ export default class extends Controller {
     let data = await resp.json()
     this.sources = []
     for (let item of data) {
-      this.sources.push(item)
+      this.sources.push(new Source(item))
     }
     this.refreshMap()
   }
@@ -28,7 +29,7 @@ export default class extends Controller {
     this.zoomToggled = false
     this.map = new google.maps.Map(this.mapTarget, mapOptions)
     this.map.setTilt(0)
-    this.homePosition = new google.maps.LatLng("32.7", "-117.1")
+    this.homePosition = homePosition()
     this.map.setCenter(this.homePosition)
     this.map.setZoom(12)
 
@@ -54,11 +55,8 @@ export default class extends Controller {
     this.polylines = []
 
     for (let source of this.sources) {
-      let filteredPositions = this.filterPositions(source.positions)
-
-      let filteredCourses = source.course.filter((el) => {
-        return el !== null
-      })
+      let filteredPositions = source.getFilteredPositions()
+      let filteredCourses = source.getFilteredCourse()
 
       if (filteredPositions.length > 1) {
         for (let i = 0; i < filteredPositions.length - 1; i++) {
@@ -76,12 +74,11 @@ export default class extends Controller {
           }))
         }
 
-        let shipName = source.static.ship_name || source.static.callsign || source.static.mmsi.toString()
         let lastPosition = filteredPositions.pop()
         let mrk = new google.maps.Marker({
           position: new google.maps.LatLng(lastPosition.latitude, lastPosition.longitude),
-          icon: Object.assign({ scale: 0.075 }, svgMarker),
-          title: shipName,
+          icon: Object.assign({ scale: 0.06 }, svgMarker),
+          title: source.getName(),
           label: {
             text: " ",
             color: "lavender",
@@ -106,7 +103,7 @@ export default class extends Controller {
     this.zoomToggled = !this.zoomToggled
     this.bounds = new google.maps.LatLngBounds()
     for (let source of this.sources) {
-      for (let position of this.filterPositions(source.positions)) {
+      for (let position of source.getFilteredPositions()) {
         this.bounds.extend(new google.maps.LatLng(position.latitude, position.longitude))
       }
     }
@@ -116,16 +113,5 @@ export default class extends Controller {
       this.map.setCenter(this.homePosition)
       this.map.setZoom(12)
     }
-  }
-
-  filterPositions(positions) {
-    return positions.filter((el) => {
-      if (el) {
-        let pos = new google.maps.LatLng(el.latitude, el.longitude)
-        return (haversineDistance(this.homePosition, pos) < 3000)
-      } else {
-        return false
-      }
-    })
   }
 }
