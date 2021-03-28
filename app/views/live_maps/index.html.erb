@@ -1,6 +1,16 @@
-<div class="card map-wrapper">
+<div class="card map-wrapper" data-controller="live-maps">
+  <div class="card-header">
+    <h4 class="card-title">
+      <a class="btn btn-primary"
+        data-action="click->live-maps#toggleZoom"
+        href="#">
+          Toggle zoom
+      </a>
+    </h4>
+  </div>
+
   <div class="card-body map-adjusted">
-    <div data-controller="live-maps" class="map-adjusted">
+    <div class="map-adjusted">
       <div class="map-adjusted"
         data-action="google-maps-callback@window->live-maps#initMap"
         data-live-maps-target="map"

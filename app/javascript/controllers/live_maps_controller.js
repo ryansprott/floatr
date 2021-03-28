@@ -5,12 +5,9 @@ import { haversineDistance, svgMarker, colorFromSpeed } from "../maps/index.js"
 export default class extends Controller {
   static targets = ["map"]
 
-  connect() {
-    this.sources = []
-    this.markers = []
-    this.polylines = []
+  async connect() {
     if (typeof (google) != "undefined") {
-      this.initMap()
+      await this.initMap()
     }
   }
 
@@ -21,19 +18,24 @@ export default class extends Controller {
     for (let item of data) {
       this.sources.push(item)
     }
-    this.populateMap()
+    this.refreshMap()
   }
 
   async initMap() {
+    this.sources = []
+    this.markers = []
+    this.polylines = []
+    this.zoomToggled = false
     this.map = new google.maps.Map(this.mapTarget, mapOptions)
     this.map.setTilt(0)
-    this.map.setCenter(new google.maps.LatLng("32.7", "-117.1"))
-    this.map.setZoom(11)
+    this.homePosition = new google.maps.LatLng("32.7", "-117.1")
+    this.map.setCenter(this.homePosition)
+    this.map.setZoom(12)
 
     await this.populateSources()
     setInterval(async () => {
       await this.populateSources()
-    }, 15000);
+    }, 10000);
   }
 
   showOnMap(element) {
@@ -44,25 +46,15 @@ export default class extends Controller {
     element.setMap(null)
   }
 
-  populateMap() {
+  refreshMap() {
     this.markers.map(el => this.removeFromMap(el))
     this.markers = []
 
     this.polylines.map(el => this.removeFromMap(el))
     this.polylines = []
 
-    // let bounds = new google.maps.LatLngBounds()
-    let homePosition = new google.maps.LatLng("32.7", "-117.1")
-
     for (let source of this.sources) {
-      let filteredPositions = source.positions.filter((el) => {
-        if (el) {
-          let pos = new google.maps.LatLng(el.latitude, el.longitude)
-          return (haversineDistance(homePosition, pos) < 3000)
-        } else {
-          return false
-        }
-      })
+      let filteredPositions = this.filterPositions(source.positions)
 
       let filteredCourses = source.course.filter((el) => {
         return el !== null
@@ -82,12 +74,12 @@ export default class extends Controller {
             strokeWeight: 3.0,
             path: [pos1, pos2]
           }))
-          // bounds.extend(pos1)
         }
+
         let shipName = source.static.ship_name || source.static.callsign || source.static.mmsi.toString()
-        let el = filteredPositions[filteredPositions.length - 1]
+        let lastPosition = filteredPositions.pop()
         let mrk = new google.maps.Marker({
-          position: new google.maps.LatLng(el.latitude, el.longitude),
+          position: new google.maps.LatLng(lastPosition.latitude, lastPosition.longitude),
           icon: Object.assign({ scale: 0.075 }, svgMarker),
           title: shipName,
           label: {
@@ -104,9 +96,36 @@ export default class extends Controller {
         })
         this.markers.push(mrk)
       }
+
       this.markers.map(el => this.showOnMap(el))
       this.polylines.map(el => this.showOnMap(el))
     }
-    // this.map.fitBounds(bounds)
+  }
+
+  toggleZoom() {
+    this.zoomToggled = !this.zoomToggled
+    this.bounds = new google.maps.LatLngBounds()
+    for (let source of this.sources) {
+      for (let position of this.filterPositions(source.positions)) {
+        this.bounds.extend(new google.maps.LatLng(position.latitude, position.longitude))
+      }
+    }
+    if (true === this.zoomToggled) {
+      this.map.fitBounds(this.bounds)
+    } else {
+      this.map.setCenter(this.homePosition)
+      this.map.setZoom(12)
+    }
+  }
+
+  filterPositions(positions) {
+    return positions.filter((el) => {
+      if (el) {
+        let pos = new google.maps.LatLng(el.latitude, el.longitude)
+        return (haversineDistance(this.homePosition, pos) < 3000)
+      } else {
+        return false
+      }
+    })
   }
 }
