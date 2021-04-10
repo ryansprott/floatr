@@ -47,12 +47,6 @@ class Message < ActiveRecord::Base
   def self.with_courses
     includes(:position, :course)
     .order(:created_at)
-    .pluck(
-      :latitude,
-      :longitude,
-      :course_over_ground,
-      :speed_over_ground,
-    )
   end
 
   def self.details_by_type(type)
@@ -66,6 +60,10 @@ class Message < ActiveRecord::Base
 
   def lat_lon
     position&.to_s || ""
+  end
+
+  def miles_away
+    position&.miles_away || 0.0
   end
 
   def specific

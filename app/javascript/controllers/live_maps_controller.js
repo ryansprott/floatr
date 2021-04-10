@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { haversineDistance, svgMarker, colorFromSpeed, homePosition } from "../maps/index.js"
+import { svgMarker, colorFromSpeed, homePosition } from "../maps/index.js"
 import Source from "../maps/source.js"
 
 export default class extends Controller {

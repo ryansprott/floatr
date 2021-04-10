@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { haversineDistance, svgMarker, colorFromSpeed } from "../maps/index.js"
+import { svgMarker, colorFromSpeed } from "../maps/index.js"
 
 let heatmap = null;
 
@@ -29,12 +29,7 @@ export default class extends Controller {
     this.positionData = await resp.json()
 
     this.positionData = this.positionData.filter((el) => {
-      if (el.lat && el.lon) {
-        let pos = new google.maps.LatLng(el.lat, el.lon)
-        return haversineDistance(this.home, pos) < 3000
-      } else {
-        return false
-      }
+      return (el.lat && el.lon) ? el.distance > 0.0 : false
     })
 
     if (this.positionData.length > 1) {

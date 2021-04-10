@@ -1,4 +1,4 @@
-import { haversineDistance, homePosition } from "./index.js"
+import { homePosition } from "./index.js"
 
 export default class Source {
   constructor(source) {
@@ -14,12 +14,7 @@ export default class Source {
 
   getFilteredPositions() {
     return this.positions.filter((el) => {
-      if (el) {
-        let pos = new google.maps.LatLng(el.latitude, el.longitude)
-        return (haversineDistance(this.homePosition, pos) < 3000)
-      } else {
-        return false
-      }
+      return (el && el.lat && el.lon) ? el.distance > 0.0 : false
     })
   }
 
