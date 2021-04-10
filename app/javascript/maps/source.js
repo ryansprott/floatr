@@ -17,10 +17,4 @@ export default class Source {
       return (el && el.lat && el.lon) ? el.distance > 0.0 : false
     })
   }
-
-  getFilteredCourse() {
-    return this.course.filter((el) => {
-      return el !== null
-    })
-  }
 }

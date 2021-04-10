@@ -33,6 +33,9 @@ class Message < ActiveRecord::Base
     .includes(:source, :position, :course)
     .order(:updated_at)
     .group_by(&:mmsi)
+    .map do |key, value|
+      LiveMapMessage.new(key, value)
+    end
   end
 
   def self.weighted_by_position

@@ -56,27 +56,23 @@ export default class extends Controller {
 
     for (let source of this.sources) {
       let filteredPositions = source.getFilteredPositions()
-      let filteredCourses = source.getFilteredCourse()
 
       if (filteredPositions.length > 1) {
         for (let i = 0; i < filteredPositions.length - 1; i++) {
           let el1 = filteredPositions[i]
           let el2 = filteredPositions[i + 1]
-          let pos1 = new google.maps.LatLng(el1.latitude, el1.longitude)
-          let pos2 = new google.maps.LatLng(el2.latitude, el2.longitude)
-          let speed1 = filteredCourses[i].speed_over_ground
-          let speed2 = filteredCourses[i + 1].speed_over_ground
+          let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
+          let pos2 = new google.maps.LatLng(el2.lat, el2.lon)
           this.polylines.push(new google.maps.Polyline({
-            strokeColor: colorFromSpeed(speed1, speed2),
+            strokeColor: colorFromSpeed(el1.speed, el2.speed),
             strokeOpacity: 1.0,
             strokeWeight: 3.0,
             path: [pos1, pos2]
           }))
         }
-
         let lastPosition = filteredPositions.pop()
         let mrk = new google.maps.Marker({
-          position: new google.maps.LatLng(lastPosition.latitude, lastPosition.longitude),
+          position: new google.maps.LatLng(lastPosition.lat, lastPosition.lon),
           icon: Object.assign({ scale: 0.06 }, svgMarker),
           title: source.getName(),
           label: {
@@ -104,7 +100,7 @@ export default class extends Controller {
     this.bounds = new google.maps.LatLngBounds()
     for (let source of this.sources) {
       for (let position of source.getFilteredPositions()) {
-        this.bounds.extend(new google.maps.LatLng(position.latitude, position.longitude))
+        this.bounds.extend(new google.maps.LatLng(position.lat, position.lon))
       }
     }
     if (true === this.zoomToggled) {
