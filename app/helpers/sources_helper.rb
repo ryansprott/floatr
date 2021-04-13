@@ -1,26 +1,4 @@
-class String
-  def to_flag
-    self.tr("A-Z", "\u{1F1E6}-\u{1F1FF}")
-  end
-end
-
 module SourcesHelper
-  require "yaml"
-
-  def country_name(mmsi)
-    country = parse_country_from_mmsi(mmsi)
-    country[:full_name]
-  end
-
-  def country_code(mmsi)
-    country = parse_country_from_mmsi(mmsi)
-    country[:code_2]
-  end
-
-  def country_flag(mmsi)
-    country_code(mmsi).to_flag
-  end
-
   def parse_message_type(message_type, total_messages)
     case message_type
     when 1
@@ -110,14 +88,5 @@ module SourcesHelper
     else
       message_type
     end
-  end
-
-  private
-
-  def parse_country_from_mmsi(mmsi)
-    mids = YAML.load_file("db/yaml/mids.yml")
-    keys = [:code_2, :code_3, :code_misc, :full_name]
-    vals = mids[mmsi[0...3].to_i] || Array.new(4, "")
-    [keys, vals].transpose.to_h
   end
 end
