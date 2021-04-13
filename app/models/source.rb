@@ -9,4 +9,8 @@ class Source < ActiveRecord::Base
     .order(created_at: :desc)
     .offset(offset)
   end
+
+  def display_name
+    ship_name || callsign || mmsi.to_s
+  end
 end

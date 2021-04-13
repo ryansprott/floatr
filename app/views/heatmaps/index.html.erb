@@ -1,6 +1,8 @@
 <div class="card map-wrapper" data-controller="heatmaps">
   <div class="card-header">
     <h4 class="card-title">
+      <%= @source.display_name %>
+    </h4>
       <a class="btn btn-primary"
         data-action="click->heatmaps#toggleHeatmap"
         href="#">
@@ -11,7 +13,6 @@
         href="#">
           Toggle zoom
       </a>
-    </h4>
   </div>
 
   <div class="card-body map-adjusted">

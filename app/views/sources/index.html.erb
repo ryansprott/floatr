@@ -1,17 +1,14 @@
-<h4>
-  <%= link_to(
-    "Live map",
-    live_maps_path,
-    target: "_blank",
-    class: "btn btn-danger",
-  ) %>
-</h4>
-
 <div class="card">
   <div class="card-header">
     <h4 class="card-title">
       <%= @sources.length %> MMSIs seen
     </h4>
+    <%= link_to(
+      "Live map",
+      live_maps_path,
+      target: "_blank",
+      class: "btn btn-danger",
+    ) %>
   </div>
   <div class="card-body">
     <div class="form-group">
@@ -28,7 +25,7 @@
               MMSI
             </th>
             <th style="width: 50%">
-              Name or callsign
+              Source
             </th>
             <th style="width: 5%">
               Flag
@@ -55,7 +52,7 @@
                 ) %>
               </td>
               <td>
-                <%= source.ship_name || source.callsign %>
+                <%= source.display_name %>
               </td>
               <td data-sort="<%= country_code(source.mmsi.to_s) %>">
                 <%= country_flag(source.mmsi.to_s) %>
