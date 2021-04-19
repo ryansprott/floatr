@@ -7,18 +7,32 @@
   </div>
   <div class="card-body">
     <div class="row mb-2">
-      <div class="col-sm-12">
-        First seen <%= time_ago_in_words(positions.first.updated_at) %> ago
-        from <%= positions.first.miles_away %> miles away
+      <div class="col-sm-6">
+        <h5>First seen</h5>
+        <div>
+          <%= parse_seen(positions.first) %>
+          <%= parse_distance(positions.first) %>
+        </div>
+        <div>
+          <%= parse_course(positions.first) %>
+          <%= parse_speed(positions.first) %>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <% if positions.length > 1 %>
+          <h5>Last seen</h5>
+          <div>
+            <%= parse_seen(positions.last) %>
+            <%= parse_distance(positions.last) %>
+          </div>
+          <div>
+            <%= parse_course(positions.last) %>
+            <%= parse_speed(positions.last) %>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="row mb-2">
-      <div class="col-sm-12">
-        <% if positions.length > 1 %>
-          Last seen <%= time_ago_in_words(positions.last.updated_at) %> ago
-          from <%= positions.last.miles_away %> miles away
-        <% end %>
-      </div>
     </div>
     <div>
       <%= link_to(

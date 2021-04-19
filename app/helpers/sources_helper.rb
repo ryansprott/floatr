@@ -89,4 +89,41 @@ module SourcesHelper
       message_type
     end
   end
+
+  def parse_course(position)
+    course_over_ground = position.course.course_over_ground
+    output = course_over_ground.to_s
+
+    case course_over_ground.to_i
+    when 360
+    when 0..45
+      "heading N (#{output})"
+    when 45..89
+      "heading NE (#{output})"
+    when 90..134
+      "heading E (#{output})"
+    when 135..179
+      "heading SE (#{output})"
+    when 180..224
+      "heading S (#{output})"
+    when 225..269
+      "heading SW (#{output})"
+    when 270..314
+      "heading W (#{output})"
+    when 315..359
+      "heading NW (#{output})"
+    end
+  end
+
+  def parse_speed(position)
+    "moving #{position.course.speed_over_ground} knots"
+  end
+
+  def parse_seen(position)
+    time_ago_in_words(position.updated_at) + " ago"
+  end
+
+  def parse_distance(position)
+    "from #{position.miles_away} miles away"
+  end
 end
