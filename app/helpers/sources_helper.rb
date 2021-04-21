@@ -92,26 +92,44 @@ module SourcesHelper
 
   def parse_course(position)
     course_over_ground = position.course.course_over_ground
-    output = course_over_ground.to_s
+    course = course_over_ground.to_s
 
-    case course_over_ground.to_i
+    case course_over_ground&.to_i
     when 360
-    when 0..45
-      "heading N (#{output})"
-    when 45..89
-      "heading NE (#{output})"
-    when 90..134
-      "heading E (#{output})"
-    when 135..179
-      "heading SE (#{output})"
-    when 180..224
-      "heading S (#{output})"
-    when 225..269
-      "heading SW (#{output})"
-    when 270..314
-      "heading W (#{output})"
-    when 315..359
-      "heading NW (#{output})"
+    when 0..22
+      "course #{course} (N)"
+    when 23..44
+      "course #{course} (NNE)"
+    when 45..67
+      "course #{course} (NE)"
+    when 68..90
+      "course #{course} (ENE)"
+    when 91..112
+      "course #{course} (E)"
+    when 113..135
+      "course #{course} (ESE)"
+    when 136..157
+      "course #{course} (SE)"
+    when 158..179
+      "course #{course} (SSE)"
+    when 180..202
+      "course #{course} (S)"
+    when 203..225
+      "course #{course} (SSW)"
+    when 226..247
+      "course #{course} (SW)"
+    when 248..269
+      "course #{course} (WSW)"
+    when 270..292
+      "course #{course} (W)"
+    when 293..315
+      "course #{course} (WNW)"
+    when 316..337
+      "course #{course} (NW)"
+    when 338..359
+      "course #{course} (NNW)"
+    when nil
+      "course unknown"
     end
   end
 
