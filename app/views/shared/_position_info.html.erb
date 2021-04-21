@@ -9,26 +9,16 @@
     <div class="row mb-2">
       <div class="col-sm-6">
         <h5>First seen</h5>
-        <div>
-          <%= parse_seen(positions.first) %>
-          <%= parse_distance(positions.first) %>
-        </div>
-        <div>
-          <%= parse_course(positions.first) %>
-          <%= parse_speed(positions.first) %>
-        </div>
+        <%= render "shared/position_details", {
+          position: positions.first
+        } %>
       </div>
       <div class="col-sm-6">
         <% if positions.length > 1 %>
           <h5>Last seen</h5>
-          <div>
-            <%= parse_seen(positions.last) %>
-            <%= parse_distance(positions.last) %>
-          </div>
-          <div>
-            <%= parse_course(positions.last) %>
-            <%= parse_speed(positions.last) %>
-          </div>
+          <%= render "shared/position_details", {
+            position: positions.last
+          } %>
         <% end %>
       </div>
     </div>

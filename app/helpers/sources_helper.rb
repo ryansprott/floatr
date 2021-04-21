@@ -116,7 +116,7 @@ module SourcesHelper
   end
 
   def parse_speed(position)
-    "moving #{position.course.speed_over_ground} knots"
+    "speed #{position.course.speed_over_ground} knots"
   end
 
   def parse_seen(position)
