@@ -9,10 +9,10 @@ class SourcesController < ApplicationController
   end
 
   def show
-    @source = Source.includes(:messages).find(params[:id])
+    @source = Source.includes(:messages, :mysteries).find(params[:id])
 
     @messages = @source.messages
 
-    @positions = @messages.joins(:position).order(:created_at)
+    @positions = @messages.joins(:position, :course).order(:created_at) - @source.mysteries
   end
 end
