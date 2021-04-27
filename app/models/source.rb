@@ -7,13 +7,13 @@ class Source < ActiveRecord::Base
   has_many :mysteries, through: :messages
 
   def self.recent(offset = 0)
-    where('messages_count > 1')
-    .order(created_at: :desc)
-    .offset(offset)
+    where("messages_count > 1")
+      .order(created_at: :desc)
+      .offset(offset)
   end
 
   def display_name
-    ship_name || callsign || country_name
+    ship_name || callsign || "Unknown"
   end
 
   def country_name

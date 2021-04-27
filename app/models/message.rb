@@ -1,5 +1,8 @@
 class Message < ActiveRecord::Base
-  belongs_to :source, foreign_key: :source_mmsi, primary_key: :mmsi, counter_cache: true
+  belongs_to :source,
+    foreign_key: :source_mmsi,
+    primary_key: :mmsi,
+    counter_cache: true
 
   has_one :course, dependent: :destroy
   has_one :dimension, dependent: :destroy
@@ -25,40 +28,40 @@ class Message < ActiveRecord::Base
   delegate_missing_to :specific
 
   validates_uniqueness_of :source_mmsi, if: -> do
-    [4, 21].include? message_type
-  end
+                                          [4, 21].include? message_type
+                                        end
 
   def self.recent
     where(created_at: 5.minutes.ago..)
-    .includes(:source, :position, :course)
-    .order(:updated_at)
-    .group_by(&:mmsi)
-    .map do |key, value|
+      .includes(:source, :position, :course)
+      .order(:updated_at)
+      .group_by(&:mmsi)
+      .map do |key, value|
       LiveMapMessage.new(key, value)
     end
   end
 
   def self.weighted_by_position
     includes(:position)
-    .select(&:position)
-    .group_by(&:lat_lon)
-    .map { |mmsi, positions|
+      .select(&:position)
+      .group_by(&:lat_lon)
+      .map { |mmsi, positions|
       [mmsi, positions.length]
     }
   end
 
   def self.with_courses
     includes(:position, :course)
-    .order(:created_at)
+      .order(:created_at)
   end
 
   def self.details_by_type(type)
     where(type: type.to_i)
-    .includes(
-      "type_#{type}_specific".to_sym,
-      :course,
-      :dimension,
-    )
+      .includes(
+        "type_#{type}_specific".to_sym,
+        :course,
+        :dimension,
+      )
   end
 
   def lat_lon

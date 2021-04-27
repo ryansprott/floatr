@@ -12,10 +12,7 @@
   </div>
   <div class="card-body">
     <div class="form-group">
-      <input type="text"
-        id="search-input"
-        class="form-control"
-        placeholder="Search..." />
+      <input type="text" id="search-input" class="form-control" placeholder="Search..." />
     </div>
     <div class="table-responsive">
       <table class="table table-striped table-bordered" id="searchable-table">
@@ -24,16 +21,16 @@
             <th style="width: 10%">
               MMSI
             </th>
-            <th style="width: 50%">
+            <th style="width: 30%">
               Source
             </th>
             <th style="width: 5%">
               Flag
             </th>
-            <th style="width: 10%">
+            <th style="width: 20%">
               First seen
             </th>
-            <th style="width: 10%">
+            <th style="width: 20%">
               Last seen
             </th>
             <th style="width: 10%">
@@ -43,30 +40,51 @@
         </thead>
         <tbody>
           <% @sources.each do |source| %>
-            <tr>
-              <td>
-                <%= link_to(
+          <tr>
+            <td>
+              <%= link_to(
                   source.mmsi.to_s,
                   source_path(source),
                   class: "btn btn-primary",
                 ) %>
-              </td>
-              <td>
-                <%= source.display_name %>
-              </td>
-              <td data-sort="<%= source.country_code %>">
-                <%= source.country_flag %>
-              </td>
-              <td data-sort="<%= source.created_at.strftime("%y%m%d%H%M") %>">
-                <%= time_ago_in_words(source.created_at) %>
-              </td>
-              <td data-sort="<%= source.updated_at.strftime("%y%m%d%H%M") %>">
-                <%= time_ago_in_words(source.updated_at) %>
-              </td>
-              <td data-sort="<%= source.messages_count %>">
-                <%= source.messages_count %>
-              </td>
-            </tr>
+            </td>
+            <td>
+              <div>
+                <strong>
+                  <%= source.display_name %>
+                </strong>
+              </div>
+              <div>
+                <%= source.country_name %>
+              </div>
+            </td>
+            <td data-sort="<%= source.country_code %>">
+              <%= source.country_flag %>
+            </td>
+            <td data-sort="<%= source.created_at.strftime("%y%m%d%H%M") %>">
+              <div>
+                <%= source.created_at.strftime("%d %B %H:%M") %>
+              </div>
+              <div>
+                <em>
+                  <%= time_ago_in_words(source.created_at) %>
+                </em>
+              </div>
+            </td>
+            <td data-sort="<%= source.updated_at.strftime("%y%m%d%H%M") %>">
+              <div>
+                <%= source.updated_at.strftime("%d %B %H:%M") %>
+              </div>
+              <div>
+                <em>
+                  <%= time_ago_in_words(source.updated_at) %>
+                </em>
+              </div>
+            </td>
+            <td data-sort="<%= source.messages_count %>">
+              <%= source.messages_count %>
+            </td>
+          </tr>
           <% end %>
         </tbody>
       </table>
