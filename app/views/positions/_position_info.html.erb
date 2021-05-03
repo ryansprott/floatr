@@ -9,16 +9,14 @@
     <div class="row mb-2">
       <div class="col-sm-6">
         <h5>First seen</h5>
-        <%= render "shared/position_details", {
-          position: positions.first
-        } %>
+        <%= render "positions/position_details",
+          position: positions.first %>
       </div>
       <div class="col-sm-6">
         <% if positions.length > 1 %>
-          <h5>Last seen</h5>
-          <%= render "shared/position_details", {
-            position: positions.last
-          } %>
+        <h5>Last seen</h5>
+        <%= render "positions/position_details",
+            position: positions.last %>
         <% end %>
       </div>
     </div>

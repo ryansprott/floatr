@@ -5,14 +5,14 @@
     </h4>
   </div>
   <div class="card-body">
-    <%= render "shared/message_table",
+    <%= render "message_table",
       title: "Message data",
       header: @message_table.header(:specific),
       rows: @message_table.rows(:specific)
     %>
 
     <% if @message_table.has_dimensions? %>
-      <%= render "shared/message_table",
+      <%= render "message_table",
         title: "Dimensions",
         header: @message_table.header(:dimension),
         rows: @message_table.rows(:dimension)

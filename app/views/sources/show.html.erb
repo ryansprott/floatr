@@ -5,20 +5,20 @@
     </h4>
   </div>
   <div class="card-body">
-    <%= render "shared/source_info", {
+    <%= render "source_info",
       source: @source,
       messages: @messages
-    } %>
+    %>
 
-    <%= render "shared/message_info", {
+    <%= render "messages/message_info",
       messages: @messages
-    } %>
+    %>
 
     <% if @positions.length > 0 %>
-      <%= render "shared/position_info", {
+      <%= render "positions/position_info",
         source: @source,
         positions: @positions
-      } %>
+      %>
     <% end %>
   </div>
 </div>

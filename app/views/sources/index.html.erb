@@ -9,8 +9,11 @@
   </div>
   <div class="card-body">
     <h4>Recently added</h4>
-    <%= render "shared/source_table", sources: @recently_added %>
+    <%= render "source_table",
+      sources: @recently_added %>
+
     <h4>Recently seen</h4>
-    <%= render "shared/source_table", sources: @recently_seen %>
+    <%= render "source_table",
+      sources: @recently_seen %>
   </div>
 </div>
