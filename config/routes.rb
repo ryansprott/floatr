@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "sources#index"
+  root to: "sources#summary"
 
   resources :sources do
     resources :positions, only: [:index]

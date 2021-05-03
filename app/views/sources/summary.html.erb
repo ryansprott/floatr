@@ -10,6 +10,10 @@
   <div class="card-body">
     <h4>Recently added</h4>
     <%= render "source_table",
-      sources: @sources %>
+      sources: @recently_added %>
+
+    <h4>Recently seen</h4>
+    <%= render "source_table",
+      sources: @recently_seen %>
   </div>
 </div>

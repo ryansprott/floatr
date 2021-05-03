@@ -1,12 +1,16 @@
 class SourcesController < ApplicationController
   def index
-    @recently_added = Source.recently_added
-    @recently_seen = Source.recently_seen
+    @sources = Source.all.order(created_at: :desc)
 
     respond_to do |format|
       format.html { }
       format.json { render :index }
     end
+  end
+
+  def summary
+    @recently_added = Source.recently_added
+    @recently_seen = Source.recently_seen
   end
 
   def show
