@@ -1,6 +1,7 @@
 class SourcesController < ApplicationController
   def index
-    @sources = Source.recent(params[:offset])
+    @recently_added = Source.recently_added
+    @recently_seen = Source.recently_seen
 
     respond_to do |format|
       format.html { }

@@ -6,10 +6,16 @@ class Source < ActiveRecord::Base
   has_many :positions, through: :messages
   has_many :mysteries, through: :messages
 
-  def self.recent(offset = 0)
+  def self.recently_added
     where("messages_count > 1")
       .order(created_at: :desc)
-      .offset(offset)
+      .limit(5)
+  end
+
+  def self.recently_seen
+    where("messages_count > 1")
+      .order(updated_at: :desc)
+      .limit(5)
   end
 
   def display_name
