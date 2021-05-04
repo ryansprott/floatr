@@ -1,14 +1,9 @@
 <div class="card">
   <div class="card-header">
-    <%= link_to(
-      "Live map",
-      live_maps_path,
-      target: "_blank",
-      class: "btn btn-danger",
-    ) %>
+    <h4>All sources</h4>
   </div>
+
   <div class="card-body">
-    <h4>Recently added</h4>
     <%= render "source_table",
       sources: @sources %>
   </div>

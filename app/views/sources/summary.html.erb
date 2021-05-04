@@ -6,7 +6,15 @@
       target: "_blank",
       class: "btn btn-danger",
     ) %>
+
+    <%= link_to(
+      "All sources",
+      sources_path,
+      target: "_blank",
+      class: "btn btn-success",
+    ) %>
   </div>
+
   <div class="card-body">
     <h4>Recently added</h4>
     <%= render "source_table",

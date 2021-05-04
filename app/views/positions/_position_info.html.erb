@@ -1,27 +1,31 @@
-<% home = Rails.application.credentials.ground_station_lat_lon %>
 <div class="card mt-4">
   <div class="card-header">
     <h4>
       Positions
     </h4>
   </div>
+
   <div class="card-body">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h5>First seen</h5>
+      <% positions.first.tap do |position| %>
         <%= render "positions/position_details",
-          position: positions.first %>
+          position: position,
+          when_seen: "First"
+        %>
+      <% end %>
       </div>
+
       <div class="col-sm-6">
-        <% if positions.length > 1 %>
-        <h5>Last seen</h5>
+      <% positions.last.tap do |position| %>
         <%= render "positions/position_details",
-            position: positions.last %>
-        <% end %>
+          position: position,
+          when_seen: "Last"
+        %>
+      <% end %>
       </div>
     </div>
-    <div class="row mb-2">
-    </div>
+
     <div>
       <%= link_to(
         "Show on map",

@@ -41,6 +41,10 @@ class Message < ActiveRecord::Base
     end
   end
 
+  def self.grouped_by_type
+    order(:type).group(:type).count
+  end
+
   def self.weighted_by_position
     includes(:position)
       .select(&:position)

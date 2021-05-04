@@ -1,13 +1,20 @@
+<h5>
+  <%= when_seen %> seen
+</h5>
+
 <ul>
   <li>
     <%= parse_seen(position) %>
   </li>
+
   <li>
     <%= parse_distance(position) %>
   </li>
+
   <li>
     <%= parse_course(position) %>
   </li>
+
   <li>
     <%= parse_speed(position) %>
   </li>

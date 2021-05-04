@@ -4,8 +4,9 @@
       Messages received
     </h4>
   </div>
+
   <div class="card-body">
-    <% messages.order(:type).group(:type).count.each do |type, total| %>
+    <% messages.grouped_by_type.each do |type, total| %>
       <div class="row mt-2">
         <%= parse_message_type(type, total) %>
       </div>

@@ -3,16 +3,18 @@
     <h4 class="card-title">
       <%= @source.display_name %>
     </h4>
-      <a class="btn btn-primary"
-        data-action="click->heatmaps#toggleHeatmap"
-        href="#">
-          Toggle heatmap
-      </a>
-      <a class="btn btn-secondary"
-        data-action="click->heatmaps#toggleZoom"
-        href="#">
-          Toggle zoom
-      </a>
+
+    <a class="btn btn-primary"
+      data-action="click->heatmaps#toggleHeatmap"
+      href="#">
+        Toggle heatmap
+    </a>
+
+    <a class="btn btn-secondary"
+      data-action="click->heatmaps#toggleZoom"
+      href="#">
+        Toggle zoom
+    </a>
   </div>
 
   <div class="card-body map-adjusted">
