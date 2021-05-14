@@ -1,24 +1,17 @@
-# README
+# Floatr
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Floatr makes sense of the [AIS messages][ais_wiki_link] in your local RF spectrum.
 
-Things you may want to cover:
+* View detailed AIS information for each MMSI
+* Plot live and historical AIS data on a Google map
+* Sort and search AIS sources by MMSI, ship name, or flag
 
-* Ruby version
+Floatr differs from software like [OpenCPN][opencpn_link] in that it's intended for data visualization, not for marine navigation.  Floatr at your own risk.
 
-* System dependencies
+## Requirements
 
-* Configuration
+* A working installation of [Floatr Pal][floatr_pal_github_link] is mandatory.  Please see the instructions for that repository first.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[ais_wiki_link]: https://en.wikipedia.org/wiki/Automatic_identification_system
+[floatr_pal_github_link]: https://github.com/ryansprott/floatr-pal
+[opencpn_link]: https://opencpn.org/
