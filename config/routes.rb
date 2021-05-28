@@ -7,5 +7,8 @@ Rails.application.routes.draw do
     resources :messages, only: [:show]
     resources :statics, only: [:show]
   end
+  constraints format: :json do
+    resources :source_summaries, only: [:index]
+  end
   resources :live_maps, only: [:index]
 end
