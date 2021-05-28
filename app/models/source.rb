@@ -9,13 +9,13 @@ class Source < ActiveRecord::Base
   def self.recently_added
     where("messages_count > 1")
       .order(created_at: :desc)
-      .limit(5)
+      .limit(10)
   end
 
   def self.recently_seen
     where("messages_count > 1")
       .order(updated_at: :desc)
-      .limit(5)
+      .limit(10)
   end
 
   def display_name

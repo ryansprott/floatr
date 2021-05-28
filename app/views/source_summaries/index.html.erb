@@ -1,3 +1,4 @@
+<div data-controller="source-summaries">
 <div class="card">
   <div class="card-header">
     <%= link_to(
@@ -17,11 +18,11 @@
 
   <div class="card-body">
     <h4>Recently added</h4>
-    <%= render "source_table",
-      sources: @recently_added %>
+    <div id="recently-added-table"></div>
 
     <h4>Recently seen</h4>
-    <%= render "source_table",
-      sources: @recently_seen %>
+    <div id="recently-seen-table"></div>
   </div>
+</div>
+
 </div>

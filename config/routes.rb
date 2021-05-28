@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "sources#summary"
+  root to: "source_summaries#index"
 
   resources :sources do
     resources :positions, only: [:index]
@@ -7,8 +7,6 @@ Rails.application.routes.draw do
     resources :messages, only: [:show]
     resources :statics, only: [:show]
   end
-  constraints format: :json do
-    resources :source_summaries, only: [:index]
-  end
+  resources :source_summaries, only: [:index]
   resources :live_maps, only: [:index]
 end
