@@ -7,15 +7,19 @@ class Source < ActiveRecord::Base
   has_many :mysteries, through: :messages
 
   def self.recently_added
-    where("messages_count > 1")
+    where("messages_count > 5")
       .order(created_at: :desc)
-      .limit(10)
+      .limit(5)
   end
 
-  def self.recently_seen
-    where("messages_count > 1")
-      .order(updated_at: :desc)
-      .limit(10)
+  def self.last_15_minutes
+    where(updated_at: 15.minutes.ago..)
+      .length
+  end
+
+  def self.last_minute
+    where(updated_at: 1.minutes.ago..)
+      .length
   end
 
   def display_name
