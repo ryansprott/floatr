@@ -1,3 +1,3 @@
-json.mmsi source.mmsi
 json.positions source.live_positions
-json.static source.static_data
+json.displayName source.display_name
+json.flag source.country_flag

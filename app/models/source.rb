@@ -23,7 +23,7 @@ class Source < ActiveRecord::Base
   end
 
   def display_name
-    ship_name || callsign || "Unknown"
+    ship_name || callsign || mmsi.to_s
   end
 
   def country_name

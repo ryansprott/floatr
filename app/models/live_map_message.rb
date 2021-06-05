@@ -16,10 +16,16 @@ class LiveMapMessage
         distance: message.position&.miles_away || 0.0,
         created_at: message.created_at,
       }
+    end.select do |msg|
+      msg[:distance] > 0
     end
   end
 
-  def static_data
-    @messages.map(&:source).uniq.first
+  def display_name
+    @messages.first.source.display_name
+  end
+
+  def country_flag
+    @messages.first.source.country_flag
   end
 end

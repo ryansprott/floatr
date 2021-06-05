@@ -47,12 +47,35 @@ export default class extends Controller {
     element.setMap(null)
   }
 
-  refreshMap() {
+  hideMarkers() {
     this.markers.map(el => this.removeFromMap(el))
-    this.markers = []
+  }
 
+  showMarkers() {
+    this.markers.map(el => this.showOnMap(el))
+  }
+
+  clearMarkers() {
+    this.markers = []
+  }
+
+  hidePolylines() {
     this.polylines.map(el => this.removeFromMap(el))
+  }
+
+  showPolylines() {
+    this.polylines.map(el => this.showOnMap(el))
+  }
+
+  clearPolylines() {
     this.polylines = []
+  }
+
+  refreshMap() {
+    this.hideMarkers()
+    this.clearMarkers()
+    this.hidePolylines()
+    this.clearPolylines()
 
     for (let source of this.sources) {
       let filteredPositions = source.getFilteredPositions()
@@ -74,7 +97,7 @@ export default class extends Controller {
         let mrk = new google.maps.Marker({
           position: new google.maps.LatLng(lastPosition.lat, lastPosition.lon),
           icon: Object.assign({ scale: 0.06 }, svgMarker),
-          title: source.getName(),
+          title: source.displayName,
           label: {
             text: " ",
             color: "lavender",
@@ -90,8 +113,8 @@ export default class extends Controller {
         this.markers.push(mrk)
       }
 
-      this.markers.map(el => this.showOnMap(el))
-      this.polylines.map(el => this.showOnMap(el))
+      this.showMarkers()
+      this.showPolylines()
     }
   }
 

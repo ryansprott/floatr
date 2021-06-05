@@ -1,6 +1,4 @@
 class SourceSummariesController < ApplicationController
-  include ActionView::Helpers::JavaScriptHelper
-
   def index
     @recently_added = render_to_string(
       partial: "/sources/source_table",
