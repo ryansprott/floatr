@@ -20,6 +20,33 @@ export default class extends Controller {
       this.sources.push(new Source(item))
     }
     this.refreshMap()
+    this.populateTable()
+  }
+
+  populateTable() {
+    const tbl = document.getElementById('live-summary')
+    tbl.innerHTML = ''
+    for (let source of this.sources.sort((a, b) => b.getMaxDistance() - a.getMaxDistance())) {
+      const tr = document.createElement('tr')
+
+      const dn = document.createElement('td')
+      dn.innerHTML = source.displayName
+      tr.appendChild(dn)
+
+      const max = document.createElement('td')
+      max.innerHTML = source.getMaxDistance()
+      tr.appendChild(max)
+
+      const ac = document.createElement('td')
+      ac.innerHTML = source.getAverageCourse()
+      tr.appendChild(ac)
+
+      const as = document.createElement('td')
+      as.innerHTML = source.getAverageSpeed()
+      tr.appendChild(as)
+
+      tbl.appendChild(tr)
+    }
   }
 
   async initMap() {
@@ -36,7 +63,7 @@ export default class extends Controller {
     await this.populateSources()
     setInterval(async () => {
       await this.populateSources()
-    }, 10000);
+    }, 60000);
   }
 
   showOnMap(element) {

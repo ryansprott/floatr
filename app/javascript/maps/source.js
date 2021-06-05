@@ -14,10 +14,6 @@ export default class Source {
     return Math.max(...this.getFilteredPositions().map(position => position.distance))
   }
 
-  getMinDistance() {
-    return Math.min(...this.getFilteredPositions().map(position => position.distance))
-  }
-
   getAverageSpeed() {
     const sum = this.getFilteredPositions().reduce((acc, position) => acc + parseFloat(position.speed), 0)
     const avg = sum / this.getFilteredPositions().length
