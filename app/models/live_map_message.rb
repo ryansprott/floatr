@@ -4,6 +4,7 @@ class LiveMapMessage
   def initialize(mmsi, messages)
     @mmsi = mmsi
     @messages = messages
+    @source = @messages.first.source
   end
 
   def live_positions
@@ -22,10 +23,14 @@ class LiveMapMessage
   end
 
   def display_name
-    @messages.first.source.display_name
+    @source.display_name
   end
 
   def country_flag
-    @messages.first.source.country_flag
+    @source.country_flag
+  end
+
+  def id
+    @source.id
   end
 end

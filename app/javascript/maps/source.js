@@ -1,13 +1,16 @@
 export default class Source {
   constructor(source) {
-    this.positions = source.positions
+    this.id = source.id
     this.displayName = source.displayName
+    this.positions = source.positions
+    this.flag = source.flag
   }
 
   getFilteredPositions() {
-    return this.positions.filter((position) => {
+    const output = this.positions.filter((position) => {
       return (position && position.lat && position.lon) ? position.distance > 0.0 : false
     })
+    return output.length > 1 ? output : []
   }
 
   getMaxDistance() {
@@ -20,9 +23,8 @@ export default class Source {
     return Math.round(avg * 100) / 100 || 0
   }
 
-  getAverageCourse() {
-    const sum = this.getFilteredPositions().reduce((acc, position) => acc + parseFloat(position.course), 0)
-    const avg = sum / this.getFilteredPositions().length
-    return Math.round(avg * 100) / 100 || 0
+  getLastCourse() {
+    const pos = this.getFilteredPositions().filter(el => el.course !== null).pop()
+    return pos ? pos.course : "None"
   }
 }

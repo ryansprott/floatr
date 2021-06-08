@@ -27,25 +27,37 @@ export default class extends Controller {
     const tbl = document.getElementById('live-summary')
     tbl.innerHTML = ''
     for (let source of this.sources.sort((a, b) => b.getMaxDistance() - a.getMaxDistance())) {
-      const tr = document.createElement('tr')
+      let filteredPositions = source.getFilteredPositions()
+      if (filteredPositions.length > 0) {
+        const tr = document.createElement('tr')
 
-      const dn = document.createElement('td')
-      dn.innerHTML = source.displayName
-      tr.appendChild(dn)
+        const dn = document.createElement('td')
+        const link = document.createElement('a')
+        const linkText = document.createTextNode(source.displayName)
+        link.setAttribute('href', `/sources/${source.id}`)
+        link.setAttribute('target', '_blank')
+        link.appendChild(linkText)
+        dn.appendChild(link)
+        tr.appendChild(dn)
 
-      const max = document.createElement('td')
-      max.innerHTML = source.getMaxDistance()
-      tr.appendChild(max)
+        const fl = document.createElement('td')
+        fl.innerHTML = source.flag
+        tr.appendChild(fl)
 
-      const ac = document.createElement('td')
-      ac.innerHTML = source.getAverageCourse()
-      tr.appendChild(ac)
+        const max = document.createElement('td')
+        max.innerHTML = source.getMaxDistance()
+        tr.appendChild(max)
 
-      const as = document.createElement('td')
-      as.innerHTML = source.getAverageSpeed()
-      tr.appendChild(as)
+        const ac = document.createElement('td')
+        ac.innerHTML = source.getLastCourse()
+        tr.appendChild(ac)
 
-      tbl.appendChild(tr)
+        const as = document.createElement('td')
+        as.innerHTML = source.getAverageSpeed()
+        tr.appendChild(as)
+
+        tbl.appendChild(tr)
+      }
     }
   }
 
@@ -107,7 +119,7 @@ export default class extends Controller {
     for (let source of this.sources) {
       let filteredPositions = source.getFilteredPositions()
 
-      if (filteredPositions.length > 1) {
+      if (filteredPositions.length > 0) {
         for (let i = 0; i < filteredPositions.length - 1; i++) {
           let el1 = filteredPositions[i]
           let el2 = filteredPositions[i + 1]
