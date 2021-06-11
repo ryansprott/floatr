@@ -5,6 +5,7 @@ class Source < ActiveRecord::Base
   has_many :courses, through: :messages
   has_many :positions, through: :messages
   has_many :mysteries, through: :messages
+  has_many :dimensions, through: :messages
 
   def self.recently_added
     where("messages_count > 5")
@@ -24,6 +25,10 @@ class Source < ActiveRecord::Base
 
   def display_name
     ship_name || callsign || mmsi.to_s
+  end
+
+  def total_area
+    dimensions.map(&:total_area).uniq.max
   end
 
   def country_name
