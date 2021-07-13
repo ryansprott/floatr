@@ -8,27 +8,40 @@ class Dimension < ActiveRecord::Base
 
   include SerializesAttributes
 
-  def invalid?
-    [
-      ship_dimension_to_bow,
-      ship_dimension_to_port,
-      ship_dimension_to_starboard,
-      ship_dimension_to_stern,
-    ].any?(&:zero?)
+  def totally_invalid?
+    width_invalid? && length_invalid?
   end
 
   def total_area
-    return 1 if self.invalid?
+    return 1 if totally_invalid?
+    return width_in_meters if length_invalid?
+    return length_in_meters if width_invalid?
     (length_in_meters * width_in_meters).to_i
   end
 
   private
 
+  def width_invalid?
+    [
+      ship_dimension_to_port,
+      ship_dimension_to_starboard,
+    ].all?(&:zero?)
+  end
+
+  def length_invalid?
+    [
+      ship_dimension_to_bow,
+      ship_dimension_to_stern,
+    ].all?(&:zero?)
+  end
+
   def length_in_meters
+    return 1 if length_invalid?
     ship_dimension_to_bow + ship_dimension_to_stern
   end
 
   def width_in_meters
+    return 1 if width_invalid?
     ship_dimension_to_starboard + ship_dimension_to_port
   end
 end
