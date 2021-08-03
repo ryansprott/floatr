@@ -12,7 +12,7 @@ class Source < ActiveRecord::Base
   def self.recently_added
     where("messages_count > 1")
       .order(created_at: :desc)
-      .limit(10)
+      .limit(9)
   end
 
   def self.with_valid_messages

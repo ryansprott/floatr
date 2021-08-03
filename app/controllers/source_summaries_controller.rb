@@ -1,7 +1,7 @@
 class SourceSummariesController < ApplicationController
   def index
     @recently_added = render_to_string(
-      partial: "/sources/source_table",
+      partial: "/sources/source_cards",
       locals: { sources: Source.recently_added },
       layout: false,
       formats: [:html],

@@ -1,0 +1,54 @@
+<% sources.in_groups_of(3) do |group| %>
+  <div class="row">
+    <% group.each do |source| %>
+      <div class="col-sm-4 pb-4">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5>
+                  <%= source.display_name %>
+                </h5>
+              </div>
+              <div class="col-sm-6">
+                <%= link_to(
+                  source.mmsi.to_s,
+                  source_path(source),
+                  class: "btn btn-primary card-link",
+                  target: "_blank",
+                ) %>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="card-title">
+                  <%= source.country_name %>
+                  <%= source.country_flag %>
+                </h6>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  <%= source.messages_count %> messages
+                </h6>
+              </div>
+              <div class="col-sm-6">
+                <div>
+                  First seen
+                  <em>
+                    <%= time_ago_in_words(source.created_at) %>
+                  </em>
+                </div>
+                <div>
+                  Last seen
+                  <em>
+                    <%= time_ago_in_words(source.updated_at) %>
+                  </em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
