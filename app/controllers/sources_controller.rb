@@ -1,6 +1,6 @@
 class SourcesController < ApplicationController
   def index
-    @sources = Source.all.order(created_at: :desc)
+    @sources = Source.with_valid_messages.order(created_at: :desc)
 
     respond_to do |format|
       format.html { }

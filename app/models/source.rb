@@ -1,7 +1,9 @@
 class Source < ActiveRecord::Base
   require "yaml"
 
-  has_many :messages, foreign_key: :source_mmsi, primary_key: :mmsi
+  has_many :messages,
+    foreign_key: :source_mmsi,
+    primary_key: :mmsi
   has_many :courses, through: :messages
   has_many :positions, through: :messages
   has_many :mysteries, through: :messages
@@ -10,7 +12,11 @@ class Source < ActiveRecord::Base
   def self.recently_added
     where("messages_count > 1")
       .order(created_at: :desc)
-      .limit(5)
+      .limit(10)
+  end
+
+  def self.with_valid_messages
+    where("messages_count > 0")
   end
 
   def self.last_15_minutes
