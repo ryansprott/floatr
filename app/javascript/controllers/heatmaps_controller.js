@@ -37,32 +37,49 @@ export default class extends Controller {
       `/sources/${this.mapTarget.dataset.src}/positions.json`
     )
     this.positionData = await resp.json()
-
     this.positionData = this.positionData.filter((el) => {
       return el.lat && el.lon
     })
 
-    let polylines = []
+    let firstPosition = this.positionData[0]
+    let firstSeen = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        firstPosition.lat,
+        firstPosition.lon
+      ),
+      icon: Object.assign(
+        { scale: 0.25, fillColor: "green" },
+        svgMarker
+      ),
+    })
+    firstSeen.setMap(this.map)
 
+    let lastPosition = this.positionData[this.positionData.length - 1]
+    let lastSeen = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        lastPosition.lat,
+        lastPosition.lon
+      ),
+      icon: Object.assign(
+        { scale: 0.25, fillColor: "red" },
+        svgMarker
+      ),
+    })
+    lastSeen.setMap(this.map)
+
+    let polylines = []
     if (this.positionData.length > 1) {
       let latLngPair = []
-
-      let firstSeen = new google.maps.Marker({
-        position: new google.maps.LatLng(
-          this.positionData[0].lat,
-          this.positionData[0].lon
-        ),
-        icon: Object.assign({ scale: 0.25, fillColor: "green" }, svgMarker),
-      })
-      firstSeen.setMap(this.map)
 
       for (let i = 0; i < this.positionData.length - 1; i++) {
         let el1 = this.positionData[i]
         let el2 = this.positionData[i + 1]
         let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
         let pos2 = new google.maps.LatLng(el2.lat, el2.lon)
+        this.bounds.extend(pos1)
+        this.bounds.extend(pos2)
 
-        if (haversineDistance(pos1, pos2) > 1.0) {
+        if (haversineDistance(pos1, pos2) > 5.0) {
           polylines.push(latLngPair)
           latLngPair = []
 
@@ -85,13 +102,18 @@ export default class extends Controller {
             speeds: [el1.speed, el2.speed]
           })
         }
-
-        this.bounds.extend(pos1)
       }
       polylines.push(latLngPair)
     } else {
-      this.bounds.extend(new google.maps.LatLng(this.positionData[0].lat, this.positionData[0].lon))
+      this.bounds.extend(
+        new google.maps.LatLng(
+          firstPosition.lat,
+          firstPosition.lon
+        )
+      )
     }
+
+    this.map.fitBounds(this.bounds)
 
     polylines.map((chunk) => {
       chunk.map((pair) => {
@@ -106,14 +128,6 @@ export default class extends Controller {
       })
     })
 
-    let lastSeen = this.positionData.pop()
-    let marker = new google.maps.Marker({
-      position: new google.maps.LatLng(lastSeen.lat, lastSeen.lon),
-      icon: Object.assign({ scale: 0.25, fillColor: "red" }, svgMarker),
-    })
-    marker.setMap(this.map)
-
-    this.map.fitBounds(this.bounds)
   }
 
   async drawHeatmap() {
