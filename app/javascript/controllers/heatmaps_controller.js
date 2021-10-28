@@ -24,26 +24,29 @@ export default class extends Controller {
     this.map.setTilt(0)
     this.positionData = []
     this.zoomToggled = false
-    this.bounds = new google.maps.LatLngBounds()
     this.homePosition = homePosition()
-
-    await this.drawPolyline()
+    this.bounds = new google.maps.LatLngBounds()
+    this.positionData = await this.fetchPositionData()
+    this.drawPolylines()
   }
 
-  async drawPolyline() {
-    let resp = await fetch(
+  async fetchPositionData () {
+    const resp = await fetch(
       `/sources/${this.mapTarget.dataset.src}/positions.json`
     )
-    this.positionData = await resp.json()
-    this.positionData = this.positionData.filter((el) => {
-      return el.lat && el.lon
-    }).map((el) => {
+    const json = await resp.json()
+
+    return json.filter((position) => {
+      return (!!position.lat && !!position.lon && !!position.distance) && position.distance > 0.0
+    }).map((position) => {
       return Object.assign(
-        { latlng: new google.maps.LatLng(el.lat, el.lon)},
-        el
+        { latlng: new google.maps.LatLng(position.lat, position.lon)},
+        position
       )
     })
+  }
 
+  drawPolylines() {
     let firstPosition = this.positionData[0]
     let firstSeen = new google.maps.Marker({
       position: firstPosition.latlng,
@@ -123,7 +126,10 @@ export default class extends Controller {
     polylines.map((chunk) => {
       chunk.map((pair) => {
         let poly = new google.maps.Polyline({
-          strokeColor: colorFromSpeed(pair.speeds[0], pair.speeds[1]),
+          strokeColor: colorFromSpeed(
+            pair.speeds[0],
+            pair.speeds[1]
+          ),
           strokeOpacity: 1.0,
           strokeWeight: 3.0,
           map: this.map,
@@ -138,8 +144,8 @@ export default class extends Controller {
   toggleZoom() {
     this.zoomToggled = !this.zoomToggled
     this.bounds = new google.maps.LatLngBounds()
-    for (let el of this.positionData) {
-      this.bounds.extend(el.latlng)
+    for (let position of this.positionData) {
+      this.bounds.extend(position.latlng)
     }
     if (true === this.zoomToggled) {
       this.bounds.extend(this.homePosition)
