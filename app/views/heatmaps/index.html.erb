@@ -1,20 +1,20 @@
 <div class="card map-wrapper" data-controller="heatmaps">
   <div class="card-header">
-    <h4 class="card-title">
-      <%= @source.display_name %>
-    </h4>
-
-    <a class="btn btn-primary"
-      data-action="click->heatmaps#toggleHeatmap"
-      href="#">
-        Toggle heatmap
-    </a>
-
-    <a class="btn btn-secondary"
-      data-action="click->heatmaps#toggleZoom"
-      href="#">
-        Toggle zoom
-    </a>
+    <div class="row">
+      <div class="col-6">
+        <h4 class="card-title">
+          <%= @source.display_name %>
+          <%= @source.country_flag %>
+        </h4>
+      </div>
+      <div class="col-6 text-right">
+        <a class="btn btn-primary"
+          data-action="click->heatmaps#toggleZoom"
+          href="#">
+            Toggle zoom
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="card-body map-adjusted">

@@ -7,8 +7,6 @@ import {
   homePosition
 } from "../maps/index.js"
 
-let heatmap = null;
-
 export default class extends Controller {
   static targets = ["map"]
 
@@ -39,14 +37,16 @@ export default class extends Controller {
     this.positionData = await resp.json()
     this.positionData = this.positionData.filter((el) => {
       return el.lat && el.lon
+    }).map((el) => {
+      return Object.assign(
+        { latlng: new google.maps.LatLng(el.lat, el.lon)},
+        el
+      )
     })
 
     let firstPosition = this.positionData[0]
     let firstSeen = new google.maps.Marker({
-      position: new google.maps.LatLng(
-        firstPosition.lat,
-        firstPosition.lon
-      ),
+      position: firstPosition.latlng,
       icon: Object.assign(
         { scale: 0.25, fillColor: "green" },
         svgMarker
@@ -56,10 +56,7 @@ export default class extends Controller {
 
     let lastPosition = this.positionData[this.positionData.length - 1]
     let lastSeen = new google.maps.Marker({
-      position: new google.maps.LatLng(
-        lastPosition.lat,
-        lastPosition.lon
-      ),
+      position: lastPosition.latlng,
       icon: Object.assign(
         { scale: 0.25, fillColor: "red" },
         svgMarker
@@ -72,14 +69,10 @@ export default class extends Controller {
       let latLngPair = []
 
       for (let i = 0; i < this.positionData.length - 1; i++) {
-        let el1 = this.positionData[i]
-        let el2 = this.positionData[i + 1]
-        let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
-        let pos2 = new google.maps.LatLng(el2.lat, el2.lon)
-        this.bounds.extend(pos1)
-        this.bounds.extend(pos2)
+        let pos1 = this.positionData[i]
+        let pos2 = this.positionData[i + 1]
 
-        if (haversineDistance(pos1, pos2) > 5.0) {
+        if (haversineDistance(pos1.latlng, pos2.latlng) > 5.0) {
           polylines.push(latLngPair)
           latLngPair = []
 
@@ -87,30 +80,42 @@ export default class extends Controller {
           // const dist2 = haversineDistance(this.homePosition, pos2)
 
           let signalLost = new google.maps.Marker({
-            position: pos1,
-            icon: Object.assign({ scale: 0.05, fillColor: "red" }, svgMarker),
+            position: pos1.latlng,
+            icon: Object.assign(
+              { scale: 0.05, fillColor: "red" },
+              svgMarker
+            ),
           })
+
           let signalFound = new google.maps.Marker({
-            position: pos2,
-            icon: Object.assign({ scale: 0.05, fillColor: "red" }, svgMarker),
+            position: pos2.latlng,
+            icon: Object.assign(
+              { scale: 0.05, fillColor: "red" },
+              svgMarker
+            ),
           })
+
           signalLost.setMap(this.map)
           signalFound.setMap(this.map)
         } else {
           latLngPair.push({
-            positions: [pos1, pos2],
-            speeds: [el1.speed, el2.speed]
+            positions: [
+              pos1.latlng,
+              pos2.latlng
+            ],
+            speeds: [
+              pos1.speed,
+              pos2.speed
+            ]
           })
         }
+
+        this.bounds.extend(pos1.latlng)
+        this.bounds.extend(pos2.latlng)
       }
       polylines.push(latLngPair)
     } else {
-      this.bounds.extend(
-        new google.maps.LatLng(
-          firstPosition.lat,
-          firstPosition.lon
-        )
-      )
+      this.bounds.extend(firstPosition.latlng)
     }
 
     this.map.fitBounds(this.bounds)
@@ -130,31 +135,11 @@ export default class extends Controller {
 
   }
 
-  async drawHeatmap() {
-    let resp = await fetch(`/sources/${this.mapTarget.dataset.src}/heatmaps.json`)
-    let heatmapData = await resp.json()
-    heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatmapData.map((el) => {
-        return {
-          weight: el.weight,
-          location: new google.maps.LatLng(el.lat, el.lon),
-        }
-      }),
-      opacity: 0.75,
-    })
-  }
-
-  toggleHeatmap() {
-    let target = heatmap.map ? null : this.map
-    heatmap.setMap(target)
-  }
-
   toggleZoom() {
     this.zoomToggled = !this.zoomToggled
     this.bounds = new google.maps.LatLngBounds()
-    for (let el1 of this.positionData) {
-      let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
-      this.bounds.extend(pos1)
+    for (let el of this.positionData) {
+      this.bounds.extend(el.latlng)
     }
     if (true === this.zoomToggled) {
       this.bounds.extend(this.homePosition)

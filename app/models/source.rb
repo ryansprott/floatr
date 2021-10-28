@@ -16,7 +16,7 @@ class Source < ActiveRecord::Base
   end
 
   def self.with_valid_messages
-    where("messages_count > 0")
+    where("messages_count > 1")
   end
 
   def self.last_15_minutes
