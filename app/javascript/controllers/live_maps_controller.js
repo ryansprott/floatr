@@ -15,10 +15,7 @@ export default class extends Controller {
   async populateSources() {
     let resp = await fetch(`/live_maps.json`)
     let data = await resp.json()
-    this.sources = []
-    for (let item of data) {
-      this.sources.push(new Source(item))
-    }
+    this.sources = data.map(item => new Source(item))
     this.refreshMap()
     this.populateTable()
   }
@@ -30,31 +27,31 @@ export default class extends Controller {
       let filteredPositions = source.getFilteredPositions()
       if (filteredPositions.length > 0) {
         const tr = document.createElement('tr')
-
-        const dn = document.createElement('td')
+        const displayName = document.createElement('td')
         const link = document.createElement('a')
         const linkText = document.createTextNode(source.displayName)
+
         link.setAttribute('href', `/sources/${source.id}`)
         link.setAttribute('target', '_blank')
         link.appendChild(linkText)
-        dn.appendChild(link)
-        tr.appendChild(dn)
+        displayName.appendChild(link)
+        tr.appendChild(displayName)
 
-        const fl = document.createElement('td')
-        fl.innerHTML = source.flag
-        tr.appendChild(fl)
+        const flag = document.createElement('td')
+        flag.innerHTML = source.flag
+        tr.appendChild(flag)
 
         const max = document.createElement('td')
         max.innerHTML = source.getMaxDistance()
         tr.appendChild(max)
 
-        const ac = document.createElement('td')
-        ac.innerHTML = source.getLastCourse()
-        tr.appendChild(ac)
+        const averageCourse = document.createElement('td')
+        averageCourse.innerHTML = source.getLastCourse()
+        tr.appendChild(averageCourse)
 
-        const as = document.createElement('td')
-        as.innerHTML = source.getAverageSpeed()
-        tr.appendChild(as)
+        const averageSpeed = document.createElement('td')
+        averageSpeed.innerHTML = source.getAverageSpeed()
+        tr.appendChild(averageSpeed)
 
         tbl.appendChild(tr)
       }
@@ -66,13 +63,15 @@ export default class extends Controller {
     this.markers = []
     this.polylines = []
     this.zoomToggled = false
-    this.map = new google.maps.Map(this.mapTarget, mapOptions)
-    this.map.setTilt(0)
     this.homePosition = homePosition()
+
+    this.map = new google.maps.Map(this.mapTarget, mapOptions)
     this.map.setCenter(this.homePosition)
+    this.map.setTilt(0)
     this.map.setZoom(12)
 
     await this.populateSources()
+
     setInterval(async () => {
       await this.populateSources()
     }, 60000);
@@ -135,7 +134,7 @@ export default class extends Controller {
         let lastPosition = filteredPositions.pop()
         let mrk = new google.maps.Marker({
           position: new google.maps.LatLng(lastPosition.lat, lastPosition.lon),
-          icon: Object.assign({ scale: 0.06 }, svgMarker),
+          icon: Object.assign({ fillColor: "red", scale: 0.06 }, svgMarker),
           title: source.displayName,
           label: {
             text: " ",
