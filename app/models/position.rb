@@ -17,6 +17,6 @@ class Position < ActiveRecord::Base
         Math.sin(dLon / 2) * Math.sin(dLon / 2)
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     d = 6371 * c * (1 / 1.6)
-    d.round(2)
+    (latitude.to_f < 90.0 && longitude.to_f < 180.0) ? d.round(2) : 0.0
   end
 end

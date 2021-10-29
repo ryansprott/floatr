@@ -28,6 +28,10 @@ export function haversineDistance(mk1, mk2) {
   return d;
 }
 
+export function differenceInHours(datetime1, datetime2) {
+  return Math.floor(((new Date(datetime2) - new Date(datetime1)) % 86400000) / 3600000);
+}
+
 export function colorFromSpeed(speed1, speed2) {
   let speed = (parseFloat(speed1) + parseFloat(speed2)) / 2.0
   if (speed > 17.0) {

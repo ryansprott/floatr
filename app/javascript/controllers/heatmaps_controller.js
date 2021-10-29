@@ -4,6 +4,7 @@ import {
   svgMarker,
   colorFromSpeed,
   haversineDistance,
+  differenceInHours,
   homePosition
 } from "../maps/index.js"
 
@@ -30,17 +31,16 @@ export default class extends Controller {
     this.drawPolylines()
   }
 
-  async fetchPositionData () {
+  async fetchPositionData() {
     const resp = await fetch(
       `/sources/${this.mapTarget.dataset.src}/positions.json`
     )
     const json = await resp.json()
-
     return json.filter((position) => {
       return (!!position.lat && !!position.lon && !!position.distance) && position.distance > 0.0
     }).map((position) => {
       return Object.assign(
-        { latlng: new google.maps.LatLng(position.lat, position.lon)},
+        { latlng: new google.maps.LatLng(position.lat, position.lon) },
         position
       )
     })
@@ -74,13 +74,12 @@ export default class extends Controller {
       for (let i = 0; i < this.positionData.length - 1; i++) {
         let pos1 = this.positionData[i]
         let pos2 = this.positionData[i + 1]
+        const distanceBetweenPositions = haversineDistance(pos1.latlng, pos2.latlng)
+        const hoursBetweenPositions = differenceInHours(pos1.created_at, pos2.created_at)
 
-        if (haversineDistance(pos1.latlng, pos2.latlng) > 5.0) {
+        if ((hoursBetweenPositions > 1 && distanceBetweenPositions > 0.5) || distanceBetweenPositions > 5.0) {
           polylines.push(latLngPair)
           latLngPair = []
-
-          // const dist1 = haversineDistance(this.homePosition, pos1)
-          // const dist2 = haversineDistance(this.homePosition, pos2)
 
           let signalLost = new google.maps.Marker({
             position: pos1.latlng,
