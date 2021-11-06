@@ -20,11 +20,11 @@ export default class Source {
   getAverageSpeed() {
     const sum = this.getFilteredPositions().reduce((acc, position) => acc + parseFloat(position.speed), 0)
     const avg = sum / this.getFilteredPositions().length
-    return Math.round(avg * 100) / 100 || 0
+    return Math.round(avg * 100) / 100 || "STOP"
   }
 
   getLastCourse() {
     const pos = this.getFilteredPositions().filter(el => el.course !== null).pop()
-    return pos ? pos.course : "None"
+    return pos ? pos.course : "NONE"
   }
 }
