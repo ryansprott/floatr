@@ -13,6 +13,11 @@ export default class Source {
     return output.length > 1 ? output : []
   }
 
+  getLastPosition () {
+    const pos = this.getFilteredPositions().pop()
+    return new google.maps.LatLng(pos.lat, pos.lon)
+  }
+
   getMaxDistance() {
     return Math.max(...this.getFilteredPositions().map(position => position.distance))
   }

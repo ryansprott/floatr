@@ -23,8 +23,13 @@ export default class extends Controller {
 
   populateTable() {
     const tbl = document.getElementById('live-summary')
+    const sortedSources = this.sources.sort(
+      (a, b) => b.getMaxDistance() - a.getMaxDistance()
+    )
+
     tbl.innerHTML = ''
-    for (let source of this.sources.sort((a, b) => b.getMaxDistance() - a.getMaxDistance())) {
+
+    for (let source of sortedSources) {
       let filteredPositions = source.getFilteredPositions()
       if (filteredPositions.length > 0) {
         const tr = document.createElement('tr')
@@ -86,6 +91,34 @@ export default class extends Controller {
     element.setMap(null)
   }
 
+  getMarker (source) {
+    let mrk = new google.maps.Marker({
+      position: source.getLastPosition(),
+      icon: Object.assign(
+        {
+          fillColor: "red",
+          scale: 0.06
+        },
+        svgMarker
+      ),
+      title: source.displayName,
+      label: {
+        text: " ",
+        color: "lavender",
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    })
+
+    google.maps.event.addListener(mrk, "click", (event) => {
+      let lbl = mrk.getLabel()
+      lbl.text = mrk.title
+      mrk.setLabel(lbl)
+    })
+
+    return mrk
+  }
+
   hideMarkers() {
     this.markers.map(el => this.removeFromMap(el))
   }
@@ -127,31 +160,15 @@ export default class extends Controller {
           )
 
           if (pair.isMappable()) {
-            this.polylines.push(pair.polyline())
+            this.polylines.push(
+              pair.polyline()
+            )
           }
         }
 
-        let lastPosition = filteredPositions.pop()
-
-        let mrk = new google.maps.Marker({
-          position: new google.maps.LatLng(lastPosition.lat, lastPosition.lon),
-          icon: Object.assign({ fillColor: "red", scale: 0.06 }, svgMarker),
-          title: source.displayName,
-          label: {
-            text: " ",
-            color: "lavender",
-            fontSize: "14px",
-            fontWeight: "bold",
-          },
-        })
-
-        google.maps.event.addListener(mrk, "click", (event) => {
-          let lbl = mrk.getLabel()
-          lbl.text = mrk.title
-          mrk.setLabel(lbl)
-        })
-
-        this.markers.push(mrk)
+        this.markers.push(
+          this.getMarker(source)
+        )
       }
 
       this.showMarkers()
@@ -164,7 +181,9 @@ export default class extends Controller {
     this.bounds = new google.maps.LatLngBounds()
     for (let source of this.sources) {
       for (let position of source.getFilteredPositions()) {
-        this.bounds.extend(new google.maps.LatLng(position.lat, position.lon))
+        this.bounds.extend(
+          new google.maps.LatLng(position.lat, position.lon)
+        )
       }
     }
     if (true === this.zoomToggled) {

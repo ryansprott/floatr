@@ -3,10 +3,9 @@ import { mapOptions } from "../maps/map_options.js"
 import {
   svgMarker,
   colorFromSpeed,
-  haversineDistance,
-  differenceInHours,
   homePosition
 } from "../maps/index.js"
+import PositionPair from "../maps/position_pair.js"
 
 export default class extends Controller {
   static targets = ["map"]
@@ -84,37 +83,25 @@ export default class extends Controller {
       for (let i = 0; i < this.positionData.length - 1; i++) {
         let pos1 = this.positionData[i]
         let pos2 = this.positionData[i + 1]
-        const distanceBetweenPositions = haversineDistance(pos1.latlng, pos2.latlng)
-        const hoursBetweenPositions = differenceInHours(pos1.created_at, pos2.created_at)
 
-        if ((hoursBetweenPositions > 1 && distanceBetweenPositions > 0.5) || distanceBetweenPositions > 5.0) {
+        const pair = new PositionPair(pos1, pos2)
+
+        if (
+          (
+            pair.hoursBetweenPositions() > 1 &&
+            pair.distanceBetweenPositions() > 0.5
+          ) ||
+          pair.distanceBetweenPositions() > 5.0
+        ) {
           polylines.push(latLngPair)
           latLngPair = []
-
-          let signalLost = new google.maps.Marker({
-            position: pos1.latlng,
-            icon: Object.assign(
-              { scale: 0.05, fillColor: "red" },
-              svgMarker
-            ),
-          })
-
-          let signalFound = new google.maps.Marker({
-            position: pos2.latlng,
-            icon: Object.assign(
-              { scale: 0.05, fillColor: "red" },
-              svgMarker
-            ),
-          })
-
+          let signalLost = pair.startMarker()
+          let signalFound = pair.endMarker()
           signalLost.setMap(this.map)
           signalFound.setMap(this.map)
         } else {
           latLngPair.push({
-            positions: [
-              pos1.latlng,
-              pos2.latlng
-            ],
+            positions: pair.path(),
             speeds: [
               pos1.speed,
               pos2.speed

@@ -1,4 +1,9 @@
-import { svgMarker, colorFromSpeed, homePosition, haversineDistance } from "../maps/index.js"
+import {
+  svgMarker,
+  colorFromSpeed,
+  differenceInHours,
+  haversineDistance
+} from "../maps/index.js"
 
 export default class PositionPair {
   constructor(el1, el2) {
@@ -6,6 +11,10 @@ export default class PositionPair {
     this.el2 = el2
     this.pos1 = new google.maps.LatLng(el1.lat, el1.lon)
     this.pos2 = new google.maps.LatLng(el2.lat, el2.lon)
+  }
+
+  hoursBetweenPositions () {
+    return differenceInHours(this.pos1.created_at, this.pos2.created_at)
   }
 
   distanceBetweenPositions () {
@@ -35,6 +44,24 @@ export default class PositionPair {
       strokeWeight: 3.0,
       path: this.path()
     })
+  }
+
+  marker (pos) {
+    return new google.maps.Marker({
+      position: pos,
+      icon: Object.assign(
+        { scale: 0.05, fillColor: "red" },
+        svgMarker
+      ),
+    })
+  }
+
+  startMarker () {
+    return this.marker(this.pos1)
+  }
+
+  endMarker () {
+    return this.marker(this.pos2)
   }
 
   isMappable () {
