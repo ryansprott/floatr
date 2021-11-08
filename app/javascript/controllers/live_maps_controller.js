@@ -1,7 +1,8 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker, colorFromSpeed, homePosition, haversineDistance } from "../maps/index.js"
+import { svgMarker, homePosition } from "../maps/index.js"
 import Source from "../maps/source.js"
+import PositionPair from "../maps/position_pair.js"
 
 export default class extends Controller {
   static targets = ["map"]
@@ -120,25 +121,18 @@ export default class extends Controller {
 
       if (filteredPositions.length > 0) {
         for (let i = 0; i < filteredPositions.length - 1; i++) {
-          let el1 = filteredPositions[i]
-          let el2 = filteredPositions[i + 1]
-          let pos1 = new google.maps.LatLng(el1.lat, el1.lon)
-          let pos2 = new google.maps.LatLng(el2.lat, el2.lon)
+          const pair = new PositionPair(
+            filteredPositions[i],
+            filteredPositions[i + 1]
+          )
 
-          const distanceBetweenPositions = haversineDistance(pos1, pos2)
-          const differenceBetweenDistances = Math.abs(el2.distance - el1.distance)
-          const averageSpeed = (parseFloat(el1.speed) + parseFloat(el2.speed)) / 2
-
-          if (averageSpeed > 0.1 || (distanceBetweenPositions > 0.1 && differenceBetweenDistances > 0.1)) {
-            this.polylines.push(new google.maps.Polyline({
-              strokeColor: colorFromSpeed(el1.speed, el2.speed),
-              strokeOpacity: 1.0,
-              strokeWeight: 3.0,
-              path: [pos1, pos2]
-            }))
+          if (pair.isMappable()) {
+            this.polylines.push(pair.polyline())
           }
         }
+
         let lastPosition = filteredPositions.pop()
+
         let mrk = new google.maps.Marker({
           position: new google.maps.LatLng(lastPosition.lat, lastPosition.lon),
           icon: Object.assign({ fillColor: "red", scale: 0.06 }, svgMarker),
@@ -150,11 +144,13 @@ export default class extends Controller {
             fontWeight: "bold",
           },
         })
+
         google.maps.event.addListener(mrk, "click", (event) => {
           let lbl = mrk.getLabel()
           lbl.text = mrk.title
           mrk.setLabel(lbl)
         })
+
         this.markers.push(mrk)
       }
 

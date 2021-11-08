@@ -27,7 +27,7 @@ export default class extends Controller {
     this.zoomToggled = false
     this.homePosition = homePosition()
     this.bounds = new google.maps.LatLngBounds()
-    this.positionData = await this.fetchPositionData()
+    await this.fetchPositionData()
     this.drawPolylines()
   }
 
@@ -36,11 +36,21 @@ export default class extends Controller {
       `/sources/${this.mapTarget.dataset.src}/positions.json`
     )
     const json = await resp.json()
-    return json.filter((position) => {
-      return (!!position.lat && !!position.lon && !!position.distance) && position.distance > 0.0
+    this.positionData = json.filter((position) => {
+      return (
+        !!position.lat &&
+        !!position.lon &&
+        !!position.distance
+      ) && position.distance > 0.0
     }).map((position) => {
       return Object.assign(
-        { latlng: new google.maps.LatLng(position.lat, position.lon) },
+        {
+          latlng: new google.maps.LatLng
+          (
+            position.lat,
+            position.lon
+          )
+        },
         position
       )
     })
