@@ -13,12 +13,26 @@ export default class PositionPair {
     this.pos2 = new google.maps.LatLng(el2.lat, el2.lon)
   }
 
+  startPosition () {
+    return this.pos1
+  }
+
+  endPosition () {
+    return this.pos2
+  }
+
   hoursBetweenPositions () {
-    return differenceInHours(this.pos1.created_at, this.pos2.created_at)
+    return differenceInHours(
+      this.startPosition().created_at,
+      this.endPosition().created_at
+    )
   }
 
   distanceBetweenPositions () {
-    return haversineDistance(this.pos1, this.pos2)
+    return haversineDistance(
+      this.startPosition(),
+      this.endPosition()
+    )
   }
 
   differenceBetweenDistances () {
@@ -30,11 +44,17 @@ export default class PositionPair {
   }
 
   path () {
-    return [this.pos1, this.pos2]
+    return [
+      this.startPosition(),
+      this.endPosition()
+    ]
   }
 
   color () {
-    return colorFromSpeed(this.el1.speed, this.el2.speed)
+    return colorFromSpeed(
+      this.el1.speed,
+      this.el2.speed
+    )
   }
 
   polyline () {
@@ -57,11 +77,11 @@ export default class PositionPair {
   }
 
   startMarker () {
-    return this.marker(this.pos1)
+    return this.marker(this.startPosition())
   }
 
   endMarker () {
-    return this.marker(this.pos2)
+    return this.marker(this.endPosition())
   }
 
   isMappable () {
