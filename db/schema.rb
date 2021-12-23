@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_183301) do
+ActiveRecord::Schema.define(version: 2021_12_23_181700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.integer "message_type"
     t.integer "repeat_indicator"
     t.integer "source_mmsi"
-    t.string "category_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -62,6 +61,10 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
     t.integer "messages_count"
+    t.integer "last_area"
+    t.float "last_aspect_ratio"
+    t.string "last_destination"
+    t.boolean "static_data_received"
   end
 
   create_table "type10_specifics", force: :cascade do |t|
@@ -104,7 +107,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.bigint "message_id"
     t.string "callsign"
     t.string "ship_name"
-    t.integer "ship_cargo_type"
     t.string "vendor_id"
     t.integer "model_code"
     t.integer "serial_number"
@@ -117,7 +119,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.bigint "message_id"
     t.integer "navigational_status"
     t.boolean "gnss"
-    t.string "navigational_status_description"
     t.index ["message_id"], name: "index_type27_specifics_on_message_id"
   end
 
@@ -135,7 +136,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.datetime "eta"
     t.integer "imo_number"
     t.string "ship_name"
-    t.integer "ship_cargo_type"
     t.decimal "static_draught"
     t.string "ship_cargo_type_description"
     t.index ["message_id"], name: "index_type5_specifics_on_message_id"
@@ -181,7 +181,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_183301) do
     t.integer "navigational_status"
     t.integer "true_heading"
     t.decimal "rate_of_turn"
-    t.string "navigational_status_description"
     t.index ["message_id"], name: "index_type_cnb_specifics_on_message_id"
   end
 
