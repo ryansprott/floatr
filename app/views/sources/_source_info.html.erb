@@ -22,12 +22,6 @@
 </div>
 
 <div>
-  <h5>
-    <%= @messages.pluck(:category_description).uniq.join(",") %>
-  </h5>
-</div>
-
-<div>
   <%= link_to(
     "Show on MarineTraffic",
     "https://www.marinetraffic.com/en/ais/details/ships/mmsi:#{@source.mmsi}",
