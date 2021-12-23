@@ -77,7 +77,7 @@ class Message < ActiveRecord::Base
   end
 
   def specific
-    send mystery.present? ? "mystery" : specific_type
+    send specific_type
   end
 
   def build_specific(payload)
