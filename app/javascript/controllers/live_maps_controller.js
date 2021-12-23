@@ -13,7 +13,26 @@ export default class extends Controller {
     }
   }
 
-  async populateSources() {
+  async initMap() {
+    this.sources = []
+    this.markers = []
+    this.polylines = []
+    this.zoomToggled = false
+    this.homePosition = homePosition()
+
+    this.map = new google.maps.Map(this.mapTarget, mapOptions)
+    this.map.setCenter(this.homePosition)
+    this.map.setTilt(0)
+    this.map.setZoom(12)
+
+    await this.fetchSourceData()
+
+    setInterval(async () => {
+      await this.fetchSourceData()
+    }, 60000);
+  }
+
+  async fetchSourceData() {
     let resp = await fetch(`/live_maps.json`)
     let data = await resp.json()
     this.sources = data.map(item => new Source(item))
@@ -64,25 +83,6 @@ export default class extends Controller {
     }
   }
 
-  async initMap() {
-    this.sources = []
-    this.markers = []
-    this.polylines = []
-    this.zoomToggled = false
-    this.homePosition = homePosition()
-
-    this.map = new google.maps.Map(this.mapTarget, mapOptions)
-    this.map.setCenter(this.homePosition)
-    this.map.setTilt(0)
-    this.map.setZoom(12)
-
-    await this.populateSources()
-
-    setInterval(async () => {
-      await this.populateSources()
-    }, 60000);
-  }
-
   showOnMap(element) {
     element.setMap(this.map)
   }
@@ -119,35 +119,11 @@ export default class extends Controller {
     return mrk
   }
 
-  hideMarkers() {
-    this.markers.map(el => this.removeFromMap(el))
-  }
-
-  showMarkers() {
-    this.markers.map(el => this.showOnMap(el))
-  }
-
-  clearMarkers() {
-    this.markers = []
-  }
-
-  hidePolylines() {
-    this.polylines.map(el => this.removeFromMap(el))
-  }
-
-  showPolylines() {
-    this.polylines.map(el => this.showOnMap(el))
-  }
-
-  clearPolylines() {
-    this.polylines = []
-  }
-
   refreshMap() {
-    this.hideMarkers()
-    this.clearMarkers()
-    this.hidePolylines()
-    this.clearPolylines()
+    this.markers.map(el => this.removeFromMap(el))
+    this.polylines.map(el => this.removeFromMap(el))
+    this.markers = []
+    this.polylines = []
 
     for (let source of this.sources) {
       let filteredPositions = source.getFilteredPositions()
@@ -171,8 +147,8 @@ export default class extends Controller {
         )
       }
 
-      this.showMarkers()
-      this.showPolylines()
+      this.markers.map(el => this.showOnMap(el))
+      this.polylines.map(el => this.showOnMap(el))
     }
   }
 
