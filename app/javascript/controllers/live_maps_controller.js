@@ -62,6 +62,10 @@ export default class extends Controller {
         displayName.appendChild(link)
         tr.appendChild(displayName)
 
+        const destination = document.createElement('td')
+        destination.innerHTML = source.destination
+        tr.appendChild(destination)
+
         const flag = document.createElement('td')
         flag.innerHTML = source.flag
         tr.appendChild(flag)

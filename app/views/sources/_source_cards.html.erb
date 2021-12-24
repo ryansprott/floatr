@@ -5,23 +5,26 @@
         <div class="card">
           <div class="card-header">
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <h5>
                   <%= source.display_name %>
                 </h5>
               </div>
-              <div class="col-sm-6">
-                <%= link_to(
-                  source.mmsi.to_s,
-                  source_path(source),
-                  class: "btn btn-primary card-link",
-                ) %>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                  <h6>
+                    Destination
+                    <strong>
+                      <%= source.last_destination || "Unknown" %>
+                    </strong>
+                  </h6>
               </div>
             </div>
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <h6 class="card-title">
                   <%= source.country_name %>
                   <%= source.country_flag %>
@@ -30,7 +33,9 @@
                   <%= source.messages_count %> messages
                 </h6>
               </div>
-              <div class="col-sm-6">
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
                 <div>
                   First seen
                   <em>
@@ -43,6 +48,15 @@
                     <%= time_ago_in_words(source.updated_at) %>
                   </em>
                 </div>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col-sm-12">
+                <%= link_to(
+                  source.mmsi.to_s,
+                  source_path(source),
+                  class: "btn btn-primary card-link",
+                ) %>
               </div>
             </div>
           </div>

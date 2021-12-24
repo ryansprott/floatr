@@ -22,6 +22,10 @@ class LiveMapMessage
     end
   end
 
+  def destination
+    @source.last_destination
+  end
+
   def display_name
     @source.display_name
   end

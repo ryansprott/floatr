@@ -1,6 +1,7 @@
 export default class Source {
   constructor(source) {
     this.id = source.id
+    this.destination = source.destination
     this.displayName = source.displayName
     this.positions = source.positions
     this.flag = source.flag

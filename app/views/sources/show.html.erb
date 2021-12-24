@@ -11,6 +11,12 @@
       messages: @messages
     %>
 
+    <% if @source.static_data_received %>
+      <%= render "source_static_data",
+        source: @source
+      %>
+    <% end %>
+
     <%= render "messages/message_info",
       messages: @messages
     %>

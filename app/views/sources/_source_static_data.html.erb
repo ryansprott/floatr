@@ -1,0 +1,48 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h4>
+      Static data
+    </h4>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-8">
+        <h5>
+          Area
+        </h5>
+      </div>
+      <div class="col-4">
+        <h5>
+          <%= @source.last_area %> m&#178;
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <h5>
+          Aspect ratio
+        </h5>
+      </div>
+      <div class="col-4">
+        <h5>
+          <%= @source.last_aspect_ratio %>
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <h5>
+          Destination
+        </h5>
+      </div>
+      <div class="col-4">
+        <h5>
+          <%= @source.last_destination %>
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
