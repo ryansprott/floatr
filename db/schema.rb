@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_181700) do
+ActiveRecord::Schema.define(version: 2022_02_10_064038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_181700) do
     t.integer "source_mmsi"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["source_mmsi"], name: "index_messages_on_source_mmsi"
   end
 
   create_table "mysteries", force: :cascade do |t|
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_181700) do
     t.float "last_aspect_ratio"
     t.string "last_destination"
     t.boolean "static_data_received"
+    t.index ["mmsi"], name: "index_sources_on_mmsi", unique: true
   end
 
   create_table "type10_specifics", force: :cascade do |t|
