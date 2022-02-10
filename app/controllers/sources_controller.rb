@@ -8,11 +8,6 @@ class SourcesController < ApplicationController
     end
   end
 
-  def summary
-    @recently_added = Source.recently_added
-    @recently_seen = Source.recently_seen
-  end
-
   def show
     @source = Source.find(params[:id])
 
