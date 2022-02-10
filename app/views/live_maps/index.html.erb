@@ -13,30 +13,33 @@
   </div>
 
   <div class="card-body map-adjusted">
-      <div
-        class="map-adjusted"
-        data-action="google-maps-callback@window->live-maps#initMap"
-        data-live-maps-target="map"
-        data-lat="32.69669"
-        data-lon="-117.15301"
-      >
+    <div class="row map-adjusted">
+      <div class="col-6 map-adjusted">
+        <div
+          class="map-adjusted"
+          data-action="google-maps-callback@window->live-maps#initMap"
+          data-live-maps-target="map"
+          data-lat="32.69669"
+          data-lon="-117.15301"
+        >
+        </div>
       </div>
-  </div>
-
-  <div class="card-body map-adjusted overflow-auto">
-    <table class="table table-condensed">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Destination</th>
-          <th>Flag</th>
-          <th>Max distance</th>
-          <th>Last course</th>
-          <th>Avg speed</th>
-        </tr>
-      </thead>
-      <tbody id="live-summary">
-      </tbody>
-    </table>
+      <div class="col-6 map-adjusted overflow-scroll">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Destination</th>
+              <th>Flag</th>
+              <th>Distance</th>
+              <th>Course</th>
+              <th>Speed</th>
+            </tr>
+          </thead>
+          <tbody id="live-summary">
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
