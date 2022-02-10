@@ -14,7 +14,7 @@ class SourcesController < ApplicationController
   end
 
   def show
-    @source = Source.includes(:messages).find(params[:id])
+    @source = Source.find(params[:id])
 
     @messages = @source.messages
 
