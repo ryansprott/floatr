@@ -47,6 +47,23 @@ class Source < ActiveRecord::Base
     country_code.tr("A-Z", "\u{1F1E6}-\u{1F1FF}")
   end
 
+  def all_destinations
+    messages
+      .where(type: 5)
+      .includes(:type_5_specific)
+      .map(&:specific)
+      .pluck(:destination)
+      .uniq
+      .reject(&:blank?)
+      .sort
+  end
+
+  def last_valid_dimension
+    dimensions
+      .reject(&:totally_invalid?)
+      .last
+  end
+
   private
 
   def parse_country_from_mmsi
