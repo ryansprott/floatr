@@ -31,6 +31,16 @@ class Dimension < ActiveRecord::Base
     return length_in_meters.to_f / width_in_meters.to_f
   end
 
+  def length_in_meters
+    return 1 if length_invalid?
+    ship_dimension_to_bow + ship_dimension_to_stern
+  end
+
+  def width_in_meters
+    return 1 if width_invalid?
+    ship_dimension_to_starboard + ship_dimension_to_port
+  end
+
   private
 
   def width_invalid?
@@ -45,15 +55,5 @@ class Dimension < ActiveRecord::Base
       ship_dimension_to_bow,
       ship_dimension_to_stern,
     ].all?(&:zero?)
-  end
-
-  def length_in_meters
-    return 1 if length_invalid?
-    ship_dimension_to_bow + ship_dimension_to_stern
-  end
-
-  def width_in_meters
-    return 1 if width_invalid?
-    ship_dimension_to_starboard + ship_dimension_to_port
   end
 end
