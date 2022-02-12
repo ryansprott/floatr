@@ -9,19 +9,23 @@
     <div class="row mb-2">
       <div class="col-sm-6">
       <% positions.first.tap do |position| %>
-        <%= render "positions/position_details",
-          position: position,
-          when_seen: "First"
-        %>
+        <% if position %>
+          <%= render "positions/position_details",
+            position: position,
+            when_seen: "First"
+          %>
+        <% end %>
       <% end %>
       </div>
 
       <div class="col-sm-6">
       <% positions.last.tap do |position| %>
-        <%= render "positions/position_details",
-          position: position,
-          when_seen: "Last"
-        %>
+        <% if position %>
+          <%= render "positions/position_details",
+            position: position,
+            when_seen: "Last"
+          %>
+        <% end %>
       <% end %>
       </div>
     </div>

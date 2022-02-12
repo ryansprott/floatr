@@ -6,7 +6,7 @@
   </div>
 
   <div class="card-body">
-    <% messages.grouped_by_type.each do |type, total| %>
+    <% source.messages.grouped_by_type.each do |type, total| %>
       <div class="row mt-2">
         <%= parse_message_type(type, total) %>
       </div>

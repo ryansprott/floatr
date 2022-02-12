@@ -1,0 +1,77 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h4>
+      Dimensions
+    </h4>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <% @source.last_valid_dimension.tap do |dimension|%>
+        <% if dimension %>
+          <div class="col-8">
+            <h5>
+              Length
+            </h5>
+          </div>
+          <div class="col-4">
+            <h5>
+              <%= dimension.length_in_meters %> m
+            </h5>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <% @source.last_valid_dimension.tap do |dimension|%>
+        <% if dimension %>
+          <div class="col-8">
+            <h5>
+              Width
+            </h5>
+          </div>
+          <div class="col-4">
+            <h5>
+              <%= dimension.width_in_meters %> m
+            </h5>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <% @source.last_valid_dimension.tap do |dimension|%>
+        <% if dimension %>
+          <div class="col-8">
+            <h5>
+              Area
+            </h5>
+          </div>
+          <div class="col-4">
+            <h5>
+              <%= dimension.total_area %> m&#178;
+            </h5>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <% @source.last_valid_dimension.tap do |dimension|%>
+        <% if dimension %>
+          <div class="col-8">
+            <h5>
+              Aspect ratio
+            </h5>
+          </div>
+          <div class="col-4">
+            <h5>
+              <%= dimension.aspect_ratio.round(5) %>
+            </h5>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

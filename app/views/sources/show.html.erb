@@ -7,25 +7,24 @@
 
   <div class="card-body">
     <%= render "source_info",
-      source: @source,
-      messages: @messages
+      source: @source
     %>
 
-    <% if @source.static_data_received %>
-      <%= render "source_static_data",
-        source: @source
-      %>
-    <% end %>
+    <%= render "source_dimensions",
+      source: @source
+    %>
+
+    <%= render "source_destinations",
+      source: @source
+    %>
 
     <%= render "messages/message_info",
-      messages: @messages
+      source: @source
     %>
 
-    <% if @positions.length > 0 %>
-      <%= render "positions/position_info",
-        source: @source,
-        positions: @positions
-      %>
-    <% end %>
+    <%= render "positions/position_info",
+      source: @source,
+      positions: @positions
+    %>
   </div>
 </div>
