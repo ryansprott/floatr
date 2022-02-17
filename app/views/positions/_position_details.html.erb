@@ -4,18 +4,21 @@
 
 <ul>
   <li>
-    <%= parse_seen(position) %>
+    <%= message.timestamp_in_words %>
   </li>
 
   <li>
-    <%= parse_distance(position) %>
+    <%= message.position.distance_in_words %>
   </li>
 
-  <li>
-    <%= parse_course(position) %>
-  </li>
+  <% message.course.tap do |course| %>
+    <li>
+      course <%= course.course_over_ground.to_s %>
+      (<%= course.to_s %>)
+    </li>
 
-  <li>
-    <%= parse_speed(position) %>
-  </li>
+    <li>
+      speed <%= course.speed_in_words %>
+    </li>
+  <% end %>
 </ul>

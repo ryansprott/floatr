@@ -5,6 +5,10 @@ class Position < ActiveRecord::Base
     "#{latitude}, #{longitude}"
   end
 
+  def distance_in_words
+    "from #{miles_away} miles away"
+  end
+
   def miles_away
     home = Rails.application.credentials.ground_station_lat_lon
     lat1, lon1 = home.split(",").map(&:to_f)

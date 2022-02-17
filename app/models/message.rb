@@ -45,15 +45,6 @@ class Message < ActiveRecord::Base
     order(:type).group(:type).count
   end
 
-  def self.weighted_by_position
-    includes(:position)
-      .select(&:position)
-      .group_by(&:lat_lon)
-      .map { |mmsi, positions|
-      [mmsi, positions.length]
-    }
-  end
-
   def self.with_courses
     includes(:position, :course)
       .order(:created_at)
@@ -68,12 +59,8 @@ class Message < ActiveRecord::Base
       )
   end
 
-  def lat_lon
-    position&.to_s || ""
-  end
-
-  def miles_away
-    position&.miles_away || 0.0
+  def timestamp_in_words
+    updated_at.localtime.to_formatted_s(:short)
   end
 
   def specific
