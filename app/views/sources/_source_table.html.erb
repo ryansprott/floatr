@@ -57,7 +57,7 @@
         </td>
         <td data-sort="<%= source.created_at.strftime("%y%m%d%H%M") %>">
           <div>
-            <%= source.created_at.strftime("%d %B %H:%M") %>
+            <%= source.first_seen %>
           </div>
           <div>
             <em>
@@ -67,7 +67,7 @@
         </td>
         <td data-sort="<%= source.updated_at.strftime("%y%m%d%H%M") %>">
           <div>
-            <%= source.updated_at.strftime("%d %B %H:%M") %>
+            <%= source.last_seen %>
           </div>
           <div>
             <em>
