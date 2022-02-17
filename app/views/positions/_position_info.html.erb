@@ -8,10 +8,10 @@
   <div class="card-body">
     <div class="row mb-2">
       <div class="col-sm-6">
-      <% positions.first.tap do |position| %>
-        <% if position %>
+      <% messages.first.tap do |message| %>
+        <% if message %>
           <%= render "positions/position_details",
-            position: position,
+            message: message,
             when_seen: "First"
           %>
         <% end %>
@@ -19,10 +19,10 @@
       </div>
 
       <div class="col-sm-6">
-      <% positions.last.tap do |position| %>
-        <% if position %>
+      <% messages.last.tap do |message| %>
+        <% if message %>
           <%= render "positions/position_details",
-            position: position,
+            message: message,
             when_seen: "Last"
           %>
         <% end %>

@@ -9,22 +9,25 @@ class Source < ActiveRecord::Base
   has_many :mysteries, through: :messages
   has_many :dimensions, through: :messages
 
-  def self.recently_added
+  default_scope {
     where("messages_count > 1")
       .order(created_at: :desc)
-      .limit(15)
+  }
+
+  def self.recently_added
+    limit(15)
   end
 
-  def self.with_valid_messages
-    where("messages_count > 1")
+  def self.with_destinations
+    where.not(last_destination: nil)
   end
 
-  def self.last_15_minutes
+  def self.seen_within_last_15_minutes
     where(updated_at: 15.minutes.ago..)
       .length
   end
 
-  def self.last_minute
+  def self.seen_within_last_minute
     where(updated_at: 1.minutes.ago..)
       .length
   end
@@ -62,6 +65,14 @@ class Source < ActiveRecord::Base
     dimensions
       .reject(&:totally_invalid?)
       .last
+  end
+
+  def last_seen
+    updated_at.localtime.to_formatted_s(:short)
+  end
+
+  def first_seen
+    created_at.localtime.to_formatted_s(:short)
   end
 
   private
