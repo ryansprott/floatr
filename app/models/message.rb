@@ -32,13 +32,20 @@ class Message < ActiveRecord::Base
                                         end
 
   def self.recent
-    where(created_at: 15.minutes.ago..)
+    with_positions
       .includes(:source, :position, :course)
       .order(:updated_at)
       .group_by(&:mmsi)
       .map do |key, value|
       LiveMapMessage.new(key, value)
     end
+  end
+
+  def self.with_positions
+    where(
+      message_type: [1, 2, 3, 9, 18, 21, 27],
+      created_at: 15.minutes.ago..
+    )
   end
 
   def self.grouped_by_type
