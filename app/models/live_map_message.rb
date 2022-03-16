@@ -4,7 +4,7 @@ class LiveMapMessage
   def initialize(mmsi, messages)
     @mmsi = mmsi
     @messages = messages
-    @source = @messages.first.source
+    @source = @messages.first.source || Source.new
   end
 
   def live_positions

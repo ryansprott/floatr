@@ -7,18 +7,24 @@
     <%= message.timestamp_in_words %>
   </li>
 
-  <li>
-    <%= message.position.distance_in_words %>
-  </li>
+  <% message.position.tap do |position| %>
+    <% if position %>
+      <li>
+        <%= message.position.distance_in_words %>
+      </li>
+    <% end %>
+  <% end %>
 
   <% message.course.tap do |course| %>
-    <li>
-      course <%= course.course_over_ground.to_s %>
-      (<%= course.to_s %>)
-    </li>
+    <% if course %>
+      <li>
+        course <%= course.course_over_ground.to_s %>
+        (<%= course.to_s %>)
+      </li>
 
-    <li>
-      speed <%= course.speed_in_words %>
-    </li>
+      <li>
+        speed <%= course.speed_in_words %>
+      </li>
+    <% end %>
   <% end %>
 </ul>
