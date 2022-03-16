@@ -23,7 +23,8 @@ class SourcesController < ApplicationController
     @source = Source.find(params[:id])
     @messages = @source
       .messages
-      .joins(:position, :course)
+      .includes(:position, :course)
+      .references(:position, :course)
       .order(:created_at)
   end
 end

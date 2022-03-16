@@ -33,7 +33,9 @@ class Message < ActiveRecord::Base
 
   def self.recent
     with_positions
+      .where(created_at: 15.minutes.ago..)
       .includes(:source, :position, :course)
+      .references(:source, :position, :course)
       .order(:updated_at)
       .group_by(&:mmsi)
       .map do |key, value|
@@ -42,10 +44,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.with_positions
-    where(
-      message_type: [1, 2, 3, 9, 18, 21, 27],
-      created_at: 15.minutes.ago..
-    )
+    where(message_type: [1, 2, 3, 9, 18, 21, 27])
   end
 
   def self.grouped_by_type
@@ -53,13 +52,19 @@ class Message < ActiveRecord::Base
   end
 
   def self.with_courses
-    includes(:position, :course)
+    with_positions
+      .includes(:position, :course)
+      .references(:position, :course)
       .order(:created_at)
   end
 
   def self.details_by_type(type)
     where(type: type.to_i)
       .includes(
+        "type_#{type}_specific".to_sym,
+        :course,
+        :dimension,
+      ).references(
         "type_#{type}_specific".to_sym,
         :course,
         :dimension,

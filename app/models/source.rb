@@ -54,6 +54,7 @@ class Source < ActiveRecord::Base
     messages
       .where(type: 5)
       .includes(:type_5_specific)
+      .references(:type_5_specific)
       .map(&:specific)
       .pluck(:destination)
       .uniq
