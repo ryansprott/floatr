@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_20_081144) do
+ActiveRecord::Schema.define(version: 2022_03_20_185049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_081144) do
     t.float "last_aspect_ratio"
     t.string "last_destination"
     t.boolean "static_data_received"
+    t.index ["mmsi"], name: "index_sources_on_mmsi"
   end
 
   create_table "type10_specifics", force: :cascade do |t|
