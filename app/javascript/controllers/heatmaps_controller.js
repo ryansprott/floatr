@@ -24,7 +24,7 @@ export default class extends Controller {
     this.bounds = new google.maps.LatLngBounds()
 
     await this.fetchPositionData()
-    this.drawMarkers()
+    this.drawFirstAndLastMarkers()
     this.drawPolylines()
   }
 
@@ -49,36 +49,31 @@ export default class extends Controller {
     )
   }
 
-  drawMarkers () {
-    let firstSeen = new google.maps.Marker({
+  drawFirstAndLastMarkers () {
+    this.drawMarker(
+      this.positionData[0],
+      "green"
+    )
+
+    this.drawMarker(
+      this.positionData[this.positionData.length - 1],
+      "red"
+    )
+  }
+
+  drawMarker (position, fillColor) {
+    new google.maps.Marker({
       position: this.getLatLng(
-        this.positionData[0]
+        position
       ),
       icon: Object.assign(
         {
-          scale: 0.25,
-          fillColor: "green"
+          scale: 0.15,
+          fillColor: fillColor
         },
         svgMarker
       ),
-    })
-
-    firstSeen.setMap(this.map)
-
-    let lastSeen = new google.maps.Marker({
-      position: this.getLatLng(
-        this.positionData[this.positionData.length - 1]
-      ),
-      icon: Object.assign(
-        {
-          scale: 0.25,
-          fillColor: "red"
-        },
-        svgMarker
-      ),
-    })
-
-    lastSeen.setMap(this.map)
+    }).setMap(this.map)
   }
 
   drawPolylines () {
@@ -100,13 +95,7 @@ export default class extends Controller {
           this.positionData[i + 1]
         )
 
-        const gapInPolylines = pair.distanceBetweenPositions() > 5.0 ||
-          (
-            pair.hoursBetweenPositions() > 1 &&
-            pair.distanceBetweenPositions() > 0.5
-          )
-
-        if (gapInPolylines) {
+        if (pair.hasGap()) {
           polylines.push(pairs)
           pairs = []
           pair.startMarker().setMap(this.map)
