@@ -19,8 +19,7 @@ export default class Source {
   }
 
   getLastPosition () {
-    const pos = this.getFilteredPositions().pop()
-    return new google.maps.LatLng(pos.lat, pos.lon)
+    return this.getFilteredPositions().pop()
   }
 
   getMaxDistance() {

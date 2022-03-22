@@ -1,13 +1,13 @@
 import {
-  svgMarker
+  svgMarker, getLatLng
 } from "../maps/index.js"
 
 export default class PositionPair {
   constructor(el1, el2) {
     this.el1 = el1
     this.el2 = el2
-    this.pos1 = new google.maps.LatLng(el1.lat, el1.lon)
-    this.pos2 = new google.maps.LatLng(el2.lat, el2.lon)
+    this.pos1 = getLatLng(el1)
+    this.pos2 = getLatLng(el2)
   }
 
   startPosition () {

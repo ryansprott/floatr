@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker, homePosition } from "../maps/index.js"
+import { svgMarker, homePosition, getLatLng } from "../maps/index.js"
 import PositionPair from "../maps/position_pair.js"
 
 export default class extends Controller {
@@ -42,13 +42,6 @@ export default class extends Controller {
     })
   }
 
-  getLatLng (position) {
-    return new google.maps.LatLng(
-      position.lat,
-      position.lon
-    )
-  }
-
   drawFirstAndLastMarkers () {
     this.drawMarker(
       this.positionData[0],
@@ -63,7 +56,7 @@ export default class extends Controller {
 
   drawMarker (position, fillColor) {
     new google.maps.Marker({
-      position: this.getLatLng(
+      position: getLatLng(
         position
       ),
       icon: Object.assign(
@@ -115,7 +108,7 @@ export default class extends Controller {
       polylines.push(pairs)
     } else {
       this.bounds.extend(
-        this.getLatLng(
+        getLatLng(
           this.positionData[0]
         )
       )
@@ -134,7 +127,7 @@ export default class extends Controller {
 
     for (let position of this.positionData) {
       this.bounds.extend(
-        this.getLatLng(
+        getLatLng(
           position
         )
       )

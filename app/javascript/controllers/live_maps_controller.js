@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker, homePosition } from "../maps/index.js"
+import { svgMarker, homePosition, getLatLng } from "../maps/index.js"
 import Source from "../maps/source.js"
 import PositionPair from "../maps/position_pair.js"
 
@@ -97,7 +97,9 @@ export default class extends Controller {
 
   getMarker (source) {
     let mrk = new google.maps.Marker({
-      position: source.getLastPosition(),
+      position: getLatLng(
+        source.getLastPosition()
+      ),
       icon: Object.assign(
         {
           fillColor: "red",
@@ -162,7 +164,7 @@ export default class extends Controller {
     for (let source of this.sources) {
       for (let position of source.getFilteredPositions()) {
         this.bounds.extend(
-          new google.maps.LatLng(position.lat, position.lon)
+          getLatLng(position)
         )
       }
     }

@@ -11,3 +11,10 @@ export const svgMarker = {
 export function homePosition() {
   return new google.maps.LatLng("32.7", "-117.1")
 }
+
+export function getLatLng (position) {
+  return new google.maps.LatLng(
+    position.lat,
+    position.lon
+  )
+}
