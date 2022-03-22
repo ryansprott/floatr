@@ -1,10 +1,12 @@
 class LiveMapsController < ApplicationController
   def index
-    @messages = Message.recent
 
     respond_to do |format|
       format.html { }
-      format.json { render :index }
+      format.json do
+        @messages = Message.recent
+        render :index
+      end
     end
   end
 end
