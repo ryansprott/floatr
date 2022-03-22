@@ -3,18 +3,31 @@
   data-controller="live-maps"
 >
   <div class="card-header">
-    <a
-      class="btn btn-primary"
-      data-action="click->live-maps#toggleZoom"
-      href="#"
-    >
-      Toggle zoom
-    </a>
+    <div class="row">
+      <div class="col-6">
+        <a
+          class="btn btn-primary"
+          data-action="click->live-maps#toggleZoom"
+          href="#"
+        >
+          Toggle zoom
+        </a>
+      </div>
+      <div class="col-6 text-right">
+        <a
+          class="btn btn-danger"
+          data-action="click->live-maps#toggleTable"
+          id="table-info"
+          href="#"
+        >
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="card-body map-adjusted">
     <div class="row map-adjusted">
-      <div class="col-6 map-adjusted">
+      <div class="col-12 map-adjusted" id="left-column">
         <div
           class="map-adjusted"
           data-action="google-maps-callback@window->live-maps#initMap"
@@ -24,7 +37,7 @@
         >
         </div>
       </div>
-      <div class="col-6 map-adjusted overflow-scroll">
+      <div class="col-6 map-adjusted overflow-scroll hidden-column" id="right-column">
         <table class="table table-condensed">
           <thead>
             <tr>

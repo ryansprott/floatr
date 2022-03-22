@@ -1,6 +1,10 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker, homePosition, getLatLng } from "../maps/index.js"
+import {
+  homePosition,
+  getMarker,
+  getLatLng
+} from "../maps/index.js"
 import Source from "../maps/source.js"
 import PositionPair from "../maps/position_pair.js"
 
@@ -18,6 +22,7 @@ export default class extends Controller {
     this.markers = []
     this.polylines = []
     this.zoomToggled = false
+    this.tableToggled = false
     this.homePosition = homePosition()
 
     this.map = new google.maps.Map(this.mapTarget, mapOptions)
@@ -33,11 +38,17 @@ export default class extends Controller {
   }
 
   async fetchSourceData() {
+    this.tableInfo("Fetching data...")
     let resp = await fetch(`/live_maps.json`)
     let data = await resp.json()
     this.sources = data.map(item => new Source(item))
     this.refreshMap()
     this.populateTable()
+  }
+
+  tableInfo(text) {
+    const hed = document.getElementById('table-info')
+    hed.innerHTML = text
   }
 
   populateTable() {
@@ -47,6 +58,7 @@ export default class extends Controller {
     )
 
     tbl.innerHTML = ''
+    this.tableInfo(`Found ${sortedSources.length} sources`)
 
     for (let source of sortedSources) {
       let filteredPositions = source.getFilteredPositions()
@@ -95,25 +107,26 @@ export default class extends Controller {
     element.setMap(null)
   }
 
-  getMarker (source) {
-    let mrk = new google.maps.Marker({
-      position: getLatLng(
+  drawMarker (source) {
+    let mrk = getMarker(
+      getLatLng(
         source.getLastPosition()
       ),
-      icon: Object.assign(
-        {
-          fillColor: "red",
-          scale: 0.06
-        },
-        svgMarker
-      ),
-      title: source.displayName,
-      label: {
-        text: " ",
-        color: "lavender",
-        fontSize: "14px",
-        fontWeight: "bold",
-      },
+      {
+        fillColor: "red",
+        scale: 0.05
+      }
+    )
+
+    mrk.setTitle(
+      source.displayName
+    )
+
+    mrk.setLabel({
+      text: " ",
+      color: "lavender",
+      fontSize: "14px",
+      fontWeight: "bold",
     })
 
     google.maps.event.addListener(mrk, "click", (event) => {
@@ -149,12 +162,29 @@ export default class extends Controller {
         }
 
         this.markers.push(
-          this.getMarker(source)
+          this.drawMarker(source)
         )
       }
 
       this.markers.map(el => this.showOnMap(el))
       this.polylines.map(el => this.showOnMap(el))
+    }
+  }
+
+  toggleTable() {
+    this.tableToggled = !this.tableToggled
+
+    const leftColumn = document.getElementById('left-column')
+    const rightColumn = document.getElementById('right-column')
+
+    if (true === this.tableToggled) {
+      leftColumn.classList.remove('col-12')
+      leftColumn.classList.add('col-6')
+      rightColumn.classList.remove('hidden-column')
+    } else {
+      leftColumn.classList.remove('col-6')
+      leftColumn.classList.add('col-12')
+      rightColumn.classList.add('hidden-column')
     }
   }
 

@@ -2,7 +2,7 @@ class SourcesController < ApplicationController
   def index
     @sources = params[:with_destinations].presence === 'true' ?
       Source.with_destinations :
-      Source.all
+      Source.with_messages
 
     if params[:search_text].present?
       search_text = "%#{params[:search_text].upcase}%"

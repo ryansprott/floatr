@@ -1,21 +1,22 @@
 import {
-  svgMarker, getLatLng
+  getMarker,
+  getLatLng
 } from "../maps/index.js"
 
 export default class PositionPair {
   constructor(el1, el2) {
     this.el1 = el1
     this.el2 = el2
-    this.pos1 = getLatLng(el1)
-    this.pos2 = getLatLng(el2)
+    this.latLng1 = getLatLng(el1)
+    this.latLng2 = getLatLng(el2)
   }
 
   startPosition () {
-    return this.pos1
+    return this.latLng1
   }
 
   endPosition () {
-    return this.pos2
+    return this.latLng2
   }
 
   hoursBetweenPositions () {
@@ -68,21 +69,25 @@ export default class PositionPair {
   }
 
   marker (pos) {
-    return new google.maps.Marker({
-      position: pos,
-      icon: Object.assign(
-        { scale: 0.05, fillColor: "red" },
-        svgMarker
-      ),
-    })
+    return getMarker(
+      pos,
+      {
+        scale: 0.05,
+        fillColor: "red"
+      }
+    )
   }
 
   startMarker () {
-    return this.marker(this.startPosition())
+    return this.marker(
+      this.startPosition()
+    )
   }
 
   endMarker () {
-    return this.marker(this.endPosition())
+    return this.marker(
+      this.endPosition()
+    )
   }
 
   isMappable () {

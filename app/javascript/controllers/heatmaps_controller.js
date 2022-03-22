@@ -1,6 +1,10 @@
 import { Controller } from "stimulus"
 import { mapOptions } from "../maps/map_options.js"
-import { svgMarker, homePosition, getLatLng } from "../maps/index.js"
+import {
+  homePosition,
+  getMarker,
+  getLatLng
+} from "../maps/index.js"
 import PositionPair from "../maps/position_pair.js"
 
 export default class extends Controller {
@@ -55,18 +59,15 @@ export default class extends Controller {
   }
 
   drawMarker (position, fillColor) {
-    new google.maps.Marker({
-      position: getLatLng(
+    getMarker(
+      getLatLng(
         position
       ),
-      icon: Object.assign(
-        {
-          scale: 0.15,
-          fillColor: fillColor
-        },
-        svgMarker
-      ),
-    }).setMap(this.map)
+      {
+        scale: 0.1,
+        fillColor: fillColor
+      }
+    ).setMap(this.map)
   }
 
   drawPolylines () {
