@@ -12,7 +12,7 @@ class LiveMapMessage
       {
         lat: message.position&.latitude,
         lon: message.position&.longitude,
-        speed: message.course&.speed_over_ground,
+        speed: message.course&.speed_over_ground&.to_f,
         course: message.course&.to_s,
         distance: message.position&.miles_away || 0.0,
         created_at: message.created_at,

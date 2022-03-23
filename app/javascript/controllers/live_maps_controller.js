@@ -107,7 +107,7 @@ export default class extends Controller {
     element.setMap(null)
   }
 
-  drawMarker (source) {
+  drawMarker(source) {
     let mrk = getMarker(
       getLatLng(
         source.getLastPosition()
@@ -145,9 +145,14 @@ export default class extends Controller {
     this.polylines = []
 
     for (let source of this.sources) {
-      let filteredPositions = source.getFilteredPositions()
+      let filteredPositions = source.getAverageSpeed === "STOP"
+        ? source.getLastPosition()
+        : source.getFilteredPositions()
 
-      if (filteredPositions.length > 0) {
+      if (
+        filteredPositions instanceof Array
+        && filteredPositions.length > 0
+      ) {
         for (let i = 0; i < filteredPositions.length - 1; i++) {
           const pair = new PositionPair(
             filteredPositions[i],
