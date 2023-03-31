@@ -10,9 +10,9 @@ class Dimension < ActiveRecord::Base
 
   def weird?
     ship_dimension_to_port == 2 &&
-    ship_dimension_to_starboard == 0 &&
-    ship_dimension_to_bow == 16 &&
-    ship_dimension_to_stern == 130
+      ship_dimension_to_starboard == 0 &&
+      ship_dimension_to_bow == 16 &&
+      ship_dimension_to_stern == 130
   end
 
   def totally_invalid?
@@ -23,21 +23,25 @@ class Dimension < ActiveRecord::Base
     return 1 if totally_invalid? || weird?
     return width_in_meters if length_invalid?
     return length_in_meters if width_invalid?
+
     (length_in_meters * width_in_meters).to_i
   end
 
   def aspect_ratio
     return 1 if weird?
-    return length_in_meters.to_f / width_in_meters.to_f
+
+    length_in_meters.to_f / width_in_meters.to_f
   end
 
   def length_in_meters
     return 1 if length_invalid?
+
     ship_dimension_to_bow + ship_dimension_to_stern
   end
 
   def width_in_meters
     return 1 if width_invalid?
+
     ship_dimension_to_starboard + ship_dimension_to_port
   end
 
@@ -46,14 +50,14 @@ class Dimension < ActiveRecord::Base
   def width_invalid?
     [
       ship_dimension_to_port,
-      ship_dimension_to_starboard,
+      ship_dimension_to_starboard
     ].all?(&:zero?)
   end
 
   def length_invalid?
     [
       ship_dimension_to_bow,
-      ship_dimension_to_stern,
+      ship_dimension_to_stern
     ].all?(&:zero?)
   end
 end

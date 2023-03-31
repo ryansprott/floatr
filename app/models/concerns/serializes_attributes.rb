@@ -3,25 +3,25 @@ module SerializesAttributes
 
   included do
     def serialized_attributes
-      attributes.except!("id", "message_id").sort.to_h
+      attributes.except!('id', 'message_id').sort.to_h
     end
 
     def formatted_attributes
-      serialized_attributes
-        .keys
-        .map(&:titleize)
-        .map(&:humanize)
-        .map { |str| selectively_capitalize(str) }
+      serialized_attributes.
+        keys.
+        map(&:titleize).
+        map(&:humanize).
+        map { |str| selectively_capitalize(str) }
     end
 
     private
 
     def selectively_capitalize(str)
-      abbreviations = ["mmsi", "ais", "eta", "imo", "epfd", "gnss"]
+      abbreviations = %w(mmsi ais eta imo epfd gnss)
 
-      str.split(" ").map { |word|
+      str.split(' ').map do |word|
         abbreviations.include?(word.downcase) ? word.upcase : word
-      }.join(" ")
+      end.join(' ')
     end
   end
 end

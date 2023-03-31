@@ -1,1 +1,1 @@
-json.array! @messages, partial: "live_maps/message", as: :source
+json.array! @messages, partial: 'live_maps/message', as: :source

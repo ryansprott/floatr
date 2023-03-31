@@ -3,10 +3,10 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
-require("@rails/activestorage").start()
-require("channels")
-require("bootstrap")
+require("@rails/ujs").start();
+require("@rails/activestorage").start();
+require("channels");
+require("bootstrap");
 import "../stylesheets/application";
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -16,11 +16,11 @@ import "../stylesheets/application";
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import "controllers"
+import "controllers";
 
 window.initMap = function (...args) {
-  const event = document.createEvent("Events")
-  event.initEvent("google-maps-callback", true, true)
-  event.args = args
-  window.dispatchEvent(event)
-}
+  const event = document.createEvent("Events");
+  event.initEvent("google-maps-callback", true, true);
+  event.args = args;
+  window.dispatchEvent(event);
+};

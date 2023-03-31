@@ -1,8 +1,8 @@
 class Message < ActiveRecord::Base
   belongs_to :source,
-    foreign_key: :source_mmsi,
-    primary_key: :mmsi,
-    counter_cache: true
+             foreign_key: :source_mmsi,
+             primary_key: :mmsi,
+             counter_cache: true
 
   has_one :course, dependent: :destroy
   has_one :dimension, dependent: :destroy
@@ -27,18 +27,18 @@ class Message < ActiveRecord::Base
 
   delegate_missing_to :specific
 
-  validates_uniqueness_of :source_mmsi, if: -> do
-                                          [4, 21].include? message_type
-                                        end
+  validates :source_mmsi, uniqueness: { if: lambda {
+                                              [4, 21].include? message_type
+                                            } }
 
   def self.recent
-    with_positions
-      .where(created_at: 15.minutes.ago..)
-      .includes(:source, :position, :course)
-      .references(:source, :position, :course)
-      .order(:updated_at)
-      .group_by(&:mmsi)
-      .map do |key, value|
+    with_positions.
+      where(created_at: 15.minutes.ago..).
+      includes(:source, :position, :course).
+      references(:source, :position, :course).
+      order(:updated_at).
+      group_by(&:mmsi).
+      map do |key, value|
       LiveMapMessage.new(key, value)
     end
   end
@@ -52,22 +52,22 @@ class Message < ActiveRecord::Base
   end
 
   def self.with_courses
-    with_positions
-      .includes(:position, :course)
-      .references(:position, :course)
-      .order(:created_at)
+    with_positions.
+      includes(:position, :course).
+      references(:position, :course).
+      order(:created_at)
   end
 
   def self.details_by_type(type)
-    where(type: type.to_i)
-      .includes(
+    where(type: type.to_i).
+      includes(
         "type_#{type}_specific".to_sym,
         :course,
-        :dimension,
+        :dimension
       ).references(
         "type_#{type}_specific".to_sym,
         :course,
-        :dimension,
+        :dimension
       )
   end
 
@@ -86,9 +86,9 @@ class Message < ActiveRecord::Base
   def specific_type
     case message_type
     when 1..3
-      "type_cnb_specific"
+      'type_cnb_specific'
     else
-      "type_#{message_type.to_s}_specific"
+      "type_#{message_type}_specific"
     end
   end
 end

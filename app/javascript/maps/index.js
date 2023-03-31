@@ -6,33 +6,27 @@ export const svgMarker = {
   fillOpacity: 0.75,
   fillWeight: 1,
   rotation: 0,
-}
+};
 
 export function homePosition() {
-  return new google.maps.LatLng("32.7", "-117.1")
+  return new google.maps.LatLng("32.7", "-117.1");
 }
 
-export function getLatLng (position) {
-  return new google.maps.LatLng(
-    position.lat,
-    position.lon
-  )
+export function getLatLng(position) {
+  return new google.maps.LatLng(position.lat, position.lon);
 }
 
 export function getMarker(latLng, iconOptions) {
   return new google.maps.Marker({
     position: latLng,
-    icon: Object.assign(
-      iconOptions,
-      {
-        path: "M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
-        strokeColor: "green",
-        strokeOpacity: 0.75,
-        strokeWeight: 0.5,
-        fillOpacity: 0.75,
-        fillWeight: 1,
-        rotation: 0,
-      }
-    )
-  })
+    icon: Object.assign(iconOptions, {
+      path: "M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
+      strokeColor: "green",
+      strokeOpacity: 0.75,
+      strokeWeight: 0.5,
+      fillOpacity: 0.75,
+      fillWeight: 1,
+      rotation: 0,
+    }),
+  });
 }

@@ -85,4 +85,4 @@ export const mapOptions = {
   streetViewControl: false,
   rotateControl: false,
   fullscreenControl: true,
-}
+};

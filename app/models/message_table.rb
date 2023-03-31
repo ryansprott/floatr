@@ -4,7 +4,7 @@ class MessageTable
   end
 
   def has_dimensions?
-    header_object("dimension").present?
+    header_object('dimension').present?
   end
 
   def header(type)
@@ -26,8 +26,8 @@ class MessageTable
   end
 
   def remove_duplicates(messages)
-    messages.map(&:serialized_attributes)
-      .map(&:values)
-      .uniq
+    messages.map(&:serialized_attributes).
+      map(&:values).
+      uniq
   end
 end

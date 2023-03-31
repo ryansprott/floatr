@@ -18,7 +18,7 @@ module HasNavigationalStatus
       "Reserved for future use (12)": 12,
       "Not defined (13)": 13,
       "AIS-SART active": 14,
-      "Not defined (15)": 15,
+      "Not defined (15)": 15
     }
   end
 end
